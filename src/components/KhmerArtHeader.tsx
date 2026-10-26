@@ -50,19 +50,19 @@ export const KhmerArtHeader: React.FC = () => {
           </svg>
 
           {/* Khmer Script Heritage Calligraphy Tag */}
-          <div className="flex items-center gap-1.5 text-xs text-amber-200/90 font-serif-title">
-            <span className="font-bold tracking-wider text-amber-400 text-sm sm:text-base">ក្បាច់ខ្មែរ</span>
+          <div className="flex items-center gap-1.5 text-xs text-amber-200/90 font-khmer">
+            <span className="font-bold tracking-wider text-amber-400 text-sm sm:text-base leading-[1.7]">ក្បាច់ខ្មែរ</span>
             <span className="text-amber-500/50 hidden md:inline">·</span>
-            <span className="text-[11px] font-sans tracking-wide text-amber-300/80 hidden md:inline">
+            <span className="text-caption font-sans tracking-wide text-amber-300/80 hidden md:inline">
               Khmer Traditional Art Heritage
             </span>
           </div>
         </div>
 
         {/* Center: Signature Angkorian Lotus Knot (Kbach Phka Chhouk) */}
-        <div className="flex items-center gap-2 px-3 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 shadow-inner">
+        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 shadow-inner">
           {/* Sacred Lotus Blossom Icon */}
-          <svg className="w-5 h-5 text-amber-400 animate-pulse" viewBox="0 0 24 24" fill="none">
+          <svg className="w-5 h-5 text-amber-400 animate-pulse shrink-0" viewBox="0 0 24 24" fill="none">
             {/* Lotus Central Petal */}
             <path 
               d="M12 3 C12 3 14.5 8 14.5 12 C14.5 15 13.5 17 12 18 C10.5 17 9.5 15 9.5 12 C9.5 8 12 3 12 3 Z" 
@@ -116,14 +116,14 @@ export const KhmerArtHeader: React.FC = () => {
           </svg>
 
           {/* Bilingual Motto */}
-          <span className="text-[11px] font-bold tracking-widest text-amber-300 uppercase">
+          <span className="text-caption font-bold tracking-wider text-amber-300 uppercase font-khmer leading-[1.7]">
             សួស្តីកម្ពុជា · SOURSDEY CAMBODIA
           </span>
         </div>
 
         {/* Right: Traditional Kbach Phni Tes Mirrored Scroll */}
         <div className="flex items-center gap-2">
-          <span className="text-[11px] font-mono text-amber-400/90 hidden sm:inline">
+          <span className="text-caption font-khmer text-amber-400/90 hidden sm:inline leading-[1.7]">
             កិត្តិនាមសិល្បៈអង្គរ
           </span>
           <svg className="w-16 sm:w-28 h-6 text-amber-400 opacity-80 rotate-180" viewBox="0 0 120 24" fill="none">

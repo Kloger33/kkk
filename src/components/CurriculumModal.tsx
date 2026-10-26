@@ -111,7 +111,7 @@ export const CurriculumModal: React.FC<CurriculumModalProps> = ({
               }`}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${
+                <span className={`text-caption font-mono font-bold px-2 py-0.5 rounded ${
                   selectedModuleId === mod.id ? 'bg-teal-700 text-teal-100' : 'bg-slate-100 text-slate-600'
                 }`}>
                   MOD {mod.moduleNumber}
@@ -202,12 +202,12 @@ export const CurriculumModal: React.FC<CurriculumModalProps> = ({
 
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    {/* Khmer Script */}
-                    <div className="text-2xl sm:text-3xl font-bold text-slate-900 font-serif-title tracking-wide">
+                    {/* Khmer Script: Kantumruy Pro with 1.7 line-height so tall subscripts never clip */}
+                    <div className="text-2xl sm:text-3xl font-bold text-slate-900 font-khmer leading-[1.7] py-0.5 tracking-normal">
                       {phrase.khmer}
                     </div>
                     {/* Phonetic Pronunciation */}
-                    <div className="text-sm font-bold text-teal-700 font-display mt-1 flex items-center gap-1.5">
+                    <div className="text-small font-bold text-teal-700 font-sans mt-0.5 flex items-center gap-1.5">
                       <span>{phrase.phonetic}</span>
                     </div>
                   </div>
@@ -226,7 +226,7 @@ export const CurriculumModal: React.FC<CurriculumModalProps> = ({
                     title="Click to hear native human Khmer recording"
                   >
                     <Volume2 className={`w-5 h-5 ${isPlaying ? 'animate-bounce text-amber-300' : 'text-teal-600'}`} />
-                    <span className="text-xs font-bold">
+                    <span className="text-caption font-bold">
                       {isPlaying ? 'Playing...' : 'Play Native'}
                     </span>
                   </button>
@@ -235,7 +235,7 @@ export const CurriculumModal: React.FC<CurriculumModalProps> = ({
                 {/* Animated Equalizer Waveform while playing */}
                 {isPlaying && (
                   <div className="flex items-center gap-2 py-1 bg-teal-100/60 px-3 rounded-lg border border-teal-200/80">
-                    <span className="text-[11px] font-mono text-teal-800 font-bold">Native Human Voice:</span>
+                    <span className="text-caption font-mono text-teal-800 font-bold">Native Human Voice:</span>
                     <div className="flex items-end gap-1 h-3.5">
                       <div className="w-1 bg-teal-600 h-2 animate-bounce" style={{ animationDelay: '0ms' }} />
                       <div className="w-1 bg-teal-600 h-3.5 animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -243,25 +243,25 @@ export const CurriculumModal: React.FC<CurriculumModalProps> = ({
                       <div className="w-1 bg-teal-600 h-3 animate-bounce" style={{ animationDelay: '200ms' }} />
                       <div className="w-1 bg-teal-600 h-2.5 animate-bounce" style={{ animationDelay: '80ms' }} />
                     </div>
-                    <span className="text-[10px] text-teal-700 ml-auto font-medium">MP3 Native Audio</span>
+                    <span className="text-caption text-teal-700 ml-auto font-medium">MP3 Native Audio</span>
                   </div>
                 )}
 
                 {/* English meaning */}
-                <div className="text-xs font-medium text-slate-800 pt-1.5 border-t border-slate-200/80 flex items-center justify-between">
+                <div className="text-small font-medium text-slate-800 pt-1.5 border-t border-slate-200/80 flex items-center justify-between">
                   <div>
-                    <span className="text-slate-400">Meaning: </span>
+                    <span className="text-slate-400 text-small">Meaning: </span>
                     <strong className="text-slate-900">{phrase.english}</strong>
                   </div>
-                  <span className="text-[10px] text-teal-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="text-caption text-teal-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                     Tap to hear pronunciation
                   </span>
                 </div>
 
                 {/* Cultural Context Note */}
                 {phrase.culturalNote && (
-                  <div className="text-[11px] text-slate-500 bg-white p-2.5 rounded-xl border border-slate-200/70 leading-snug">
-                    <strong className="text-amber-800">Cultural Context: </strong>
+                  <div className="text-small text-slate-600 bg-white p-3 rounded-xl border border-slate-200/70 leading-relaxed">
+                    <strong className="text-amber-800 font-semibold">Cultural Context: </strong>
                     {phrase.culturalNote}
                   </div>
                 )}

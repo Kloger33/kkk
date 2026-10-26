@@ -171,9 +171,9 @@ export const TutorProfileModal: React.FC<TutorProfileModalProps> = ({
               </div>
 
               {isPlayingVideo && (
-                <div className="bg-black/70 p-3 rounded-lg border border-white/10 text-xs text-amber-200 font-serif-title italic text-center animate-pulse">
+                <div className="bg-black/70 p-3 rounded-xl border border-white/10 text-small text-amber-200 font-khmer leading-[1.7] text-center animate-pulse">
                   "ជំរាបសួរ! ខ្ញុំឈ្មោះ បុប្ផា។ រីករាយណាស់ដែលបានជួបអ្នក!"
-                  <div className="text-[10px] text-teal-300 not-italic font-sans mt-0.5">
+                  <div className="text-caption text-teal-300 font-sans mt-0.5">
                     (Choum reap sour! My name is Bopha. Very happy to meet you!)
                   </div>
                 </div>
