@@ -16,6 +16,7 @@ import { TutorDashboardView } from './components/TutorDashboardView';
 import { PdfViewerModal } from './components/PdfViewerModal';
 import { KhmerArtHeader } from './components/KhmerArtHeader';
 import { DesignSystem } from './components/DesignSystem';
+import { LandingHero } from './components/LandingHero';
 import { ToastProvider } from './components/ui';
 import { 
   MOCK_TUTORS, 
@@ -291,25 +292,26 @@ export default function App() {
         {/* VIEW 1: BROWSE & FIND TUTORS */}
         {activeView === 'browse' && (
           <div>
-            {/* Clean Hero Header */}
-            <div className="bg-white border-b border-slate-200 py-10">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="max-w-3xl space-y-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-teal-700 bg-teal-50 border border-teal-200 px-2.5 py-0.5 rounded-full">
-                      Verified Cambodian University Tutors
-                    </span>
-                    <span className="text-xs text-slate-400">· Phnom Penh</span>
-                  </div>
-                  <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                    1-on-1 Online Khmer Tutors for Foreigners & Expats
-                  </h1>
-                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-                    Learn conversational Khmer with friendly undergraduate tutors. Book flexible 1-hour slots or $3–$4 trial lessons to practice ordering food, directing tuk-tuks, and daily life phrases.
-                  </p>
-                </div>
-              </div>
-            </div>
+            {/* Benefit-led Hero, Trust Row, How it Works & Focus Shortcuts */}
+            <LandingHero
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              selectedFocus={selectedFocus}
+              setSelectedFocus={setSelectedFocus}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              totalTutors={filteredTutors.length}
+              onFindTutor={() => {
+                const el = document.getElementById('tutors-section');
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              onTryFreeLesson={() => {
+                handleNavigateView('curriculum');
+              }}
+              tutors={tutors}
+            />
 
             {/* Filter Bar */}
             <PreplyFilters
