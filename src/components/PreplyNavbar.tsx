@@ -7,13 +7,14 @@ import {
   FileText, 
   UserCheck, 
   Sparkles,
-  ArrowRightLeft
+  ArrowRightLeft,
+  Palette
 } from 'lucide-react';
 import { DESIGNER_INFO } from '../data/portfolioData';
 
 interface PreplyNavbarProps {
-  activeView: 'browse' | 'lessons' | 'curriculum' | 'tutor-dashboard';
-  setActiveView: (view: 'browse' | 'lessons' | 'curriculum' | 'tutor-dashboard') => void;
+  activeView: 'browse' | 'lessons' | 'curriculum' | 'tutor-dashboard' | 'design';
+  setActiveView: (view: 'browse' | 'lessons' | 'curriculum' | 'tutor-dashboard' | 'design') => void;
   unreadCount: number;
   upcomingCount: number;
   onOpenPdf: () => void;
@@ -102,6 +103,18 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                 </span>
               )}
             </button>
+
+            <button
+              onClick={() => setActiveView('design')}
+              className={`px-3.5 py-2 rounded-lg transition-colors flex items-center gap-1.5 ${
+                activeView === 'design'
+                  ? 'text-teal-700 bg-teal-50 font-semibold'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              <Palette className="w-4 h-4 text-teal-600" />
+              <span>Design System</span>
+            </button>
           </nav>
         </div>
 
@@ -172,24 +185,30 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
       </div>
 
       {/* Mobile Submenu */}
-      <div className="md:hidden flex items-center justify-around border-t border-slate-100 px-4 py-2 bg-slate-50 text-xs">
+      <div className="md:hidden flex items-center justify-between border-t border-slate-100 px-2.5 py-1.5 bg-slate-50 text-caption overflow-x-auto whitespace-nowrap gap-1">
         <button
           onClick={() => setActiveView('browse')}
-          className={`py-1 px-2.5 rounded font-medium ${activeView === 'browse' ? 'text-teal-700 font-bold' : 'text-slate-600'}`}
+          className={`py-1 px-2 rounded-md font-medium ${activeView === 'browse' ? 'text-teal-700 bg-teal-50 font-bold' : 'text-slate-600'}`}
         >
           Find Tutors
         </button>
         <button
           onClick={() => setActiveView('curriculum')}
-          className={`py-1 px-2.5 rounded font-medium ${activeView === 'curriculum' ? 'text-teal-700 font-bold' : 'text-slate-600'}`}
+          className={`py-1 px-2 rounded-md font-medium ${activeView === 'curriculum' ? 'text-teal-700 bg-teal-50 font-bold' : 'text-slate-600'}`}
         >
-          6 Modules
+          Curriculum
         </button>
         <button
           onClick={() => setActiveView('lessons')}
-          className={`py-1 px-2.5 rounded font-medium ${activeView === 'lessons' ? 'text-teal-700 font-bold' : 'text-slate-600'}`}
+          className={`py-1 px-2 rounded-md font-medium ${activeView === 'lessons' ? 'text-teal-700 bg-teal-50 font-bold' : 'text-slate-600'}`}
         >
-          My Lessons ({upcomingCount})
+          Lessons ({upcomingCount})
+        </button>
+        <button
+          onClick={() => setActiveView('design')}
+          className={`py-1 px-2 rounded-md font-medium ${activeView === 'design' ? 'text-teal-700 bg-teal-50 font-bold' : 'text-slate-600'}`}
+        >
+          Tokens
         </button>
       </div>
     </header>

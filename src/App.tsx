@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { PreplyNavbar } from './components/PreplyNavbar';
 import { PreplyFilters } from './components/PreplyFilters';
 import { PreplyTutorCard } from './components/PreplyTutorCard';
@@ -15,6 +15,8 @@ import { MyLessonsView } from './components/MyLessonsView';
 import { TutorDashboardView } from './components/TutorDashboardView';
 import { PdfViewerModal } from './components/PdfViewerModal';
 import { KhmerArtHeader } from './components/KhmerArtHeader';
+import { DesignSystem } from './components/DesignSystem';
+import { ToastProvider } from './components/ui';
 import { 
   MOCK_TUTORS, 
   INITIAL_USER_BOOKINGS, 
@@ -37,8 +39,46 @@ import {
 } from 'lucide-react';
 
 export default function App() {
-  // Navigation View State
-  const [activeView, setActiveView] = useState<'browse' | 'lessons' | 'curriculum' | 'tutor-dashboard'>('browse');
+  // Navigation View State with /design route support
+  const [activeView, setActiveView] = useState<'browse' | 'lessons' | 'curriculum' | 'tutor-dashboard' | 'design'>(() => {
+    if (typeof window !== 'undefined') {
+      if (window.location.pathname === '/design' || window.location.hash === '#design') {
+        return 'design';
+      }
+    }
+    return 'browse';
+  });
+
+  // URL sync for /design route
+  useEffect(() => {
+    const handleUrlChange = () => {
+      if (window.location.pathname === '/design' || window.location.hash === '#design') {
+        setActiveView('design');
+      } else if (activeView === 'design') {
+        setActiveView('browse');
+      }
+    };
+
+    window.addEventListener('popstate', handleUrlChange);
+    window.addEventListener('hashchange', handleUrlChange);
+    return () => {
+      window.removeEventListener('popstate', handleUrlChange);
+      window.removeEventListener('hashchange', handleUrlChange);
+    };
+  }, [activeView]);
+
+  const handleNavigateView = (view: 'browse' | 'lessons' | 'curriculum' | 'tutor-dashboard' | 'design') => {
+    setActiveView(view);
+    if (view === 'design') {
+      if (window.location.pathname !== '/design') {
+        window.history.pushState(null, '', '/design');
+      }
+    } else {
+      if (window.location.pathname === '/design') {
+        window.history.pushState(null, '', '/');
+      }
+    }
+  };
 
   // Filter States
   const [selectedFocus, setSelectedFocus] = useState<string>('All Focuses');
@@ -229,7 +269,8 @@ export default function App() {
   const totalUnread = threads.reduce((acc, t) => acc + t.unreadCount, 0);
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] text-slate-800 font-display flex flex-col selection:bg-teal-200">
+    <ToastProvider>
+      <div className="min-h-screen bg-[#f8fafc] text-slate-800 font-display flex flex-col selection:bg-teal-200">
       
       {/* Traditional Signature of Khmer Art Header Strip on Top */}
       <KhmerArtHeader />
@@ -237,7 +278,7 @@ export default function App() {
       {/* Preply Top Navigation */}
       <PreplyNavbar
         activeView={activeView}
-        setActiveView={setActiveView}
+        setActiveView={handleNavigateView}
         unreadCount={totalUnread}
         upcomingCount={bookings.length}
         onOpenPdf={() => setIsPdfOpen(true)}
@@ -355,6 +396,11 @@ export default function App() {
           />
         )}
 
+        {/* VIEW 5: DESIGN SYSTEM SHOWCASE */}
+        {activeView === 'design' && (
+          <DesignSystem onBackToApp={() => handleNavigateView('browse')} />
+        )}
+
       </main>
 
       {/* Clean Footer */}
@@ -423,6 +469,7 @@ export default function App() {
         onClose={() => setIsPdfOpen(false)}
       />
 
-    </div>
+      </div>
+    </ToastProvider>
   );
 }
