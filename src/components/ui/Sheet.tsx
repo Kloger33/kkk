@@ -9,6 +9,7 @@ export interface SheetProps {
   title?: string;
   description?: string;
   children: React.ReactNode;
+  footer?: React.ReactNode;
   /** Responsive: bottom sheet on mobile, centered dialog or side drawer on desktop */
   variant?: 'responsive' | 'side' | 'center';
   className?: string;
@@ -20,6 +21,7 @@ export const Sheet: React.FC<SheetProps> = ({
   title,
   description,
   children,
+  footer,
   variant = 'responsive',
   className = '',
 }) => {
@@ -143,6 +145,13 @@ export const Sheet: React.FC<SheetProps> = ({
             <div className="p-6 overflow-y-auto flex-1 overscroll-contain">
               {children}
             </div>
+
+            {/* Optional Sticky Footer */}
+            {footer && (
+              <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
+                {footer}
+              </div>
+            )}
           </motion.div>
         </div>
       )}

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { PreplyNavbar } from './components/PreplyNavbar';
 import { PreplyFilters } from './components/PreplyFilters';
 import { PreplyTutorCard } from './components/PreplyTutorCard';
@@ -17,7 +17,7 @@ import { PdfViewerModal } from './components/PdfViewerModal';
 import { KhmerArtHeader } from './components/KhmerArtHeader';
 import { DesignSystem } from './components/DesignSystem';
 import { LandingHero } from './components/LandingHero';
-import { ToastProvider } from './components/ui';
+import { ToastProvider, Skeleton, Button, Chip } from './components/ui';
 import { 
   MOCK_TUTORS, 
   INITIAL_USER_BOOKINGS, 
@@ -36,7 +36,9 @@ import {
   ArrowRight,
   Info,
   Calendar,
-  X
+  X,
+  SearchX,
+  RotateCcw
 } from 'lucide-react';
 
 export default function App() {
@@ -81,13 +83,103 @@ export default function App() {
     }
   };
 
-  // Filter States
-  const [selectedFocus, setSelectedFocus] = useState<string>('All Focuses');
-  const [priceFilter, setPriceFilter] = useState<string>('all');
-  const [timeFilter, setTimeFilter] = useState<string>('all');
-  const [superTutorOnly, setSuperTutorOnly] = useState<boolean>(false);
-  const [sortBy, setSortBy] = useState<string>('rating');
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  // Read initial filter values from URL query parameters
+  const initialUrlFilters = useMemo(() => {
+    if (typeof window === 'undefined') {
+      return {
+        focus: 'All Focuses',
+        price: 'all',
+        time: 'all',
+        superTutor: false,
+        sort: 'rating',
+        q: '',
+      };
+    }
+    const params = new URLSearchParams(window.location.search);
+    return {
+      focus: params.get('focus') || 'All Focuses',
+      price: params.get('price') || 'all',
+      time: params.get('time') || 'all',
+      superTutor: params.get('superTutor') === 'true',
+      sort: params.get('sort') || 'rating',
+      q: params.get('q') || '',
+    };
+  }, []);
+
+  // Filter States initialized from URL
+  const [selectedFocus, setSelectedFocus] = useState<string>(initialUrlFilters.focus);
+  const [priceFilter, setPriceFilter] = useState<string>(initialUrlFilters.price);
+  const [timeFilter, setTimeFilter] = useState<string>(initialUrlFilters.time);
+  const [superTutorOnly, setSuperTutorOnly] = useState<boolean>(initialUrlFilters.superTutor);
+  const [sortBy, setSortBy] = useState<string>(initialUrlFilters.sort);
+  const [searchQuery, setSearchQuery] = useState<string>(initialUrlFilters.q);
+
+  // Sync filter changes to URL query string
+  const isUrlSyncMounted = useRef(false);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (activeView !== 'browse') return;
+
+    if (!isUrlSyncMounted.current) {
+      isUrlSyncMounted.current = true;
+      return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    if (selectedFocus !== 'All Focuses') params.set('focus', selectedFocus);
+    else params.delete('focus');
+
+    if (priceFilter !== 'all') params.set('price', priceFilter);
+    else params.delete('price');
+
+    if (timeFilter !== 'all') params.set('time', timeFilter);
+    else params.delete('time');
+
+    if (superTutorOnly) params.set('superTutor', 'true');
+    else params.delete('superTutor');
+
+    if (sortBy !== 'rating') params.set('sort', sortBy);
+    else params.delete('sort');
+
+    if (searchQuery.trim().length > 0) params.set('q', searchQuery.trim());
+    else params.delete('q');
+
+    const qs = params.toString();
+    const newUrl = qs ? `${window.location.pathname}?${qs}` : window.location.pathname;
+    window.history.replaceState(null, '', newUrl);
+  }, [selectedFocus, priceFilter, timeFilter, superTutorOnly, sortBy, searchQuery, activeView]);
+
+  // Handle browser Back / Forward popstate to update filter states
+  useEffect(() => {
+    const handlePopStateFilters = () => {
+      const params = new URLSearchParams(window.location.search);
+      setSelectedFocus(params.get('focus') || 'All Focuses');
+      setPriceFilter(params.get('price') || 'all');
+      setTimeFilter(params.get('time') || 'all');
+      setSuperTutorOnly(params.get('superTutor') === 'true');
+      setSortBy(params.get('sort') || 'rating');
+      setSearchQuery(params.get('q') || '');
+    };
+
+    window.addEventListener('popstate', handlePopStateFilters);
+    return () => window.removeEventListener('popstate', handlePopStateFilters);
+  }, []);
+
+  // Visual skeleton transition: brief 300ms shimmer when filters change
+  const [isFiltering, setIsFiltering] = useState(false);
+  const filterMountRef = useRef(false);
+
+  useEffect(() => {
+    if (!filterMountRef.current) {
+      filterMountRef.current = true;
+      return;
+    }
+    setIsFiltering(true);
+    const timer = setTimeout(() => {
+      setIsFiltering(false);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [selectedFocus, priceFilter, timeFilter, superTutorOnly, sortBy, searchQuery]);
 
   // Interactive Data States
   const [tutors, setTutors] = useState<Tutor[]>(MOCK_TUTORS);
@@ -264,7 +356,11 @@ export default function App() {
     setPriceFilter('all');
     setTimeFilter('all');
     setSuperTutorOnly(false);
+    setSortBy('rating');
     setSearchQuery('');
+    if (typeof window !== 'undefined') {
+      window.history.replaceState(null, '', window.location.pathname);
+    }
   };
 
   const totalUnread = threads.reduce((acc, t) => acc + t.unreadCount, 0);
@@ -338,7 +434,42 @@ export default function App() {
                 <span className="hidden sm:inline">Protected by ABA PayWay & Bakong Settlement</span>
               </div>
 
-              {filteredTutors.length > 0 ? (
+              {/* Screen reader live announcement */}
+              <div aria-live="polite" aria-atomic="true" className="sr-only">
+                {isFiltering
+                  ? 'Updating tutors list...'
+                  : filteredTutors.length === 0
+                  ? 'No tutors match your filter criteria'
+                  : `${filteredTutors.length} ${filteredTutors.length === 1 ? 'tutor' : 'tutors'} available`}
+              </div>
+
+              {/* Tutor Cards / Skeleton Shimmer / Improved Empty State */}
+              {isFiltering ? (
+                /* 300ms Visual Skeleton Loading State */
+                <div className="space-y-4">
+                  {[1, 2, 3].map((n) => (
+                    <div
+                      key={n}
+                      className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-7 shadow-xs space-y-4 animate-pulse"
+                    >
+                      <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+                        <div className="flex items-start gap-4 flex-1">
+                          <Skeleton variant="circular" width={72} height={72} />
+                          <div className="space-y-2.5 flex-1">
+                            <Skeleton variant="text" width="40%" height={22} />
+                            <Skeleton variant="text" width="65%" height={16} />
+                            <Skeleton variant="text" width="90%" height={14} />
+                          </div>
+                        </div>
+                        <div className="w-full sm:w-40 space-y-2 shrink-0">
+                          <Skeleton variant="rectangular" height={40} />
+                          <Skeleton variant="rectangular" height={36} />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : filteredTutors.length > 0 ? (
                 <div className="space-y-4">
                   {filteredTutors.map((tutor) => (
                     <PreplyTutorCard
@@ -351,16 +482,68 @@ export default function App() {
                   ))}
                 </div>
               ) : (
-                <div className="bg-white border border-slate-200 rounded-3xl p-12 text-center space-y-4">
-                  <p className="text-slate-600 text-sm">
-                    No tutors found matching your current filter criteria.
-                  </p>
-                  <button
-                    onClick={handleResetFilters}
-                    className="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs rounded-xl shadow-sm transition-colors"
-                  >
-                    Reset All Filters
-                  </button>
+                /* Improved Contextual Empty State with Suggestions and Removable Filter Pills */
+                <div className="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 text-center space-y-6 shadow-xs">
+                  <div className="w-16 h-16 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-700 mx-auto">
+                    <SearchX className="w-8 h-8" />
+                  </div>
+
+                  <div className="max-w-md mx-auto space-y-2">
+                    <h3 className="text-h3 font-bold text-slate-900">
+                      No tutors match your current filters
+                    </h3>
+                    <p className="text-small text-slate-600 leading-relaxed">
+                      {searchQuery.trim()
+                        ? `No tutors found matching "${searchQuery.trim()}". Check spelling or search by topic (e.g. market, tuk-tuk) or university.`
+                        : timeFilter !== 'all'
+                        ? `No tutors are available for the selected time slot. Try changing time of day to "Any Time".`
+                        : priceFilter !== 'all'
+                        ? `No tutors match this hourly price range. Try selecting "Any Price".`
+                        : superTutorOnly
+                        ? `No Super Tutors match your criteria. Try unchecking "Super Tutors Only".`
+                        : `Try clearing some filters to see more available Cambodian university tutors.`}
+                    </p>
+                  </div>
+
+                  {/* Active filter pills allowing one-click removal */}
+                  <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+                    {selectedFocus !== 'All Focuses' && (
+                      <Chip selected removable onRemove={() => setSelectedFocus('All Focuses')} size="sm">
+                        Focus: {selectedFocus}
+                      </Chip>
+                    )}
+                    {priceFilter !== 'all' && (
+                      <Chip selected removable onRemove={() => setPriceFilter('all')} size="sm">
+                        Price: {priceFilter}
+                      </Chip>
+                    )}
+                    {timeFilter !== 'all' && (
+                      <Chip selected removable onRemove={() => setTimeFilter('all')} size="sm">
+                        Time: {timeFilter}
+                      </Chip>
+                    )}
+                    {superTutorOnly && (
+                      <Chip selected removable onRemove={() => setSuperTutorOnly(false)} size="sm">
+                        Super Tutors
+                      </Chip>
+                    )}
+                    {searchQuery.trim() && (
+                      <Chip selected removable onRemove={() => setSearchQuery('')} size="sm">
+                        Query: {searchQuery.trim()}
+                      </Chip>
+                    )}
+                  </div>
+
+                  <div className="pt-2">
+                    <Button
+                      variant="primary"
+                      size="md"
+                      onClick={handleResetFilters}
+                      leftIcon={<RotateCcw className="w-4 h-4" />}
+                    >
+                      Reset All Filters
+                    </Button>
+                  </div>
                 </div>
               )}
             </div>
