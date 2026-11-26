@@ -182,18 +182,20 @@ const SEED_USERS: Record<string, UserProfile> = {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserProfile | null>(() => {
+    // Start logged out unless a saved session exists; the session is re-checked with the server below.
     const saved = localStorage.getItem('kto_auth_user');
-    if (saved) {
+    const savedToken = localStorage.getItem('kto_auth_token');
+    if (saved && savedToken) {
       try {
         return JSON.parse(saved);
       } catch {
-        return SEED_USERS.student;
+        return null;
       }
     }
-    return SEED_USERS.student;
+    return null;
   });
 
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem('kto_auth_token') || 'demo-jwt-token');
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem('kto_auth_token'));
   const [activeRole, setActiveRole] = useState<UserRole>(() => {
     return user ? user.roles[0] : 'STUDENT';
   });
@@ -248,6 +250,56 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [user]);
 
+  // Clear every trace of the session in this browser.
+  const clearSession = () => {
+    setUser(null);
+    setToken(null);
+    setActiveRole('STUDENT');
+    localStorage.removeItem('kto_auth_user');
+    localStorage.removeItem('kto_auth_token');
+    localStorage.removeItem('kto_jwt_token');
+  };
+
+  // On page load, confirm the saved token with the server. Expired or forged tokens log the user out.
+  useEffect(() => {
+    const savedToken = localStorage.getItem('kto_auth_token');
+    if (!savedToken) {
+      if (user) clearSession();
+      return;
+    }
+    if (import.meta.env.DEV && savedToken.startsWith('demo-token-')) return;
+
+    let cancelled = false;
+    fetch('/api/auth/me', { headers: { Authorization: `Bearer ${savedToken}` } })
+      .then(async (res) => {
+        if (cancelled) return;
+        if (res.status === 401 || res.status === 403 || res.status === 404) {
+          clearSession();
+          return;
+        }
+        const data = await res.json().catch(() => null);
+        if (data?.success && data.user) setUser(data.user);
+      })
+      .catch(() => {
+        /* Network error: keep the cached session; protected calls will still be checked by the server. */
+      });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Any API call that comes back 401 (see src/services/api.ts) logs the user out.
+  useEffect(() => {
+    const onUnauthorized = () => {
+      clearSession();
+      showToast('Your session has ended. Please log in again.');
+    };
+    window.addEventListener('kto:unauthorized', onUnauthorized);
+    return () => window.removeEventListener('kto:unauthorized', onUnauthorized);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const login = async (emailOrPhone: string, password: string): Promise<{ success: boolean; error?: string }> => {
     try {
       const res = await fetch('/api/auth/login', {
@@ -268,7 +320,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       return { success: false, error: data.error || 'Invalid email or password.' };
     } catch {
-      // Local fallback for offline/preview robustness
+      // Offline demo fallback is for local development only: it skips the password check.
+      if (!import.meta.env.DEV) {
+        return { success: false, error: 'Cannot reach the server. Please check your connection and try again.' };
+      }
       const matched = Object.values(SEED_USERS).find(
         (u) => u.email.toLowerCase() === emailOrPhone.toLowerCase() || u.phone === emailOrPhone
       );
@@ -309,6 +364,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       return { success: false, error: data.error || 'Registration failed.' };
     } catch {
+      if (!import.meta.env.DEV) {
+        return { success: false, error: 'Cannot reach the server. Please check your connection and try again.' };
+      }
       const newUser: UserProfile = {
         id: Date.now(),
         name,
@@ -349,10 +407,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem('kto_auth_user');
-    localStorage.removeItem('kto_auth_token');
+    clearSession();
     showToast('You have been logged out.');
   };
 
@@ -361,6 +416,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       logout();
       return;
     }
+    // Demo accounts bypass the server: never allow them in production builds.
+    if (!import.meta.env.DEV) return;
     const target = SEED_USERS[userType];
     if (target) {
       setUser(target);

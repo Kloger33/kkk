@@ -667,7 +667,9 @@ export default function App() {
 
       <PdfViewerModal isOpen={isPdfOpen} onClose={() => setIsPdfOpen(false)} />
 
-      <ApiConsoleModal isOpen={isApiConsoleOpen} onClose={() => setIsApiConsoleOpen(false)} />
+      {(import.meta.env.DEV || user?.roles.includes('ADMIN')) && (
+        <ApiConsoleModal isOpen={isApiConsoleOpen} onClose={() => setIsApiConsoleOpen(false)} />
+      )}
 
       <GoalSelectionModal
         isOpen={isGoalModalOpen}

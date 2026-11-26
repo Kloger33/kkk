@@ -540,6 +540,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             </form>
 
             {/* Social Google Login Button */}
+            {import.meta.env.DEV && (
             <div className="mt-4 pt-4 border-t border-slate-100 text-center">
               <button
                 type="button"
@@ -570,10 +571,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 <span>Continue with Google</span>
               </button>
             </div>
+            )}
 
           </div>
 
           {/* QUICK 1-CLICK DEMO ACCOUNT SWITCHER (For Evaluators & Testing) */}
+          {import.meta.env.DEV && (
           <div className="mt-5 p-3 rounded-2xl bg-slate-50 border border-slate-200">
             <div className="flex items-center justify-between mb-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600 flex items-center gap-1">
@@ -677,6 +680,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
             </div>
           </div>
+          )}
 
         </div>
 

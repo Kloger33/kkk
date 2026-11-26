@@ -32,6 +32,7 @@ import {
 } from '../../context/LanguageContext';
 import { MOCK_TUTORS } from '../../data/tutorsData';
 import { AdminPilotDashboard } from './AdminPilotDashboard';
+import { apiFetch } from '../../services/api';
 
 interface PendingTutor {
   id: number;
@@ -218,7 +219,7 @@ export const AdminPortalView: React.FC = () => {
   );
 
   useEffect(() => {
-    fetch('/api/admin/tutors/pending')
+    apiFetch('/api/admin/tutors/pending')
       .then((res) => res.json())
       .then((data) => {
         if (data.tutors && data.tutors.length > 0) {
@@ -291,9 +292,8 @@ export const AdminPortalView: React.FC = () => {
 
   const handleApproveTutor = async (tutorId: number) => {
     try {
-      await fetch(`/api/admin/tutors/${tutorId}/approval`, {
+      await apiFetch(`/api/admin/tutors/${tutorId}/approval`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'approve' }),
       });
     } catch {}
@@ -305,9 +305,8 @@ export const AdminPortalView: React.FC = () => {
 
   const handleRejectTutor = async (tutorId: number) => {
     try {
-      await fetch(`/api/admin/tutors/${tutorId}/approval`, {
+      await apiFetch(`/api/admin/tutors/${tutorId}/approval`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'reject', reason: rejectReason }),
       });
     } catch {}

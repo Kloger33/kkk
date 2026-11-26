@@ -281,9 +281,49 @@ export function initDatabase() {
 }
 
 /**
- * Seed 1 Admin, 3 Tutors (1 pending), 3 Students (1 dual)
+ * Seed demo data (non-production only) and the real admin account from env.
  */
 function seedDatabase() {
+  // Demo accounts use passwords that are public in this repo, so they are
+  // only created outside production unless SEED_DEMO_DATA=true is set on purpose.
+  const isProduction = process.env.NODE_ENV === 'production';
+  const seedDemo = !isProduction || process.env.SEED_DEMO_DATA === 'true';
+  if (seedDemo) {
+    seedDemoData();
+  }
+  seedAdminFromEnv();
+}
+
+/**
+ * Create the real platform admin from ADMIN_EMAIL / ADMIN_PASSWORD (if set and not yet present).
+ */
+function seedAdminFromEnv() {
+  const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+  const password = process.env.ADMIN_PASSWORD;
+  if (!email || !password) {
+    if (process.env.NODE_ENV === 'production') {
+      console.warn('[Database] ADMIN_EMAIL / ADMIN_PASSWORD not set: no admin account in production.');
+    }
+    return;
+  }
+  if (password.length < 12) {
+    console.warn('[Database] ADMIN_PASSWORD must be at least 12 characters: admin not created.');
+    return;
+  }
+  const existing = db.prepare(`SELECT id FROM users WHERE email = ?`).get(email);
+  if (existing) return;
+
+  db.prepare(`
+    INSERT INTO users (name, email, phone, password_hash, roles, status, email_verified, timezone, language)
+    VALUES (?, ?, NULL, ?, ?, 'active', 1, 'Asia/Phnom_Penh (GMT+7)', 'en')
+  `).run(process.env.ADMIN_NAME || 'Platform Admin', email, bcrypt.hashSync(password, 10), JSON.stringify(['ADMIN']));
+  console.log(`[Database] Admin account ensured for ${email}`);
+}
+
+/**
+ * Seed 1 Admin, 3 Tutors (1 pending), 3 Students (1 dual) for development and demos.
+ */
+function seedDemoData() {
   const userCount = (db.prepare(`SELECT COUNT(*) as count FROM users`).get() as { count: number }).count;
   if (userCount > 0) return;
 
@@ -367,12 +407,13 @@ function seedDatabase() {
 
   db.prepare(`
     INSERT INTO tutor_profiles (user_id, university, major, year, student_id_doc, bio, focus_tags, trial_price, hourly_price, approval_status, rating, reviews_count, is_super_tutor, lessons_taught, payout_account)
-    VALUES (?, ?, ?, ?, ?, ?, 3.5, 8.5, 'pending', 0.0, 0, 0, 0, 'Wing Money: 085 999 333')
+    VALUES (?, ?, ?, ?, ?, ?, ?, 3.5, 8.5, 'pending', 0.0, 0, 0, 0, 'Wing Money: 085 999 333')
   `).run(
     t3Id,
     'National University of Management (NUM)',
     'Business Management & Hospitality',
     'Year 2',
+    'demo-student-id-visal.jpg',
     'Certified student ID uploaded. Eager to start teaching beginner tourists and expats conversational Khmer.',
     JSON.stringify(['Conversational', 'Travel Khmer'])
   );

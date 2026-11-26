@@ -7,7 +7,7 @@ import {
   auditRepo,
   UserRole,
   db
-} from './database';
+} from './database.js';
 import { 
   hashPassword, 
   comparePassword, 
@@ -15,7 +15,7 @@ import {
   authMiddleware, 
   requireRoles,
   AuthRequest 
-} from './auth';
+} from './auth.js';
 
 export const apiRouter = Router();
 
@@ -100,7 +100,7 @@ apiRouter.post('/auth/register', async (req, res): Promise<void> => {
     });
   } catch (err: any) {
     console.error('[API Register Error]:', err);
-    res.status(500).json({ success: false, error: 'Internal database error during registration.', details: err.message });
+    res.status(500).json({ success: false, error: 'Internal database error during registration.' });
   }
 });
 
@@ -162,7 +162,7 @@ apiRouter.post('/auth/login', async (req, res): Promise<void> => {
     });
   } catch (err: any) {
     console.error('[API Login Error]:', err);
-    res.status(500).json({ success: false, error: 'Internal database error during login.', details: err.message });
+    res.status(500).json({ success: false, error: 'Internal database error during login.' });
   }
 });
 
@@ -412,15 +412,27 @@ apiRouter.post('/admin/users/:id/roles', authMiddleware, requireRoles(['ADMIN'])
 });
 
 apiRouter.get('/admin/tutors/pending', authMiddleware, requireRoles(['ADMIN']), (_req, res) => {
-  const pending = tutorRepo.getPending();
-  res.json({ success: true, pending });
+  // `id` is the tutor's user id, which the approval route below expects.
+  const pending = (tutorRepo.getPending() as Array<Record<string, unknown>>).map((row) => ({ ...row, id: row.user_id }));
+  res.json({ success: true, pending, tutors: pending });
 });
 
 apiRouter.post('/admin/tutors/:userId/approval', authMiddleware, requireRoles(['ADMIN']), (req: AuthRequest, res) => {
   const targetId = Number(req.params.userId);
-  const { status, reason } = req.body; // 'approved' | 'rejected'
+  // Accept { status: 'approved' | 'rejected' } or the admin page's { action: 'approve' | 'reject' }.
+  const { action, reason } = req.body;
+  const status =
+    req.body.status ?? (action === 'approve' ? 'approved' : action === 'reject' ? 'rejected' : undefined);
+  if (!Number.isInteger(targetId) || (status !== 'approved' && status !== 'rejected')) {
+    res.status(400).json({ success: false, error: "Provide a valid tutor id and status 'approved' or 'rejected'." });
+    return;
+  }
 
-  tutorRepo.updateApproval(targetId, status, reason);
+  const updated = tutorRepo.updateApproval(targetId, status, reason);
+  if (!updated) {
+    res.status(404).json({ success: false, error: 'Tutor profile not found.' });
+    return;
+  }
   auditRepo.log(
     req.user!.id, 
     req.user!.name, 

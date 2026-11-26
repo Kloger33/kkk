@@ -15,6 +15,7 @@ import {
   X
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { apiFetch } from '../../services/api';
 
 interface TutorOnboardingModalProps {
   isOpen: boolean;
@@ -66,12 +67,8 @@ export const TutorOnboardingModal: React.FC<TutorOnboardingModalProps> = ({
   const handleSubmitApplication = async () => {
     setIsSubmitting(true);
     try {
-      await fetch('/api/tutor/onboarding', {
+      await apiFetch('/api/tutor/onboarding', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('kto_auth_token') || ''}`,
-        },
         body: JSON.stringify({
           university,
           major,

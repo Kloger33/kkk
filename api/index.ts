@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { initDatabase } from '../src/server/database';
-import { apiRouter } from '../src/server/routes';
+import { initDatabase } from '../src/server/database.js';
+import { apiRouter } from '../src/server/routes.js';
 
 const app = express();
 
