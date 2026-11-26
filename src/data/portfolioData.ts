@@ -53,7 +53,7 @@ export const DESIGNER_INFO = {
 export const PROJECTS: Project[] = [
   {
     id: 'khmer-tutorial-online',
-    title: 'KhmerTutorial Online (KTO)',
+    title: 'KhmerTutors-Online (KTO)',
     subtitle: 'Brand Identity, Design System & Empirical Platform Architecture',
     category: 'Brand Identity',
     year: '2026',

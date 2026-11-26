@@ -38,7 +38,7 @@ export const KtoSpotlightSection: React.FC<KtoSpotlightSectionProps> = ({ onOpen
               <span className="text-xs font-mono text-slate-400">Published Research 2026</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
-              KhmerTutorial Online (KTO)
+              KhmerTutors-Online (KTO)
             </h2>
           </div>
           <div className="flex items-center gap-3 mt-4 md:mt-0">

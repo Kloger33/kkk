@@ -13,7 +13,9 @@ import {
   Pause, 
   Sparkles, 
   CheckCircle2,
-  Volume2
+  Volume2,
+  Award,
+  Zap
 } from 'lucide-react';
 
 interface TutorProfileModalProps {
@@ -35,6 +37,75 @@ export const TutorProfileModal: React.FC<TutorProfileModalProps> = ({
 
   const [isPlayingVideo, setIsPlayingVideo] = useState(false);
 
+  // Visual Achievement Badges
+  const badges: {
+    id: string;
+    label: string;
+    icon: React.ComponentType<{ className?: string }>;
+    tooltip: string;
+    bgClass: string;
+    textClass: string;
+    borderClass: string;
+    iconClass: string;
+  }[] = [];
+
+  if (tutor.superTutor) {
+    badges.push({
+      id: 'super-tutor',
+      label: 'Super Tutor',
+      icon: Sparkles,
+      tooltip: 'Experienced tutor with proven student retention and high attendance',
+      bgClass: 'bg-amber-50',
+      textClass: 'text-amber-800',
+      borderClass: 'border-amber-200',
+      iconClass: 'text-amber-500 fill-amber-500',
+    });
+  }
+
+  if (tutor.rating >= 4.9) {
+    badges.push({
+      id: 'top-rated',
+      label: 'Top Rated',
+      icon: Award,
+      tooltip: `${tutor.rating.toFixed(1)} ★ rating across ${tutor.reviewsCount} verified reviews`,
+      bgClass: 'bg-purple-50',
+      textClass: 'text-purple-800',
+      borderClass: 'border-purple-200',
+      iconClass: 'text-purple-600',
+    });
+  }
+
+  const isFastResponder = 
+    tutor.responseRate.toLowerCase().includes('10') || 
+    tutor.responseRate.toLowerCase().includes('15') || 
+    tutor.responseRate.toLowerCase().includes('20');
+  if (isFastResponder) {
+    badges.push({
+      id: 'fast-responder',
+      label: 'Fast Responder',
+      icon: Zap,
+      tooltip: `Replies rapidly: ${tutor.responseRate.toLowerCase()}`,
+      bgClass: 'bg-cyan-50',
+      textClass: 'text-cyan-800',
+      borderClass: 'border-cyan-200',
+      iconClass: 'text-cyan-600 fill-cyan-500/20',
+    });
+  }
+
+  if (tutor.lessonsTaught >= 100) {
+    const milestone = Math.floor(tutor.lessonsTaught / 50) * 50;
+    badges.push({
+      id: 'lessons-milestone',
+      label: `${milestone}+ Lessons`,
+      icon: CheckCircle2,
+      tooltip: `${tutor.lessonsTaught} completed 1-on-1 tutoring sessions`,
+      bgClass: 'bg-emerald-50',
+      textClass: 'text-emerald-800',
+      borderClass: 'border-emerald-200',
+      iconClass: 'text-emerald-600',
+    });
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
       <div 
@@ -48,7 +119,10 @@ export const TutorProfileModal: React.FC<TutorProfileModalProps> = ({
               Tutor Profile
             </span>
             <span className="text-xs text-slate-400">·</span>
-            <span className="text-xs text-slate-500 font-medium">KhmerTutorial Online</span>
+            <div className="flex items-center gap-1.5">
+              <img src="/assets/logo_kto_new.png" alt="KhmerTutors Online" className="h-5 w-auto object-contain" />
+              <span className="text-xs text-slate-700 font-semibold">KhmerTutors Online</span>
+            </div>
           </div>
           <button
             onClick={onClose}
@@ -73,16 +147,23 @@ export const TutorProfileModal: React.FC<TutorProfileModalProps> = ({
             <div className="flex-1 text-center sm:text-left space-y-2">
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
                 <h2 className="text-2xl font-bold text-slate-900">{tutor.name}</h2>
-                <span className="inline-flex items-center gap-1 text-xs font-semibold text-teal-700 bg-teal-50 border border-teal-200 px-2 py-0.5 rounded-md">
+                <span className="inline-flex items-center gap-1 text-xs font-semibold text-teal-700 bg-teal-50 border border-teal-200 px-2.5 py-0.5 rounded-full">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>Native Khmer Speaker</span>
+                  <span>Native Khmer</span>
                 </span>
-                {tutor.superTutor && (
-                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-amber-800 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                    <span>Super Tutor</span>
-                  </span>
-                )}
+                {badges.map((badge) => {
+                  const Icon = badge.icon;
+                  return (
+                    <span
+                      key={badge.id}
+                      title={badge.tooltip}
+                      className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full border shadow-2xs ${badge.bgClass} ${badge.textClass} ${badge.borderClass}`}
+                    >
+                      <Icon className={`w-3.5 h-3.5 ${badge.iconClass}`} />
+                      <span>{badge.label}</span>
+                    </span>
+                  );
+                })}
               </div>
 
               <div className="flex items-center justify-center sm:justify-start gap-2 text-xs text-slate-600">

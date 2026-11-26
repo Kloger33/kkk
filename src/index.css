@@ -1,166 +1,129 @@
 @import "tailwindcss";
 
-@theme {
-  /* Semantic Colors */
-  --color-bg: #f8fafc;
-  --color-surface: #ffffff;
-  --color-surface-2: #f1f5f9;
-  --color-border: #e2e8f0;
-  --color-text: #0f172a;
-  --color-text-muted: #64748b;
-
-  /* Primary: Deep Teal (~#0F766E) - Passes AA on white (5.1:1) */
-  --color-primary: #0f766e;
-  --color-primary-hover: #115e59;
-  --color-primary-active: #134e4a;
-  --color-primary-soft: #f0fdfa;
-  --color-primary-border: #99f6e4;
-  --color-primary-text: #ffffff;
-
-  /* Accent: Angkor Gold (~#D4A017) */
-  --color-accent: #d4a017;
-  --color-accent-hover: #b8870f;
-  --color-accent-active: #92400e;
-  --color-accent-soft: #fefce8;
-  --color-accent-border: #fef08a;
-  --color-accent-text: #78350f;
-
-  /* Status Colors */
-  --color-success: #16a34a;
-  --color-success-soft: #f0fdf4;
-  --color-warning: #eab308;
-  --color-warning-soft: #fefce8;
-  --color-danger: #dc2626;
-  --color-danger-soft: #fef2f2;
-
-  /* Font Families */
-  --font-sans: "Plus Jakarta Sans", "Kantumruy Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-khmer: "Kantumruy Pro", "Noto Sans Khmer", sans-serif;
-  --font-khmer-heading: "Moul", "Kantumruy Pro", serif;
-
-  /* Fluid Type Scale (Mobile -> Desktop via clamp) */
-  --text-display: clamp(2.25rem, 4vw + 1rem, 3.5rem);
-  --text-h1: clamp(1.875rem, 3vw + 0.5rem, 2.5rem);
-  --text-h2: clamp(1.375rem, 2vw + 0.5rem, 1.875rem);
-  --text-h3: clamp(1.125rem, 1vw + 0.5rem, 1.375rem);
-  --text-body: 1rem;       /* 16px */
-  --text-small: 0.875rem;   /* 14px */
-  --text-caption: 0.75rem;  /* 12px */
-
-  /* Radius Tokens */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-full: 9999px;
-
-  /* Soft Low-Opacity Shadows */
-  --shadow-sm: 0 1px 3px 0 rgb(15 23 42 / 0.05), 0 1px 2px -1px rgb(15 23 42 / 0.04);
-  --shadow-md: 0 4px 6px -1px rgb(15 23 42 / 0.06), 0 2px 4px -2px rgb(15 23 42 / 0.04);
-  --shadow-lg: 0 10px 15px -3px rgb(15 23 42 / 0.07), 0 4px 6px -4px rgb(15 23 42 / 0.03);
-
-  /* Z-Index Scale */
-  --z-header: 40;
-  --z-sheet: 50;
-  --z-modal: 60;
-  --z-toast: 70;
+:root {
+  --kto-blue: #2445C8;
+  --kto-blue-hover: #1C37A3;
+  --kto-navy: #14213D;
+  --kto-saffron: #F2A531;
+  --kto-canvas: #F7F6F2;
 }
 
-/* Optional Dark Mode Tokens */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #090e17;
-    --color-surface: #111827;
-    --color-surface-2: #1e293b;
-    --color-border: #334155;
-    --color-text: #f8fafc;
-    --color-text-muted: #94a3b8;
-
-    --color-primary: #14b8a6;
-    --color-primary-hover: #2dd4bf;
-    --color-primary-active: #0d9488;
-    --color-primary-soft: #042f2e;
-    --color-primary-border: #134e4a;
-    --color-primary-text: #042f2e;
-
-    --color-accent: #f59e0b;
-    --color-accent-hover: #fbbf24;
-    --color-accent-active: #d97706;
-    --color-accent-soft: #451a03;
-    --color-accent-border: #78350f;
-    --color-accent-text: #fef08a;
-
-    --color-success: #22c55e;
-    --color-success-soft: #052e16;
-    --color-warning: #facc15;
-    --color-warning-soft: #422006;
-    --color-danger: #ef4444;
-    --color-danger-soft: #450a0a;
-  }
-}
-
-/* Base Styles & Accessibility */
 @layer base {
   html {
     scroll-behavior: smooth;
-    font-family: var(--font-sans);
-    color: var(--color-text);
-    background-color: var(--color-bg);
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
   }
 
   body {
-    min-height: 100vh;
-    font-family: var(--font-sans);
-    line-height: 1.5;
+    font-family: 'Kantumruy Pro', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #F7F6F2;
+    color: #14213D;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Universal tap highlight reset */
-  * {
-    -webkit-tap-highlight-color: transparent;
+  h1, h2, h3, h4, .font-heading {
+    font-family: 'Bricolage Grotesque', 'Kantumruy Pro', system-ui, sans-serif;
+    letter-spacing: -0.02em;
   }
 
-  /* Global focus-visible ring using primary token */
-  :focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
+  img, svg, video {
+    max-width: 100%;
+    height: auto;
   }
 }
 
-/* Khmer Typography Rules: Stacked Subscripts & Line Height */
-.font-khmer,
-[lang="km"] {
-  font-family: var(--font-khmer);
-  line-height: 1.7; /* Ensures tall subscripts like ្ញ / ញ្ច never clip */
-  text-rendering: optimizeLegibility;
+/* Fluid Typography Utilities */
+.hero-headline {
+  font-family: 'Bricolage Grotesque', 'Kantumruy Pro', system-ui, sans-serif;
+  font-size: clamp(32px, 4.2vw + 8px, 56px);
+  line-height: 1.08;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
-.font-khmer-heading {
-  font-family: var(--font-khmer-heading);
-  line-height: 1.8;
-  text-rendering: optimizeLegibility;
+.section-headline {
+  font-family: 'Bricolage Grotesque', 'Kantumruy Pro', system-ui, sans-serif;
+  font-size: clamp(24px, 3vw + 8px, 38px);
+  line-height: 1.15;
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
-/* Backward-compatible utilities */
+.body-fluid {
+  font-size: clamp(15px, 1vw + 12px, 18px);
+  line-height: 1.6;
+}
+
+/* Hide scrollbar for clean horizontal snap lists */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Standard App Container */
+.app-container {
+  max-width: 1280px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(16px, 4vw, 32px);
+  padding-right: clamp(16px, 4vw, 32px);
+}
+
+/* Font Families */
 .font-display {
-  font-family: var(--font-sans);
+  font-family: 'Bricolage Grotesque', 'Kantumruy Pro', system-ui, sans-serif;
+}
+
+.font-body {
+  font-family: 'Kantumruy Pro', system-ui, sans-serif;
 }
 
 .font-serif-title {
-  font-family: var(--font-khmer);
+  font-family: 'Kantumruy Pro', system-ui, sans-serif;
   line-height: 1.7;
 }
 
 .font-mono-code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
 }
 
-/* Reduced Motion Overrides */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subtle Toast Entrance Animation */
+@keyframes ktoToastIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-toast-in {
+  animation: ktoToastIn 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, ::before, ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

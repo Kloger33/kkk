@@ -57,7 +57,7 @@ export interface Booking {
   date: string;
   timeSlot: string;
   price: number;
-  paymentMethod: 'Credit Card (Stripe)' | 'ABA PayWay' | 'Bakong KHQR' | 'PayPal';
+  paymentMethod: 'ABA Pay' | 'KHQR (Bakong)' | 'Credit / Debit Card';
   meetingLink: string;
   status: 'Confirmed' | 'Completed' | 'Upcoming';
 }
@@ -548,7 +548,7 @@ export const INITIAL_USER_BOOKINGS: Booking[] = [
     date: 'Tomorrow, Oct 21',
     timeSlot: '02:00 PM (ICT)',
     price: 4,
-    paymentMethod: 'Credit Card (Stripe)',
+    paymentMethod: 'Credit / Debit Card',
     meetingLink: 'https://meet.google.com/kto-demo-bopha',
     status: 'Upcoming',
   },
@@ -561,7 +561,7 @@ export const INITIAL_USER_BOOKINGS: Booking[] = [
     date: 'Friday, Oct 24',
     timeSlot: '06:00 PM (ICT)',
     price: 9,
-    paymentMethod: 'ABA PayWay',
+    paymentMethod: 'ABA Pay',
     meetingLink: 'https://meet.google.com/kto-demo-sokha',
     status: 'Confirmed',
   },

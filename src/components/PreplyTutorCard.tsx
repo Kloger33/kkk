@@ -1,202 +1,215 @@
 import React, { useState } from 'react';
 import { Tutor } from '../data/tutorsData';
-import { 
-  Star, 
-  ShieldCheck, 
-  GraduationCap, 
-  Clock, 
-  MessageSquare, 
-  Calendar, 
-  Play, 
-  ChevronDown, 
-  ChevronUp, 
-  CheckCircle2,
+import {
+  Star,
+  ShieldCheck,
+  GraduationCap,
+  Calendar,
+  Heart,
+  Eye,
   Sparkles,
-  Zap
 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface PreplyTutorCardProps {
   tutor: Tutor;
   onBook: (tutor: Tutor) => void;
-  onMessage: (tutor: Tutor) => void;
-  onViewProfile: (tutor: Tutor) => void;
+  onPreview: (tutor: Tutor) => void;
+  isSelectedForPreview?: boolean;
+  isSaved?: boolean;
+  onToggleSave?: (tutor: Tutor) => void;
 }
 
 export const PreplyTutorCard: React.FC<PreplyTutorCardProps> = ({
   tutor,
   onBook,
-  onMessage,
-  onViewProfile,
+  onPreview,
+  isSelectedForPreview = false,
+  isSaved: controlledIsSaved,
+  onToggleSave,
 }) => {
+  const { t } = useLanguage();
   const [bioExpanded, setBioExpanded] = useState(false);
+  const [localIsSaved, setLocalIsSaved] = useState(false);
+  const isSaved = controlledIsSaved !== undefined ? controlledIsSaved : localIsSaved;
 
   return (
-    <div className="bg-white border border-slate-200 hover:border-teal-400 rounded-2xl p-5 sm:p-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-200 flex flex-col lg:flex-row gap-6">
-      
-      {/* Column 1: Avatar, Super Tutor & Video */}
-      <div className="flex flex-col items-center sm:items-start lg:items-center text-center lg:text-center w-full lg:w-44 shrink-0">
-        <div className="relative">
-          <div className={`w-24 h-24 rounded-full bg-gradient-to-tr ${tutor.avatarBg} text-white font-bold text-2xl flex items-center justify-center shadow-md`}>
+    <article
+      className={`bg-white border rounded-2xl p-4 sm:p-6 transition-all duration-150 flex flex-col sm:flex-row gap-4 sm:gap-5 relative ${
+        isSelectedForPreview
+          ? 'border-[#2445C8] ring-2 ring-[#2445C8]/15 shadow-[0_6px_24px_rgba(36,69,200,0.08)]'
+          : 'border-slate-200/90 hover:border-[#2445C8]/40 shadow-[0_2px_8px_rgba(20,33,61,0.03)]'
+      }`}
+    >
+      {/* LEFT: Avatar & Verification Meta */}
+      <div className="flex flex-row sm:flex-col items-center gap-3.5 sm:w-28 shrink-0">
+        <div className="relative shrink-0">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#14213D] text-white font-display font-bold text-lg sm:text-xl flex items-center justify-center border-2 border-[#F7F6F2] shadow-sm">
             {tutor.initials}
           </div>
-          <span className="absolute bottom-1 right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full" title="Online now" />
+          <span
+            className="absolute bottom-0.5 right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"
+            title="Online"
+          />
         </div>
 
-        {tutor.superTutor && (
-          <div className="mt-2.5 flex items-center gap-1 bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-0.5 rounded-full text-[11px] font-semibold">
-            <Sparkles className="w-3 h-3 text-amber-500 fill-amber-500" />
-            <span>Super Tutor</span>
+        <div className="flex flex-col items-start sm:items-center gap-1.5 text-left sm:text-center">
+          {tutor.superTutor && (
+            <span className="inline-flex items-center gap-1 bg-[#F2A531]/15 text-[#14213D] border border-[#F2A531]/40 px-2 py-0.5 rounded-md text-[10px] font-bold">
+              <Sparkles className="w-3 h-3 text-[#F2A531] fill-[#F2A531]" />
+              <span>Super Tutor</span>
+            </span>
+          )}
+          <div className="text-[11px] text-slate-500 font-mono tabular-nums">
+            <strong className="text-[#14213D]">{tutor.lessonsTaught}</strong> lessons
           </div>
-        )}
-
-        <div className="mt-3 text-xs text-slate-500 leading-tight">
-          <div className="font-semibold text-slate-800">{tutor.activeStudents} active students</div>
-          <div className="text-[11px] text-slate-400 mt-0.5">{tutor.lessonsTaught} lessons taught</div>
         </div>
-
-        <button
-          onClick={() => onViewProfile(tutor)}
-          className="mt-3 w-full py-1.5 px-3 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-medium rounded-lg border border-slate-200 flex items-center justify-center gap-1.5 transition-colors"
-        >
-          <Play className="w-3.5 h-3.5 text-teal-600 fill-teal-600" />
-          <span>Intro Video ({tutor.videoDuration})</span>
-        </button>
       </div>
 
-      {/* Column 2: Profile Details, Headline & Bio */}
-      <div className="flex-1 flex flex-col justify-between">
+      {/* CENTER: Core Identity, University & Teaching Focus */}
+      <div className="flex-1 min-w-0 flex flex-col justify-between space-y-2.5">
         <div>
-          {/* Header Row: Name & Verification */}
-          <div className="flex flex-wrap items-center gap-2">
-            <h3 
-              onClick={() => onViewProfile(tutor)}
-              className="text-xl font-bold text-slate-900 hover:text-teal-700 cursor-pointer transition-colors"
-            >
-              {tutor.name}
-            </h3>
-            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-teal-700 bg-teal-50 border border-teal-200 px-2 py-0.5 rounded-md">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Native Khmer Speaker</span>
-            </span>
-          </div>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center gap-2 min-w-0">
+              <h3 className="font-display text-lg font-extrabold text-[#14213D] truncate">
+                {tutor.name}
+              </h3>
 
-          {/* University Credential */}
-          <div className="flex items-center gap-1.5 text-xs text-slate-600 mt-1">
-            <GraduationCap className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-            <span className="font-medium text-slate-800">{tutor.university}</span>
-            <span className="text-slate-400">·</span>
-            <span className="text-slate-500">{tutor.year}</span>
-          </div>
-
-          {/* Languages spoken */}
-          <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-600 mt-2">
-            <span className="text-slate-400">Speaks:</span>
-            {tutor.languages.map((l, i) => (
-              <span key={i} className="text-slate-800 font-medium">
-                {l.language} <span className="text-slate-400 font-normal">({l.level})</span>{i < tutor.languages.length - 1 ? ' · ' : ''}
+              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#2445C8] bg-[#2445C8]/8 border border-[#2445C8]/20 px-2 py-0.5 rounded-md whitespace-nowrap">
+                <ShieldCheck className="w-3.5 h-3.5 stroke-[2]" />
+                <span>{t('card.nativeKhmer')}</span>
               </span>
-            ))}
+            </div>
+
+            {/* Rating + Price summary on mobile */}
+            <div className="flex items-center gap-3 sm:hidden">
+              <div className="flex items-center gap-1 text-xs font-mono font-bold text-[#14213D]">
+                <Star className="w-3.5 h-3.5 text-[#F2A531] fill-[#F2A531]" />
+                <span>{tutor.rating.toFixed(1)}</span>
+              </div>
+              <div className="text-sm font-mono font-bold text-[#14213D]">
+                ${tutor.hourlyRate}/hr
+              </div>
+            </div>
           </div>
 
-          {/* Headline */}
-          <p className="text-sm font-semibold text-slate-900 mt-3 leading-snug">
+          <div className="flex items-center gap-1.5 text-xs text-slate-600 mt-1 truncate">
+            <GraduationCap className="w-4 h-4 text-[#F2A531] shrink-0 stroke-[2]" />
+            <span className="font-semibold text-[#14213D] truncate">{tutor.university}</span>
+            <span className="text-slate-400">·</span>
+            <span className="text-slate-500 whitespace-nowrap">{tutor.year}</span>
+          </div>
+
+          <p className="text-sm font-semibold text-[#14213D] mt-2 leading-snug">
             {tutor.headline}
           </p>
 
-          {/* Bio text */}
-          <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-            {bioExpanded ? tutor.bio : `${tutor.bio.slice(0, 160)}...`}
+          <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+            {bioExpanded ? tutor.bio : `${tutor.bio.slice(0, 140)}...`}
             <button
+              type="button"
               onClick={() => setBioExpanded(!bioExpanded)}
-              className="ml-1.5 text-teal-700 hover:underline font-semibold inline-flex items-center"
+              className="ml-1.5 text-[#2445C8] hover:underline font-semibold inline-flex items-center cursor-pointer"
             >
               {bioExpanded ? 'Show less' : 'Read more'}
             </button>
           </p>
 
-          {/* Focus Tags */}
-          <div className="flex flex-wrap items-center gap-1.5 mt-3.5">
+          <div className="flex flex-wrap items-center gap-1.5 mt-2.5">
             {tutor.focusAreas.map((area) => (
-              <span 
+              <span
                 key={area}
-                className="text-[11px] font-medium bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-md border border-slate-200"
+                className="text-[11px] font-medium bg-[#F7F6F2] text-[#14213D] px-2.5 py-0.5 rounded-md border border-slate-200/80"
               >
                 {area}
               </span>
             ))}
           </div>
         </div>
-
-        {/* Quick availability ribbon */}
-        <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-          <div className="flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5 text-slate-400" />
-            <span>Replies {tutor.responseRate}</span>
-          </div>
-          <button
-            onClick={() => onViewProfile(tutor)}
-            className="text-teal-700 hover:text-teal-800 font-medium text-xs flex items-center gap-1"
-          >
-            <span>View full availability schedule</span>
-            <span>→</span>
-          </button>
-        </div>
       </div>
 
-      {/* Column 3: Rating, Price & Booking Actions */}
-      <div className="lg:w-60 border-t lg:border-t-0 lg:border-l border-slate-100 pt-4 lg:pt-0 lg:pl-6 flex flex-col justify-between shrink-0">
-        <div>
-          {/* Rating */}
-          <div className="flex items-center justify-between lg:justify-start lg:gap-2">
-            <div className="flex items-center gap-1 text-slate-900">
-              <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-              <span className="font-bold text-base">{tutor.rating.toFixed(1)}</span>
+      {/* RIGHT: Rate, Rating & Strictly 3 Actions (Book trial, Preview, Save) */}
+      <div className="sm:w-52 border-t sm:border-t-0 sm:border-l border-slate-100 pt-3 sm:pt-0 sm:pl-5 flex flex-col justify-between shrink-0 gap-3">
+        <div className="hidden sm:block space-y-1.5">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1 text-[#14213D]">
+              <Star className="w-4 h-4 text-[#F2A531] fill-[#F2A531]" />
+              <span className="font-mono font-bold text-sm tabular-nums">
+                {tutor.rating.toFixed(1)}
+              </span>
             </div>
             <span className="text-xs text-slate-500">({tutor.reviewsCount} reviews)</span>
           </div>
 
-          {/* Price per hour */}
-          <div className="mt-3">
+          <div className="pt-1">
             <div className="flex items-baseline gap-1">
-              <span className="text-2xl font-black text-slate-900 font-mono">${tutor.hourlyRate}</span>
-              <span className="text-xs text-slate-500 font-normal">/ 60-min lesson</span>
+              <span className="text-2xl font-black text-[#14213D] font-mono tabular-nums">
+                ${tutor.hourlyRate}
+              </span>
+              <span className="text-xs text-slate-500">{t('card.perHour')}</span>
             </div>
-            {tutor.trialPrice && (
-              <div className="mt-1 flex items-center gap-1 text-[11px] text-emerald-700 font-medium bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
-                <Zap className="w-3 h-3 text-emerald-600 fill-emerald-600" />
-                <span>${tutor.trialPrice} Trial Lesson (30 min)</span>
-              </div>
-            )}
+            <div className="text-[11px] font-semibold text-[#2445C8] mt-0.5">
+              ${tutor.trialPrice || 3} trial (30 min)
+            </div>
           </div>
         </div>
 
-        {/* Buttons */}
-        <div className="mt-6 space-y-2">
+        {/* ONLY 3 ACTIONS: Book trial $X, Preview, Save */}
+        <div className="space-y-2">
           <button
+            type="button"
             onClick={() => onBook(tutor)}
-            className="w-full py-2.5 px-4 bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs rounded-xl shadow-sm hover:shadow transition-all flex items-center justify-center gap-1.5"
+            className="w-full min-h-[44px] py-2.5 px-4 bg-[#2445C8] hover:bg-[#1c37a4] text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
           >
-            <Calendar className="w-3.5 h-3.5" />
-            <span>Book Trial (${tutor.trialPrice})</span>
+            <Calendar className="w-4 h-4 stroke-[2]" />
+            <span>
+              {t('card.bookTrial')} ${tutor.trialPrice || 3}
+            </span>
           </button>
 
-          <button
-            onClick={() => onMessage(tutor)}
-            className="w-full py-2 px-4 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs rounded-xl border border-slate-300 transition-colors flex items-center justify-center gap-1.5"
-          >
-            <MessageSquare className="w-3.5 h-3.5 text-slate-500" />
-            <span>Send Message</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => onPreview(tutor)}
+              className={`flex-1 min-h-[40px] py-2 px-3 rounded-xl border text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer ${
+                isSelectedForPreview
+                  ? 'bg-[#14213D] text-white border-[#14213D]'
+                  : 'bg-[#F7F6F2] hover:bg-slate-200/70 text-[#14213D] border-slate-200'
+              }`}
+            >
+              <Eye className="w-3.5 h-3.5 stroke-[2]" />
+              <span>{t('card.preview')}</span>
+            </button>
 
-          <button
-            onClick={() => onViewProfile(tutor)}
-            className="w-full text-center text-xs text-slate-500 hover:text-slate-800 font-medium py-1 transition-colors"
-          >
-            View Full Profile
-          </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (onToggleSave) {
+                  onToggleSave(tutor);
+                } else {
+                  setLocalIsSaved(!localIsSaved);
+                }
+              }}
+              className={`group/save min-h-[40px] px-3 rounded-xl border text-xs font-semibold transition-all duration-150 flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 ${
+                isSaved
+                  ? 'bg-[#F2A531]/15 border-[#F2A531] text-[#14213D]'
+                  : 'bg-white hover:bg-[#F7F6F2] border-slate-200 text-slate-600 hover:text-[#14213D]'
+              }`}
+              aria-label={isSaved ? 'Remove from saved tutors' : 'Save tutor'}
+              aria-pressed={isSaved}
+            >
+              <Heart
+                className={`w-4 h-4 stroke-[2] transition-transform duration-150 ${
+                  isSaved
+                    ? 'fill-[#F2A531] text-[#F2A531] scale-110'
+                    : 'group-hover/save:scale-110'
+                }`}
+              />
+              <span>{isSaved ? t('card.saved') : t('card.save')}</span>
+            </button>
+          </div>
         </div>
       </div>
-
-    </div>
+    </article>
   );
 };

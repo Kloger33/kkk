@@ -17,15 +17,12 @@ export const ProjectMockup: React.FC<ProjectMockupProps> = ({ type, className = 
           {/* Top Brand Bar */}
           <div className="relative z-10 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-bold text-base shadow-inner">
-                <svg className="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
+              <div className="w-11 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center p-1 shadow-inner">
+                <img src="/assets/logo_kto_new.png" alt="KhmerTutors Online Logo" className="w-full h-full object-contain" />
               </div>
               <div>
                 <div className="text-white font-bold tracking-tight text-sm flex items-center gap-2">
-                  <span>KhmerTutorial</span>
-                  <span className="text-[10px] text-amber-400 font-mono">ONLINE</span>
+                  <span>KhmerTutors-Online</span>
                 </div>
                 <div className="text-[11px] text-slate-400 font-normal">EdTech Micro-Tutoring Platform</div>
               </div>
