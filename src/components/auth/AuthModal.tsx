@@ -26,8 +26,8 @@ interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialTab?: 'login' | 'signup';
-  /** Why the dialog opened, e.g. "Create a free account to book your $4 trial with Bopha." */
-  contextMessage?: string | null;
+  /** Why the dialog opened, worded for each tab. */
+  contextMessage?: { signup: string; login: string } | null;
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({
@@ -190,145 +190,129 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <span className="font-semibold text-lg">KhmerTutors Online</span>
             </div>
 
-            <p lang="km" className="font-moul text-[56px] leading-[1.5] mt-10">
+            <p lang="km" className="font-moul text-[48px] leading-[1.5] mt-10">
               សួស្តី
             </p>
             <p className="text-[15px] text-[#C9D1E3]">
               {activeTab === 'signup' ? 'Suosdei. Welcome.' : 'Suosdei. Welcome back.'}
             </p>
 
-            <div className="mt-auto pt-10 space-y-3 text-[15px] leading-relaxed text-[#C9D1E3]">
-              <p>Every tutor is a Cambodian university student. We check their student ID before they appear here.</p>
-              <p>Trial lessons are 30 minutes and start at $3.</p>
-              <p className="text-white">This is a pilot: no real money is charged.</p>
-            </div>
+            <dl className="mt-auto pt-10 space-y-4 text-[15px] leading-snug">
+              <div>
+                <dt className="font-semibold text-white">Checked tutors</dt>
+                <dd className="text-[#C9D1E3] mt-0.5">Cambodian university students. We check each student ID first.</dd>
+              </div>
+              <div>
+                <dt className="font-semibold text-white">Short trials</dt>
+                <dd className="text-[#C9D1E3] mt-0.5">30 minutes, from $3.</dd>
+              </div>
+              <div>
+                <dt className="font-semibold text-white">Pilot version</dt>
+                <dd className="text-[#C9D1E3] mt-0.5">Payments are simulated. Nothing is charged.</dd>
+              </div>
+            </dl>
           </div>
         </div>
 
         {/* RIGHT PANE: Forms & 1-Click Role Switchers */}
-        <div className="md:w-7/12 p-6 sm:p-8 overflow-y-auto flex flex-col justify-between">
-          <div>
+        <div className="md:w-7/12 p-6 sm:p-10 overflow-y-auto flex flex-col">
+          <div className="my-auto">
             
-            {/* Top Close Button & Tab Switcher */}
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-              <div className="flex items-center bg-slate-100 p-1 rounded-[10px]">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveTab('login');
-                    setErrorMessage(null);
-                  }}
-                  className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    activeTab === 'login' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-500 hover:text-slate-900'
-                  }`}
-                >
-                  Log in
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveTab('signup');
-                    setErrorMessage(null);
-                  }}
-                  className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    activeTab === 'signup' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-500 hover:text-slate-900'
-                  }`}
-                >
-                  Sign up
-                </button>
+            {/* Heading: says exactly where you are; the switch link sits under the form */}
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h2 className="text-2xl font-bold text-[#172033]">
+                  {activeTab === 'signup'
+                    ? 'Create your account'
+                    : activeTab === 'forgot'
+                    ? 'Reset your password'
+                    : 'Log in to your account'}
+                </h2>
+                <p className="mt-1 text-[15px] text-[#545B70]">
+                  {activeTab === 'signup'
+                    ? 'It takes about a minute. You need the invite code from your invitation.'
+                    : activeTab === 'forgot'
+                    ? 'Enter the email address you signed up with.'
+                    : 'Welcome back. Use the email and password you signed up with.'}
+                </p>
               </div>
-
               <button
                 onClick={onClose}
-                className="p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
-                title="Close dialog"
-                aria-label="Close dialog"
+                className="-mr-2 -mt-1 w-10 h-10 shrink-0 rounded-[10px] flex items-center justify-center text-[#545B70] hover:text-[#172033] hover:bg-[#EEF2F7] transition-colors cursor-pointer"
+                aria-label="Close"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {contextMessage && (activeTab === 'signup' || activeTab === 'login') && (
-              <p className="mt-4 p-3 rounded-[10px] bg-[#2445C8]/5 border border-[#2445C8]/20 text-sm text-[#172033]">
-                {contextMessage}
+              <p className="mt-5 px-4 py-3 rounded-[10px] bg-[#EEF2F7] text-[15px] text-[#172033]">
+                {activeTab === 'signup' ? contextMessage.signup : contextMessage.login}
               </p>
             )}
 
             {/* Error or Success Feedback Alert */}
             {errorMessage && (
-              <div className="mt-4 p-3 rounded-[10px] bg-rose-50 border border-rose-200 text-xs text-rose-800 flex items-start gap-2">
+              <div className="mt-4 p-3 rounded-[10px] bg-rose-50 border border-rose-200 text-sm text-rose-800 flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
                 <span>{errorMessage}</span>
               </div>
             )}
 
             {successMessage && (
-              <div className="mt-4 p-3 rounded-[10px] bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 flex items-start gap-2">
+              <div className="mt-4 p-3 rounded-[10px] bg-emerald-50 border border-emerald-200 text-sm text-emerald-800 flex items-start gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <span>{successMessage}</span>
               </div>
             )}
 
             {/* FORM BODY */}
-            <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+            <form onSubmit={handleSubmit} className="mt-6 space-y-5" noValidate={false}>
               
               {/* SIGN UP ROLE PICKER */}
               {activeTab === 'signup' && (
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-[#172033]">
-                    I want to
-                  </label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setRole('STUDENT')}
-                      className={`p-3 rounded-2xl border text-left transition-all flex flex-col justify-between ${
-                        role === 'STUDENT'
-                          ? 'border-[#2445C8] bg-[#2445C8]/5 ring-2 ring-[#2445C8]/20'
-                          : 'border-slate-200 hover:bg-slate-50'
-                      }`}
-                    >
-                      <BookOpen className={`w-5 h-5 mb-1 ${role === 'STUDENT' ? 'text-[#2445C8]' : 'text-slate-400'}`} />
-                      <div>
-                        <div className="text-xs font-extrabold text-slate-900">Learn Khmer</div>
-                        <div className="text-[11px] text-slate-500">I am a foreigner / expat student</div>
-                      </div>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setRole('TUTOR')}
-                      className={`p-3 rounded-2xl border text-left transition-all flex flex-col justify-between ${
-                        role === 'TUTOR'
-                          ? 'border-amber-500 bg-amber-50/60 ring-2 ring-amber-500/20'
-                          : 'border-slate-200 hover:bg-slate-50'
-                      }`}
-                    >
-                      <GraduationCap className={`w-5 h-5 mb-1 ${role === 'TUTOR' ? 'text-amber-600' : 'text-slate-400'}`} />
-                      <div>
-                        <div className="text-xs font-extrabold text-slate-900">Teach Khmer</div>
-                        <div className="text-[11px] text-slate-500">I am a Cambodian university student</div>
-                      </div>
-                    </button>
+                <fieldset>
+                  <legend className="block text-sm font-semibold text-[#172033] mb-1.5">I want to</legend>
+                  <div className="grid grid-cols-2 gap-3" role="radiogroup">
+                    {([
+                      { value: 'STUDENT', title: 'Learn Khmer', hint: 'I want lessons' },
+                      { value: 'TUTOR', title: 'Teach Khmer', hint: 'I study at a Cambodian university' },
+                    ] as const).map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        role="radio"
+                        aria-checked={role === opt.value}
+                        onClick={() => setRole(opt.value)}
+                        className={`px-4 py-3 rounded-[10px] border text-left transition-colors cursor-pointer ${
+                          role === opt.value
+                            ? 'border-[#2445C8] bg-[#2445C8]/5 shadow-[inset_0_0_0_1px_#2445C8]'
+                            : 'border-[#C7D0E0] hover:border-[#9AABD6]'
+                        }`}
+                      >
+                        <span className="block text-[15px] font-semibold text-[#172033]">{opt.title}</span>
+                        <span className="block text-[13px] text-[#545B70] mt-0.5">{opt.hint}</span>
+                      </button>
+                    ))}
                   </div>
-                </div>
+                </fieldset>
               )}
 
               {/* Full Name for Sign up */}
               {activeTab === 'signup' && (
                 <div>
-                  <label className="block text-sm font-semibold text-[#172033] mb-1">
+                  <label className="block text-sm font-semibold text-[#172033] mb-1.5">
                     Full name
                   </label>
                   <div className="relative">
-                    <User className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
                       required
                       value={name}
                       onChange={(e) => setName(e.target.value)}
+                      autoComplete="name"
                       placeholder={role === 'TUTOR' ? 'e.g. Sreynoch Keo' : 'e.g. Alex Morgan'}
-                      className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-[10px] text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
+                      className="w-full h-12 px-3.5 bg-white border border-[#C7D0E0] rounded-[10px] text-base sm:text-[15px] text-[#172033] placeholder:text-[#8A91A5] focus:outline-hidden focus:border-[#2445C8] focus:ring-2 focus:ring-[#2445C8]/25"
                     />
                   </div>
                 </div>
@@ -337,9 +321,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               {/* Pilot Invite Code Input (on Sign Up) */}
               {activeTab === 'signup' && (
                 <div>
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center justify-between mb-1.5">
                     <label className="block text-sm font-semibold text-[#172033]">Invite code</label>
-                    <span className="text-[13px] text-[#545B70]">It's in your invitation link</span>
+                    <span className="text-[13px] text-[#545B70]">From your invitation</span>
                   </div>
                   <div className="relative">
                     <input
@@ -347,8 +331,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       required
                       value={inviteCode}
                       onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
-                      placeholder={role === 'TUTOR' ? 'RUPP-TUTOR-2026' : 'PILOT-STU-01'}
-                      className="w-full px-3 py-2.5 font-semibold uppercase bg-white border border-slate-200 rounded-[10px] text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
+                      placeholder="e.g. KTO-1234"
+                      className="w-full h-12 px-3.5 bg-white border border-[#C7D0E0] rounded-[10px] text-base sm:text-[15px] text-[#172033] placeholder:text-[#8A91A5] focus:outline-hidden focus:border-[#2445C8] focus:ring-2 focus:ring-[#2445C8]/25 uppercase tracking-wide placeholder:normal-case placeholder:tracking-normal"
                     />
                   </div>
                   {/* Quick-fill helper test pills (development only: real invite codes arrive by link) */}
@@ -397,7 +381,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
               {/* Email or Phone Input */}
               <div>
-                <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center justify-between mb-1.5">
                   <label className="block text-sm font-semibold text-[#172033]">
                     {authMethod === 'email' ? 'Email address' : 'Phone Number (+855)'}
                   </label>
@@ -412,18 +396,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   </button>
                 </div>
                 <div className="relative">
-                  {authMethod === 'email' ? (
-                    <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                  ) : (
-                    <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                  )}
                   <input
                     type={authMethod === 'email' ? 'email' : 'tel'}
                     required
                     value={emailOrPhone}
                     onChange={(e) => setEmailOrPhone(e.target.value)}
-                    placeholder={authMethod === 'email' ? 'you@domain.com' : '+855 12 345 678'}
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-[10px] text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
+                    autoComplete="email"
+                    placeholder={authMethod === 'email' ? 'name@example.com' : '+855 12 345 678'}
+                    className="w-full h-12 px-3.5 bg-white border border-[#C7D0E0] rounded-[10px] text-base sm:text-[15px] text-[#172033] placeholder:text-[#8A91A5] focus:outline-hidden focus:border-[#2445C8] focus:ring-2 focus:ring-[#2445C8]/25"
                   />
                 </div>
               </div>
@@ -431,7 +411,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               {/* Password Input with show/hide and strength meter */}
               {activeTab !== 'forgot' && (
                 <div>
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center justify-between mb-1.5">
                     <label className="block text-sm font-semibold text-[#172033]">
                       Password
                     </label>
@@ -439,27 +419,27 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       <button
                         type="button"
                         onClick={() => setActiveTab('forgot')}
-                        className="text-[11px] text-[#2445C8] hover:underline font-medium"
+                        className="text-sm text-[#2445C8] hover:underline font-medium"
                       >
                         Forgot password?
                       </button>
                     )}
                   </div>
                   <div className="relative">
-                    <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                     <input
                       type={showPassword ? 'text' : 'password'}
                       required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Minimum 8 characters"
-                      className="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-[10px] text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
+                      autoComplete={activeTab === 'signup' ? 'new-password' : 'current-password'}
+                      placeholder={activeTab === 'signup' ? 'At least 8 characters' : ''}
+                      className="w-full h-12 px-3.5 bg-white border border-[#C7D0E0] rounded-[10px] text-base sm:text-[15px] text-[#172033] placeholder:text-[#8A91A5] focus:outline-hidden focus:border-[#2445C8] focus:ring-2 focus:ring-[#2445C8]/25 pr-12"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                      title={showPassword ? 'Hide password' : 'Show password'}
+                      className="absolute right-1.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-[8px] flex items-center justify-center text-[#545B70] hover:text-[#172033] hover:bg-[#EEF2F7]"
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
                     >
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
@@ -468,7 +448,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   {/* Password Strength Meter (on Sign Up) */}
                   {activeTab === 'signup' && password.length > 0 && (
                     <div className="mt-2 space-y-1">
-                      <div className="flex items-center justify-between text-[10px] text-slate-500">
+                      <div className="flex items-center justify-between text-[13px] text-[#545B70]">
                         <span>Password strength:</span>
                         <strong className="font-bold">{strength.label}</strong>
                       </div>
@@ -485,7 +465,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
               {/* Remember Me / Terms Checkboxes */}
               {activeTab === 'login' && (
-                <div className="flex items-center justify-between text-xs text-slate-600">
+                <div className="flex items-center justify-between text-sm text-[#172033]">
                   <label className="flex items-center gap-2 cursor-pointer select-none">
                     <input
                       type="checkbox"
@@ -493,13 +473,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       onChange={(e) => setRememberMe(e.target.checked)}
                       className="w-4 h-4 accent-[#2445C8] rounded"
                     />
-                    <span>Remember me on this browser</span>
+                    <span>Keep me logged in on this device</span>
                   </label>
                 </div>
               )}
 
               {activeTab === 'signup' && (
-                <label className="flex items-start gap-2 text-xs text-slate-600 cursor-pointer select-none">
+                <label className="flex items-start gap-2.5 text-sm text-[#172033] cursor-pointer select-none">
                   <input
                     type="checkbox"
                     checked={agreeTerms}
@@ -507,7 +487,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     className="w-4 h-4 accent-[#2445C8] rounded mt-0.5"
                   />
                   <span>
-                    I agree to the KhmerTutors Online Terms of Service and the pilot privacy notice.
+                    I agree to the Terms of Service and the pilot privacy notice.
                   </span>
                 </label>
               )}
@@ -516,7 +496,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full min-h-[48px] py-3 bg-[#2445C8] hover:bg-[#1c37a4] disabled:opacity-60 text-white font-bold text-xs sm:text-sm rounded-[10px] shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full h-12 bg-[#2445C8] hover:bg-[#1c37a4] disabled:opacity-60 text-white font-semibold text-base rounded-[10px] transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
                 {loading ? (
                   <RefreshCw className="w-4 h-4 animate-spin" />
@@ -529,13 +509,35 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         ? role === 'TUTOR'
                           ? 'Create tutor account'
                           : 'Create account'
-                        : 'Send Reset Instructions'}
+                        : 'Get help resetting it'}
                     </span>
                   </>
                 )}
               </button>
 
             </form>
+
+            <p className="mt-6 text-[15px] text-[#545B70] text-center">
+              {activeTab === 'signup' ? (
+                <>
+                  Already have an account?{' '}
+                  <button type="button" onClick={() => { setActiveTab('login'); setErrorMessage(null); }} className="font-semibold text-[#2445C8] hover:underline cursor-pointer">
+                    Log in
+                  </button>
+                </>
+              ) : activeTab === 'forgot' ? (
+                <button type="button" onClick={() => { setActiveTab('login'); setSuccessMessage(null); }} className="font-semibold text-[#2445C8] hover:underline cursor-pointer">
+                  Back to log in
+                </button>
+              ) : (
+                <>
+                  Don't have an account?{' '}
+                  <button type="button" onClick={() => { setActiveTab('signup'); setErrorMessage(null); }} className="font-semibold text-[#2445C8] hover:underline cursor-pointer">
+                    Sign up
+                  </button>
+                </>
+              )}
+            </p>
 
             {/* Social Google Login Button */}
             {import.meta.env.DEV && (

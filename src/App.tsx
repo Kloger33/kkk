@@ -102,7 +102,7 @@ export default function App() {
   // Auth & Onboarding Modals
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState<'login' | 'signup'>('login');
-  const [authContextMessage, setAuthContextMessage] = useState<string | null>(null);
+  const [authContextMessage, setAuthContextMessage] = useState<{ signup: string; login: string } | null>(null);
   // A booking the visitor started before logging in; resumed once they are signed in.
   const [pendingBooking, setPendingBooking] = useState<{ tutor: Tutor; day?: string; slot?: string } | null>(null);
   const [isTutorOnboardingOpen, setIsTutorOnboardingOpen] = useState(false);
@@ -161,9 +161,10 @@ export default function App() {
     if (!isAuthenticated) {
       const firstName = tutor.name.split(' ')[0];
       setPendingBooking({ tutor, day, slot });
-      setAuthContextMessage(
-        `Create a free account to book your $${tutor.trialPrice} trial with ${firstName}. Already have one? Switch to Log In.`
-      );
+      setAuthContextMessage({
+        signup: `Create a free account to book your $${tutor.trialPrice} trial with ${firstName}.`,
+        login: `Log in to book your $${tutor.trialPrice} trial with ${firstName}.`,
+      });
       setAuthModalTab('signup');
       setIsAuthModalOpen(true);
       return;
