@@ -1,11 +1,27 @@
 @import "tailwindcss";
+@import "@fontsource-variable/kantumruy-pro";
+@import "@fontsource/moul/khmer-400.css";
+
+/* One family for both scripts. Old "display" and "mono" utilities now map to it,
+   so numbers stay aligned (tabular figures) without a code-style font. */
+@theme {
+  --font-sans: 'Kantumruy Pro Variable', 'Kantumruy Pro', system-ui, sans-serif;
+  --font-display: 'Kantumruy Pro Variable', 'Kantumruy Pro', system-ui, sans-serif;
+  --font-mono: 'Kantumruy Pro Variable', 'Kantumruy Pro', system-ui, sans-serif;
+}
+.font-mono { font-variant-numeric: tabular-nums; }
 
 :root {
+  /* Palette: ink from the logo, the brand's action blue, a cool mist for bands, mango for ratings only. */
   --kto-blue: #2445C8;
   --kto-blue-hover: #1C37A3;
-  --kto-navy: #14213D;
-  --kto-saffron: #F2A531;
-  --kto-canvas: #F7F6F2;
+  --kto-navy: #172033;
+  --kto-ink: #172033;
+  --kto-muted: #545B70;
+  --kto-mist: #EEF2F7;
+  --kto-paper: #FFFFFF;
+  --kto-saffron: #F2B23A;
+  --kto-canvas: #FFFFFF;
 }
 
 @layer base {
@@ -17,21 +33,28 @@
   }
 
   body {
-    font-family: 'Kantumruy Pro', system-ui, -apple-system, sans-serif;
+    font-family: 'Kantumruy Pro Variable', 'Kantumruy Pro', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
     overflow-x: hidden;
     width: 100%;
     max-width: 100%;
     margin: 0;
     padding: 0;
-    background-color: #F7F6F2;
-    color: #14213D;
+    background-color: var(--kto-paper);
+    color: var(--kto-ink);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, .font-heading {
-    font-family: 'Bricolage Grotesque', 'Kantumruy Pro', system-ui, sans-serif;
-    letter-spacing: -0.02em;
+    font-family: 'Kantumruy Pro Variable', 'Kantumruy Pro', system-ui, sans-serif;
+    letter-spacing: -0.01em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--kto-blue);
+    outline-offset: 2px;
   }
 
   img, svg, video {
@@ -42,7 +65,7 @@
 
 /* Fluid Typography Utilities */
 .hero-headline {
-  font-family: 'Bricolage Grotesque', 'Kantumruy Pro', system-ui, sans-serif;
+  font-family: 'Kantumruy Pro Variable', 'Kantumruy Pro', system-ui, sans-serif;
   font-size: clamp(32px, 4.2vw + 8px, 56px);
   line-height: 1.08;
   text-wrap: balance;
@@ -51,7 +74,7 @@
 }
 
 .section-headline {
-  font-family: 'Bricolage Grotesque', 'Kantumruy Pro', system-ui, sans-serif;
+  font-family: 'Kantumruy Pro Variable', 'Kantumruy Pro', system-ui, sans-serif;
   font-size: clamp(24px, 3vw + 8px, 38px);
   line-height: 1.15;
   text-wrap: balance;
@@ -84,7 +107,7 @@
 
 /* Font Families */
 .font-display {
-  font-family: 'Bricolage Grotesque', 'Kantumruy Pro', system-ui, sans-serif;
+  font-family: 'Kantumruy Pro Variable', 'Kantumruy Pro', system-ui, sans-serif;
 }
 
 .font-body {
@@ -129,4 +152,35 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Khmer display face: used once, for the word the hero teaches. */
+.font-moul {
+  font-family: 'Moul', 'Kantumruy Pro Variable', serif;
+  font-weight: 400;
+}
+
+/* Krama: the blue-and-white checked Cambodian scarf, as a thin band under the header. */
+.krama-band {
+  height: 12px;
+  background-color: #fff;
+  background-image:
+    linear-gradient(90deg, rgba(36, 69, 200, 0.5) 50%, transparent 50%),
+    linear-gradient(0deg, rgba(36, 69, 200, 0.5) 50%, transparent 50%);
+  background-size: 12px 12px, 12px 12px;
+}
+
+/* Active nav item: an underline, not a pill. */
+.nav-active {
+  box-shadow: inset 0 -2px 0 var(--kto-blue);
+}
+
+/* Lined paper for the phrase list in the hero. */
+.ruled > li + li {
+  border-top: 1px solid #DCE3EE;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }

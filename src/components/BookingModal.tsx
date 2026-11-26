@@ -144,19 +144,19 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#14213D]/60 backdrop-blur-sm overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#172033]/60 backdrop-blur-sm overflow-y-auto">
       <div
         className="relative w-full max-w-xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden my-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-[#F7F6F2]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-[#F3F5F9]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#14213D] text-white font-bold text-sm flex items-center justify-center shadow-sm">
+            <div className="w-10 h-10 rounded-full bg-[#172033] text-white font-bold text-sm flex items-center justify-center shadow-sm">
               {tutor.initials}
             </div>
             <div>
-              <h3 className="font-display text-base font-bold text-[#14213D] leading-tight">
+              <h3 className="font-display text-base font-bold text-[#172033] leading-tight">
                 {t('booking.title')} {tutor.name}
               </h3>
               <p className="text-xs text-slate-500">{tutor.university}</p>
@@ -165,7 +165,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
           <button
             onClick={handleResetAndClose}
-            className="p-1.5 text-slate-400 hover:text-[#14213D] hover:bg-slate-200/60 rounded-lg transition-colors cursor-pointer"
+            className="p-1.5 text-slate-400 hover:text-[#172033] hover:bg-slate-200/60 rounded-lg transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -175,7 +175,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           {step === 'select' && (
             <div className="space-y-5">
               <div>
-                <label className="block text-xs font-bold text-[#14213D] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-[#172033] uppercase tracking-wider mb-2">
                   1. Choose Lesson Type
                 </label>
                 <div className="grid grid-cols-2 gap-3">
@@ -188,7 +188,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#14213D]">Trial Lesson</span>
+                      <span className="text-xs font-bold text-[#172033]">Trial Lesson</span>
                       <span className="text-xs font-black font-mono text-[#2445C8]">
                         ${tutor.trialPrice}
                       </span>
@@ -205,8 +205,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#14213D]">Standard Lesson</span>
-                      <span className="text-xs font-black font-mono text-[#14213D]">
+                      <span className="text-xs font-bold text-[#172033]">Standard Lesson</span>
+                      <span className="text-xs font-black font-mono text-[#172033]">
                         ${tutor.hourlyRate}
                       </span>
                     </div>
@@ -217,7 +217,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-bold text-[#14213D] uppercase tracking-wider">
+                  <label className="text-xs font-bold text-[#172033] uppercase tracking-wider">
                     2. Select Day
                   </label>
                   <span className="text-xs text-slate-500">Phnom Penh time</span>
@@ -232,8 +232,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                       }}
                       className={`px-3.5 py-2 rounded-xl text-xs font-semibold shrink-0 transition-all cursor-pointer ${
                         selectedDayIndex === idx
-                          ? 'bg-[#14213D] text-white shadow-sm'
-                          : 'bg-[#F7F6F2] text-[#14213D] hover:bg-slate-200'
+                          ? 'bg-[#172033] text-white shadow-sm'
+                          : 'bg-[#F3F5F9] text-[#172033] hover:bg-slate-200'
                       }`}
                     >
                       <div>{avail.day}</div>
@@ -246,7 +246,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#14213D] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-[#172033] uppercase tracking-wider mb-2">
                   3. Select Time Slot
                 </label>
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
@@ -257,7 +257,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                       className={`py-2 px-3 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer ${
                         selectedSlot === slot
                           ? 'bg-[#2445C8] text-white font-bold shadow-sm'
-                          : 'bg-[#F7F6F2] border border-slate-200 text-[#14213D] hover:border-[#2445C8]/40'
+                          : 'bg-[#F3F5F9] border border-slate-200 text-[#172033] hover:border-[#2445C8]/40'
                       }`}
                     >
                       {slot}
@@ -266,7 +266,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </div>
               </div>
 
-              <div className="p-3 bg-[#F7F6F2] border border-slate-200 rounded-xl flex items-center justify-between text-xs">
+              <div className="p-3 bg-[#F3F5F9] border border-slate-200 rounded-xl flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2 text-slate-600">
                   <Globe className="w-4 h-4 text-[#2445C8]" />
                   <span>Timezone:</span>
@@ -274,7 +274,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 <select
                   value={selectedTimezone}
                   onChange={(e) => setSelectedTimezone(e.target.value)}
-                  className="bg-white border border-slate-200 rounded-md px-2 py-1 text-xs text-[#14213D] font-medium focus:outline-none focus:border-[#2445C8]"
+                  className="bg-white border border-slate-200 rounded-md px-2 py-1 text-xs text-[#172033] font-medium focus:outline-none focus:border-[#2445C8]"
                 >
                   <option value="ICT (Phnom Penh, UTC+7)">Phnom Penh (ICT, UTC+7)</option>
                   <option value="EDT (New York, UTC-4)">New York (EDT, UTC-4)</option>
@@ -288,7 +288,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
                 <div>
                   <div className="text-xs text-slate-500">Total Price:</div>
-                  <div className="text-xl font-bold font-mono tabular-nums text-[#14213D]">
+                  <div className="text-xl font-bold font-mono tabular-nums text-[#172033]">
                     ${price}.00
                   </div>
                 </div>
@@ -305,35 +305,35 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
           {step === 'payment' && (
             <div className="space-y-5">
-              <div className="bg-[#F7F6F2] border border-slate-200 rounded-xl p-4 space-y-2">
+              <div className="bg-[#F3F5F9] border border-slate-200 rounded-xl p-4 space-y-2">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-slate-500">Tutor:</span>
-                  <span className="font-bold text-[#14213D]">{tutor.name}</span>
+                  <span className="font-bold text-[#172033]">{tutor.name}</span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-slate-500">Lesson:</span>
-                  <span className="font-medium text-[#14213D]">{lessonType}</span>
+                  <span className="font-medium text-[#172033]">{lessonType}</span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-slate-500">Date & Slot:</span>
-                  <span className="font-mono text-[#14213D]">
+                  <span className="font-mono text-[#172033]">
                     {currentDay.day}, {selectedSlot}
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-sm pt-2 border-t border-slate-200">
-                  <span className="font-bold text-[#14213D]">Total Payable:</span>
+                  <span className="font-bold text-[#172033]">Total Payable:</span>
                   <span className="text-base font-black font-mono tabular-nums text-[#2445C8]">
                     ${price}.00 USD
                   </span>
                 </div>
               </div>
 
-              <div className="p-3 bg-[#F2A531]/15 border border-[#F2A531]/40 rounded-2xl flex items-center gap-2.5 text-xs text-[#14213D]">
-                <FlaskConical className="w-5 h-5 text-[#14213D] shrink-0" />
+              <div className="p-3 bg-[#F2B23A]/15 border border-[#F2B23A]/40 rounded-2xl flex items-center gap-2.5 text-xs text-[#172033]">
+                <FlaskConical className="w-5 h-5 text-[#172033] shrink-0" />
                 <div>
                   <div className="font-bold flex items-center gap-1.5">
                     <span>Pilot Sandbox Test Mode</span>
-                    <span className="text-[10px] bg-[#F2A531] text-[#14213D] px-1.5 py-0.5 rounded uppercase font-mono font-bold">
+                    <span className="text-[10px] bg-[#F2B23A] text-[#172033] px-1.5 py-0.5 rounded uppercase font-mono font-bold">
                       No Real Money
                     </span>
                   </div>
@@ -347,7 +347,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 <div className="flex items-center gap-2">
                   <Coins className="w-4 h-4 text-[#2445C8] shrink-0" />
                   <div>
-                    <div className="font-bold text-[#14213D]">
+                    <div className="font-bold text-[#172033]">
                       Student Pilot Credit: ${studentBalance.toFixed(2)} USD
                     </div>
                     <div className="text-[10px] text-slate-600">
@@ -360,14 +360,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   onClick={handleGrantPilotCredit}
                   className="px-2.5 py-1 bg-white hover:bg-slate-50 text-[#2445C8] border border-[#2445C8]/30 rounded-lg font-bold text-[11px] cursor-pointer flex items-center gap-1"
                 >
-                  <Gift className="w-3 h-3 text-[#F2A531]" />
+                  <Gift className="w-3 h-3 text-[#F2B23A]" />
                   <span>+ $10 Free Credit</span>
                 </button>
               </div>
 
               {/* Payment Methods: Strictly ABA Pay, KHQR, Card */}
               <div>
-                <label className="block text-xs font-bold text-[#14213D] uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-[#172033] uppercase tracking-wider mb-2">
                   {t('booking.payMethods')}
                 </label>
                 <div className="space-y-2">
@@ -404,11 +404,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                         }`}
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-[#F7F6F2] flex items-center justify-center text-[#2445C8]">
+                          <div className="w-8 h-8 rounded-lg bg-[#F3F5F9] flex items-center justify-center text-[#2445C8]">
                             <Icon className="w-4 h-4" />
                           </div>
                           <div>
-                            <div className="text-xs font-bold text-[#14213D]">{m.label}</div>
+                            <div className="text-xs font-bold text-[#172033]">{m.label}</div>
                             <div className="text-[11px] text-slate-500">{m.note}</div>
                           </div>
                         </div>
@@ -432,7 +432,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
                 <button
                   onClick={() => setStep('select')}
-                  className="text-xs text-slate-600 hover:text-[#14213D] font-medium cursor-pointer"
+                  className="text-xs text-slate-600 hover:text-[#172033] font-medium cursor-pointer"
                 >
                   Back to schedule
                 </button>
@@ -459,7 +459,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <div className="w-16 h-16 bg-[#2445C8]/10 text-[#2445C8] rounded-full flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
-              <h4 className="font-display text-xl font-bold text-[#14213D]">
+              <h4 className="font-display text-xl font-bold text-[#172033]">
                 Lesson Confirmed with {tutor.name}
               </h4>
               <p className="text-xs text-slate-600 max-w-sm mx-auto leading-relaxed">
@@ -470,7 +470,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 . Receipt and meeting link are saved to My Lessons.
               </p>
 
-              <div className="p-4 bg-[#F7F6F2] border border-slate-200 rounded-xl text-left text-xs space-y-2 max-w-md mx-auto">
+              <div className="p-4 bg-[#F3F5F9] border border-slate-200 rounded-xl text-left text-xs space-y-2 max-w-md mx-auto">
                 <div className="flex items-center justify-between">
                   <span className="text-slate-500">Classroom Link:</span>
                   <a
@@ -485,14 +485,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-slate-500">Payment Rail:</span>
-                  <span className="font-mono text-[#14213D] font-bold">{paymentMethod}</span>
+                  <span className="font-mono text-[#172033] font-bold">{paymentMethod}</span>
                 </div>
               </div>
 
               <div className="pt-4 flex items-center justify-center gap-3">
                 <button
                   onClick={handleResetAndClose}
-                  className="px-6 py-2.5 bg-[#14213D] hover:bg-[#1f3157] text-white font-bold text-xs rounded-xl shadow transition-colors cursor-pointer"
+                  className="px-6 py-2.5 bg-[#172033] hover:bg-[#1f3157] text-white font-bold text-xs rounded-xl shadow transition-colors cursor-pointer"
                 >
                   View In My Lessons
                 </button>

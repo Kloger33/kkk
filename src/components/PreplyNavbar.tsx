@@ -115,22 +115,22 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
     <button
       type="button"
       onClick={handleToggleLanguage}
-      className={`inline-flex items-center rounded-full border border-slate-200 bg-white p-0.5 text-xs font-bold shadow-2xs transition-colors hover:border-[#2445C8]/40 cursor-pointer shrink-0 ${
+      className={`inline-flex items-center rounded-[10px] border border-slate-200 bg-white p-0.5 text-sm font-medium transition-colors hover:border-[#2445C8]/40 cursor-pointer shrink-0 ${
         compact ? 'h-9' : 'h-9 sm:h-10'
       }`}
       aria-label="Switch Language EN / ខ្មែរ"
       title={t('lang.notice')}
     >
       <span
-        className={`px-2.5 py-1 rounded-full transition-colors ${
-          language === 'en' ? 'bg-[#14213D] text-white' : 'text-slate-600'
+        className={`px-2.5 py-1 rounded-[8px] transition-colors ${
+          language === 'en' ? 'bg-[#EEF2F7] text-[#172033] font-semibold' : 'text-[#545B70]'
         }`}
       >
         EN
       </span>
       <span
-        className={`px-2.5 py-1 rounded-full transition-colors ${
-          language === 'km' ? 'bg-[#2445C8] text-white' : 'text-slate-600'
+        className={`px-2.5 py-1 rounded-[8px] transition-colors ${
+          language === 'km' ? 'bg-[#EEF2F7] text-[#172033] font-semibold' : 'text-[#545B70]'
         }`}
       >
         ខ្មែរ
@@ -140,7 +140,8 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full h-[64px] lg:h-[72px] bg-[#F7F6F2]/95 backdrop-blur-md border-b border-slate-200/90 transition-all duration-150">
+      <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md">
+        <div className="h-[60px] lg:h-[68px]">
         <div className="max-w-[1280px] w-full mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-3 lg:gap-6">
           {/* LEFT: Logo & Role Marker */}
           <div className="flex items-center shrink-0 min-w-0">
@@ -153,7 +154,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
               className="flex items-center gap-2 sm:gap-2.5 text-left group rounded-xl p-1 min-h-[44px] cursor-pointer transition-all duration-150 focus-visible:ring-2 focus-visible:ring-[#2445C8] focus-visible:outline-none"
               aria-label="KhmerTutors Online Home"
             >
-              <div className="h-9 w-10 sm:h-10 sm:w-11 rounded-xl bg-white border border-slate-200 flex items-center justify-center p-1 transition-transform duration-150 group-hover:scale-105 shadow-2xs shrink-0">
+              <div className="h-9 w-10 sm:h-10 sm:w-11 flex items-center justify-center shrink-0">
                 <img
                   src="/assets/logo_kto_new.png"
                   alt="KhmerTutors Online Logo"
@@ -162,25 +163,18 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
               </div>
 
               <div className="truncate">
-                <div className="font-display font-extrabold text-[#14213D] text-base sm:text-lg lg:text-xl tracking-tight leading-tight group-hover:text-[#2445C8] transition-colors duration-150 whitespace-nowrap flex items-center gap-2">
+                <div className="font-bold text-[#172033] text-[17px] sm:text-lg leading-tight whitespace-nowrap flex items-center gap-2">
                   <span className="lg:hidden">{t('brand.short')}</span>
                   <span className="hidden lg:inline">{t('brand.name')}</span>
                   {activeRole === 'TUTOR' ? (
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#2445C8]/10 text-[#2445C8] border border-[#2445C8]/20 font-mono">
+                    <span className="px-1.5 py-px rounded text-xs font-semibold bg-[#2445C8]/10 text-[#2445C8]">
                       Tutor
                     </span>
                   ) : activeRole === 'ADMIN' ? (
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#14213D] text-[#F2A531] font-mono">
+                    <span className="px-1.5 py-px rounded text-xs font-semibold bg-[#172033] text-white">
                       Admin
                     </span>
-                  ) : (
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#F2A531] text-[#14213D] font-mono">
-                      Beta
-                    </span>
-                  )}
-                </div>
-                <div className="text-[11px] text-slate-500 font-normal hidden xl:block leading-none mt-0.5 whitespace-nowrap">
-                  {t('brand.tagline')}
+                  ) : null}
                 </div>
               </div>
             </button>
@@ -195,24 +189,22 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
               <>
                 <button
                   onClick={() => setActiveView('tutor-dashboard')}
-                  className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+                  className={`px-1 mx-2 h-[60px] lg:h-[68px] transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer text-[15px] font-medium ${
                     activeView === 'tutor-dashboard'
-                      ? 'text-[#2445C8] bg-[#2445C8]/10 font-bold'
-                      : 'text-slate-600 hover:text-[#14213D] hover:bg-white'
+                      ? 'text-[#172033] nav-active'
+                      : 'text-[#545B70] hover:text-[#172033]'
                   }`}
                 >
-                  <LayoutDashboard className="w-4 h-4 stroke-[2]" />
                   <span>{t('nav.tutorPortal')}</span>
                 </button>
                 <button
                   onClick={() => setActiveView('browse')}
-                  className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+                  className={`px-1 mx-2 h-[60px] lg:h-[68px] transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer text-[15px] font-medium ${
                     activeView === 'browse'
-                      ? 'text-[#2445C8] bg-[#2445C8]/10 font-bold'
-                      : 'text-slate-600 hover:text-[#14213D] hover:bg-white'
+                      ? 'text-[#172033] nav-active'
+                      : 'text-[#545B70] hover:text-[#172033]'
                   }`}
                 >
-                  <Search className="w-4 h-4 stroke-[2]" />
                   <span>{t('nav.marketplace')}</span>
                 </button>
               </>
@@ -220,24 +212,22 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
               <>
                 <button
                   onClick={() => setActiveView('admin-portal')}
-                  className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+                  className={`px-1 mx-2 h-[60px] lg:h-[68px] transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer text-[15px] font-medium ${
                     activeView === 'admin-portal'
-                      ? 'text-[#14213D] bg-[#F2A531]/25 font-bold'
-                      : 'text-slate-600 hover:text-[#14213D] hover:bg-white'
+                      ? 'text-[#172033] nav-active'
+                      : 'text-[#545B70] hover:text-[#172033]'
                   }`}
                 >
-                  <ShieldAlert className="w-4 h-4 stroke-[2]" />
                   <span>{t('nav.adminPortal')}</span>
                 </button>
                 <button
                   onClick={() => setActiveView('browse')}
-                  className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+                  className={`px-1 mx-2 h-[60px] lg:h-[68px] transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer text-[15px] font-medium ${
                     activeView === 'browse'
-                      ? 'text-[#2445C8] bg-[#2445C8]/10 font-bold'
-                      : 'text-slate-600 hover:text-[#14213D] hover:bg-white'
+                      ? 'text-[#172033] nav-active'
+                      : 'text-[#545B70] hover:text-[#172033]'
                   }`}
                 >
-                  <Search className="w-4 h-4 stroke-[2]" />
                   <span>{t('nav.marketplace')}</span>
                 </button>
               </>
@@ -245,25 +235,23 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
               <>
                 <button
                   onClick={() => setActiveView('browse')}
-                  className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+                  className={`px-1 mx-2 h-[60px] lg:h-[68px] transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer text-[15px] font-medium ${
                     activeView === 'browse'
-                      ? 'text-[#2445C8] bg-[#2445C8]/10 font-bold'
-                      : 'text-slate-600 hover:text-[#14213D] hover:bg-white'
+                      ? 'text-[#172033] nav-active'
+                      : 'text-[#545B70] hover:text-[#172033]'
                   }`}
                 >
-                  <Search className="w-4 h-4 stroke-[2]" />
                   <span>{t('nav.findTutors')}</span>
                 </button>
 
                 <button
                   onClick={() => setActiveView('curriculum')}
-                  className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+                  className={`px-1 mx-2 h-[60px] lg:h-[68px] transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer text-[15px] font-medium ${
                     activeView === 'curriculum'
-                      ? 'text-[#2445C8] bg-[#2445C8]/10 font-bold'
-                      : 'text-slate-600 hover:text-[#14213D] hover:bg-white'
+                      ? 'text-[#172033] nav-active'
+                      : 'text-[#545B70] hover:text-[#172033]'
                   }`}
                 >
-                  <BookOpen className="w-4 h-4 stroke-[2]" />
                   <span>{t('nav.curriculum')}</span>
                 </button>
 
@@ -271,25 +259,23 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                   <>
                     <button
                       onClick={() => setActiveView('student-dashboard')}
-                      className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+                      className={`px-1 mx-2 h-[60px] lg:h-[68px] transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer text-[15px] font-medium ${
                         activeView === 'student-dashboard'
-                          ? 'text-[#2445C8] bg-[#2445C8]/10 font-bold'
-                          : 'text-slate-600 hover:text-[#14213D] hover:bg-white'
+                          ? 'text-[#172033] nav-active'
+                          : 'text-[#545B70] hover:text-[#172033]'
                       }`}
                     >
-                      <LayoutDashboard className="w-4 h-4 stroke-[2]" />
                       <span>{t('nav.myDashboard')}</span>
                     </button>
 
                     <button
                       onClick={() => setActiveView('lessons')}
-                      className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+                      className={`px-1 mx-2 h-[60px] lg:h-[68px] transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer text-[15px] font-medium ${
                         activeView === 'lessons'
-                          ? 'text-[#2445C8] bg-[#2445C8]/10 font-bold'
-                          : 'text-slate-600 hover:text-[#14213D] hover:bg-white'
+                          ? 'text-[#172033] nav-active'
+                          : 'text-[#545B70] hover:text-[#172033]'
                       }`}
                     >
-                      <Calendar className="w-4 h-4 stroke-[2]" />
                       <span>{t('nav.myLessons')}</span>
                       {upcomingCount > 0 && (
                         <span className="w-5 h-5 bg-[#2445C8] text-white text-[11px] font-bold rounded-full flex items-center justify-center font-mono">
@@ -303,13 +289,12 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                 {(!isAuthenticated || !user?.roles.includes('TUTOR')) && (
                   <button
                     onClick={() => setActiveView('teach')}
-                    className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+                    className={`px-1 mx-2 h-[60px] lg:h-[68px] transition-colors flex items-center gap-1.5 whitespace-nowrap cursor-pointer text-[15px] font-medium ${
                       activeView === 'teach'
-                        ? 'text-[#2445C8] bg-[#2445C8]/10 font-bold'
-                        : 'text-slate-600 hover:text-[#14213D] hover:bg-white'
+                        ? 'text-[#172033] nav-active'
+                        : 'text-[#545B70] hover:text-[#172033]'
                     }`}
                   >
-                    <GraduationCap className="w-4 h-4 stroke-[2]" />
                     <span>{t('nav.becomeTutor')}</span>
                   </button>
                 )}
@@ -327,17 +312,17 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                 <div className="relative" ref={notifRef}>
                   <button
                     onClick={() => setNotifDropdownOpen(!notifDropdownOpen)}
-                    className="relative w-10 h-10 rounded-xl flex items-center justify-center text-slate-600 hover:text-[#14213D] hover:bg-white border border-transparent hover:border-slate-200 transition-colors cursor-pointer"
+                    className="relative w-10 h-10 rounded-xl flex items-center justify-center text-slate-600 hover:text-[#172033] hover:bg-white border border-transparent hover:border-slate-200 transition-colors cursor-pointer"
                     aria-label="Notifications"
                   >
                     <Bell className="w-5 h-5 stroke-[2]" />
-                    <span className="absolute top-2 right-2 w-2 h-2 bg-[#F2A531] rounded-full ring-2 ring-[#F7F6F2]" />
+                    <span className="absolute top-2 right-2 w-2 h-2 bg-[#F2B23A] rounded-full ring-2 ring-[#F3F5F9]" />
                   </button>
 
                   {notifDropdownOpen && (
                     <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-xl border border-slate-200 p-3 z-50 text-xs">
                       <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-100">
-                        <span className="font-bold text-[#14213D] text-sm">Notifications</span>
+                        <span className="font-bold text-[#172033] text-sm">Notifications</span>
                         <button
                           onClick={() => showToast('All notifications marked as read')}
                           className="text-[11px] text-[#2445C8] hover:underline font-semibold cursor-pointer"
@@ -349,7 +334,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                         <div className="p-2.5 rounded-xl bg-[#2445C8]/5 border border-[#2445C8]/15 flex items-start gap-2.5">
                           <Clock className="w-4 h-4 text-[#2445C8] shrink-0 mt-0.5" />
                           <div>
-                            <p className="font-semibold text-[#14213D]">Upcoming Khmer session</p>
+                            <p className="font-semibold text-[#172033]">Upcoming Khmer session</p>
                             <p className="text-[11px] text-slate-600">Review your GMT+7 schedule before class.</p>
                           </div>
                         </div>
@@ -361,7 +346,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                 {/* Messages */}
                 <button
                   onClick={onOpenMessages}
-                  className="relative w-10 h-10 rounded-xl flex items-center justify-center text-slate-600 hover:text-[#14213D] hover:bg-white border border-transparent hover:border-slate-200 transition-colors cursor-pointer"
+                  className="relative w-10 h-10 rounded-xl flex items-center justify-center text-slate-600 hover:text-[#172033] hover:bg-white border border-transparent hover:border-slate-200 transition-colors cursor-pointer"
                   aria-label="Open messages"
                 >
                   <MessageSquare className="w-5 h-5 stroke-[2]" />
@@ -378,7 +363,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
               <div className="relative hidden sm:block" ref={walletRef}>
                 <button
                   onClick={() => setWalletDropdownOpen(!walletDropdownOpen)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 min-h-[40px] rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-bold text-[#14213D] transition-all cursor-pointer shadow-2xs"
+                  className="flex items-center gap-1.5 px-3 py-1.5 min-h-[40px] rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-bold text-[#172033] transition-all cursor-pointer shadow-2xs"
                 >
                   <span className="text-[11px] text-slate-500 font-medium">Wallet</span>
                   <span className="font-mono text-[#2445C8] tabular-nums">
@@ -389,15 +374,15 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                 {walletDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-slate-200 p-4 z-50 text-xs space-y-3">
                     <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                      <span className="font-bold text-[#14213D] text-sm">Student Wallet</span>
+                      <span className="font-bold text-[#172033] text-sm">Student Wallet</span>
                       <span className="text-[11px] bg-[#2445C8]/10 text-[#2445C8] px-2 py-0.5 rounded font-bold">
                         ABA · KHQR
                       </span>
                     </div>
-                    <div className="p-3 bg-[#14213D] rounded-xl text-white flex items-center justify-between">
+                    <div className="p-3 bg-[#172033] rounded-xl text-white flex items-center justify-between">
                       <div>
                         <div className="text-[11px] text-slate-300">Available Credit</div>
-                        <div className="text-xl font-black font-mono text-[#F2A531]">
+                        <div className="text-xl font-black font-mono text-[#F2B23A]">
                           ${user?.studentProfile?.wallet_balance.toFixed(2) || '24.00'}
                         </div>
                       </div>
@@ -422,11 +407,11 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                   aria-label="User Account Menu"
                   aria-expanded={userDropdownOpen}
                 >
-                  <div className="w-8 h-8 rounded-full bg-[#14213D] text-white font-bold text-xs flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-[#172033] text-white font-bold text-xs flex items-center justify-center shrink-0">
                     {initials}
                   </div>
                   <div className="hidden xl:block text-left leading-tight max-w-[110px]">
-                    <div className="text-xs font-bold text-[#14213D] truncate">{user.name}</div>
+                    <div className="text-xs font-bold text-[#172033] truncate">{user.name}</div>
                     <div className="text-[10px] text-[#2445C8] font-mono font-bold truncate">
                       {activeRole}
                     </div>
@@ -437,7 +422,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                 {userDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-slate-200 py-2 z-50 text-xs">
                     <div className="px-4 py-2.5 border-b border-slate-100">
-                      <div className="font-bold text-[#14213D] text-sm truncate">{user.name}</div>
+                      <div className="font-bold text-[#172033] text-sm truncate">{user.name}</div>
                       <div className="text-[11px] text-slate-500 truncate">{user.email}</div>
                     </div>
 
@@ -449,7 +434,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                               setActiveView('tutor-dashboard');
                               setUserDropdownOpen(false);
                             }}
-                            className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F7F6F2] text-[#14213D] font-semibold flex items-center gap-2 cursor-pointer"
+                            className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F3F5F9] text-[#172033] font-semibold flex items-center gap-2 cursor-pointer"
                           >
                             <LayoutDashboard className="w-4 h-4 text-[#2445C8]" />
                             <span>{t('nav.tutorPortal')}</span>
@@ -461,7 +446,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                               setUserDropdownOpen(false);
                               showToast('Switched to Learner View');
                             }}
-                            className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F7F6F2] text-[#14213D] font-semibold flex items-center gap-2 cursor-pointer"
+                            className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F3F5F9] text-[#172033] font-semibold flex items-center gap-2 cursor-pointer"
                           >
                             <ArrowRightLeft className="w-4 h-4 text-[#2445C8]" />
                             <span>Switch to Learner View</span>
@@ -476,7 +461,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                               setActiveView('student-dashboard');
                               setUserDropdownOpen(false);
                             }}
-                            className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F7F6F2] text-[#14213D] font-semibold flex items-center gap-2 cursor-pointer"
+                            className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F3F5F9] text-[#172033] font-semibold flex items-center gap-2 cursor-pointer"
                           >
                             <LayoutDashboard className="w-4 h-4 text-[#2445C8]" />
                             <span>{t('nav.myDashboard')}</span>
@@ -486,7 +471,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                               setActiveView('lessons');
                               setUserDropdownOpen(false);
                             }}
-                            className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F7F6F2] text-[#14213D] font-semibold flex items-center gap-2 cursor-pointer"
+                            className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F3F5F9] text-[#172033] font-semibold flex items-center gap-2 cursor-pointer"
                           >
                             <Calendar className="w-4 h-4 text-[#2445C8]" />
                             <span>{t('nav.myLessons')}</span>
@@ -499,7 +484,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                                 setUserDropdownOpen(false);
                                 showToast('Switched to Tutor Workspace');
                               }}
-                              className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F7F6F2] text-[#14213D] font-semibold flex items-center gap-2 cursor-pointer"
+                              className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F3F5F9] text-[#172033] font-semibold flex items-center gap-2 cursor-pointer"
                             >
                               <ArrowRightLeft className="w-4 h-4 text-[#2445C8]" />
                               <span>Switch to Tutor Workspace</span>
@@ -514,9 +499,9 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                             setActiveView('admin-portal');
                             setUserDropdownOpen(false);
                           }}
-                          className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F7F6F2] text-[#14213D] font-semibold flex items-center gap-2 cursor-pointer"
+                          className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F3F5F9] text-[#172033] font-semibold flex items-center gap-2 cursor-pointer"
                         >
-                          <ShieldAlert className="w-4 h-4 text-[#F2A531]" />
+                          <ShieldAlert className="w-4 h-4 text-[#F2B23A]" />
                           <span>{t('nav.adminPortal')}</span>
                         </button>
                       )}
@@ -526,7 +511,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                           handleToggleLanguage();
                           setUserDropdownOpen(false);
                         }}
-                        className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F7F6F2] text-[#14213D] font-semibold flex items-center justify-between cursor-pointer"
+                        className="w-full text-left px-3 py-2 rounded-xl hover:bg-[#F3F5F9] text-[#172033] font-semibold flex items-center justify-between cursor-pointer"
                       >
                         <span className="flex items-center gap-2">
                           <Globe className="w-4 h-4 text-slate-500" />
@@ -558,13 +543,13 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
               <div className="hidden lg:flex items-center gap-2">
                 <button
                   onClick={() => onOpenAuthModal && onOpenAuthModal('login')}
-                  className="px-3.5 py-2 rounded-xl text-xs font-bold text-[#14213D] hover:bg-white border border-slate-200 transition-colors whitespace-nowrap cursor-pointer"
+                  className="px-3 py-2 text-[15px] font-medium text-[#172033] hover:text-[#2445C8] transition-colors whitespace-nowrap cursor-pointer"
                 >
                   {t('nav.login')}
                 </button>
                 <button
                   onClick={() => onOpenAuthModal && onOpenAuthModal('signup')}
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#2445C8] hover:bg-[#1c37a4] shadow-xs transition-colors whitespace-nowrap cursor-pointer"
+                  className="px-4 h-10 rounded-[10px] text-[15px] font-semibold text-white bg-[#2445C8] hover:bg-[#1c37a4] transition-colors whitespace-nowrap cursor-pointer"
                 >
                   {t('nav.signup')}
                 </button>
@@ -573,21 +558,23 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
 
             <button
               onClick={() => setMobileDrawerOpen(true)}
-              className="lg:hidden w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-[#14213D] hover:bg-slate-50 cursor-pointer"
+              className="lg:hidden w-11 h-11 rounded-[10px] flex items-center justify-center text-[#172033] hover:bg-[#EEF2F7] cursor-pointer"
               aria-label="Open menu"
             >
               <Menu className="w-5 h-5" />
             </button>
           </div>
         </div>
+      </div>
+        <div className="krama-band" aria-hidden="true" />
       </header>
 
       {/* MOBILE SLIDE-IN DRAWER (<1024px) */}
       {mobileDrawerOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-[#14213D]/60 backdrop-blur-xs lg:hidden">
+        <div className="fixed inset-0 z-50 flex justify-end bg-[#172033]/60 backdrop-blur-xs lg:hidden">
           <div className="fixed inset-0" onClick={() => setMobileDrawerOpen(false)} />
 
-          <div className="relative w-full max-w-xs bg-[#F7F6F2] h-full shadow-2xl flex flex-col z-10 overflow-y-auto">
+          <div className="relative w-full max-w-xs bg-[#F3F5F9] h-full shadow-2xl flex flex-col z-10 overflow-y-auto">
             <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-white min-h-[56px]">
               <div className="flex items-center gap-2.5">
                 <div className="w-10 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center p-1">
@@ -598,7 +585,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                   />
                 </div>
                 <div>
-                  <div className="font-display font-extrabold text-sm text-[#14213D]">
+                  <div className="font-display font-extrabold text-sm text-[#172033]">
                     {t('brand.name')}
                   </div>
                   <div className="text-[10px] text-[#2445C8] font-bold">
@@ -608,7 +595,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
               </div>
               <button
                 onClick={() => setMobileDrawerOpen(false)}
-                className="w-11 h-11 min-w-[44px] rounded-xl flex items-center justify-center text-slate-500 hover:text-[#14213D] hover:bg-slate-100 transition-colors cursor-pointer"
+                className="w-11 h-11 min-w-[44px] rounded-xl flex items-center justify-center text-slate-500 hover:text-[#172033] hover:bg-slate-100 transition-colors cursor-pointer"
                 aria-label="Close menu"
               >
                 <X className="w-5 h-5 stroke-[2]" />
@@ -616,7 +603,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
             </div>
 
             <div className="p-4 border-b border-slate-200 bg-white flex items-center justify-between">
-              <span className="text-xs font-bold text-[#14213D]">Language / ភាសា</span>
+              <span className="text-xs font-bold text-[#172033]">Language / ភាសា</span>
               <LanguagePillSwitcher compact />
             </div>
 
@@ -627,7 +614,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                   setMobileDrawerOpen(false);
                 }}
                 className={`w-full h-12 px-4 rounded-xl font-bold text-sm flex items-center gap-3 transition-colors ${
-                  activeView === 'browse' ? 'bg-[#2445C8]/10 text-[#2445C8]' : 'text-[#14213D] hover:bg-white'
+                  activeView === 'browse' ? 'bg-[#2445C8]/10 text-[#2445C8]' : 'text-[#172033] hover:bg-white'
                 }`}
               >
                 <Search className="w-5 h-5 stroke-[2]" />
@@ -642,7 +629,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                 className={`w-full h-12 px-4 rounded-xl font-bold text-sm flex items-center gap-3 transition-colors ${
                   activeView === 'curriculum'
                     ? 'bg-[#2445C8]/10 text-[#2445C8]'
-                    : 'text-[#14213D] hover:bg-white'
+                    : 'text-[#172033] hover:bg-white'
                 }`}
               >
                 <BookOpen className="w-5 h-5 stroke-[2]" />
@@ -657,7 +644,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                         setActiveView('tutor-dashboard');
                         setMobileDrawerOpen(false);
                       }}
-                      className="w-full h-12 px-4 rounded-xl font-bold text-sm flex items-center gap-3 text-[#14213D] hover:bg-white"
+                      className="w-full h-12 px-4 rounded-xl font-bold text-sm flex items-center gap-3 text-[#172033] hover:bg-white"
                     >
                       <LayoutDashboard className="w-5 h-5 text-[#2445C8]" />
                       <span>{t('nav.tutorPortal')}</span>
@@ -669,9 +656,9 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                         setActiveView('admin-portal');
                         setMobileDrawerOpen(false);
                       }}
-                      className="w-full h-12 px-4 rounded-xl font-bold text-sm flex items-center gap-3 text-[#14213D] hover:bg-white"
+                      className="w-full h-12 px-4 rounded-xl font-bold text-sm flex items-center gap-3 text-[#172033] hover:bg-white"
                     >
-                      <ShieldAlert className="w-5 h-5 text-[#F2A531]" />
+                      <ShieldAlert className="w-5 h-5 text-[#F2B23A]" />
                       <span>{t('nav.adminPortal')}</span>
                     </button>
                   )}
@@ -680,7 +667,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                       setActiveView('lessons');
                       setMobileDrawerOpen(false);
                     }}
-                    className="w-full h-12 px-4 rounded-xl font-bold text-sm flex items-center gap-3 text-[#14213D] hover:bg-white"
+                    className="w-full h-12 px-4 rounded-xl font-bold text-sm flex items-center gap-3 text-[#172033] hover:bg-white"
                   >
                     <Calendar className="w-5 h-5 text-[#2445C8]" />
                     <span>{t('nav.myLessons')}</span>
@@ -693,7 +680,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                       setMobileDrawerOpen(false);
                       onOpenAuthModal && onOpenAuthModal('login');
                     }}
-                    className="w-full h-11 rounded-xl border border-slate-300 bg-white font-bold text-xs text-[#14213D]"
+                    className="w-full h-11 rounded-xl border border-slate-300 bg-white font-bold text-xs text-[#172033]"
                   >
                     {t('nav.login')}
                   </button>
@@ -712,7 +699,7 @@ export const PreplyNavbar: React.FC<PreplyNavbarProps> = ({
                       if (onOpenTutorOnboarding) onOpenTutorOnboarding();
                       else setActiveView('teach');
                     }}
-                    className="w-full h-11 rounded-xl bg-[#F2A531]/20 text-[#14213D] font-bold text-xs"
+                    className="w-full h-11 rounded-xl bg-[#F2B23A]/20 text-[#172033] font-bold text-xs"
                   >
                     {t('nav.becomeTutor')}
                   </button>

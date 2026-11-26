@@ -178,11 +178,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         role="dialog"
         aria-modal="true"
         aria-label={activeTab === 'signup' ? 'Create your account' : 'Log in'}
-        className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden z-10 flex flex-col md:flex-row max-h-[94vh]"
+        className="relative w-full max-w-4xl bg-white rounded-[14px] shadow-2xl border border-slate-200 overflow-hidden z-10 flex flex-col md:flex-row max-h-[94vh]"
       >
         
         {/* LEFT PANE: Split Branding with Vector Skyline & Value Props */}
-        <div className="hidden md:flex md:w-5/12 bg-gradient-to-br from-[#14213D] via-[#1b2b52] to-[#2445C8] text-white p-6 sm:p-8 flex-col justify-between relative overflow-hidden shrink-0">
+        <div className="hidden md:flex md:w-5/12 bg-[#172033] text-white p-6 sm:p-8 flex-col justify-between relative overflow-hidden shrink-0">
           {/* Subtle Angkor glow backdrop */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -190,7 +190,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {/* Top Lockup */}
           <div className="relative z-10">
             <div className="flex items-center gap-2.5">
-              <div className="h-10 w-11 rounded-xl bg-white/95 border border-white/20 flex items-center justify-center p-1 shadow-inner">
+              <div className="h-10 w-11 rounded-[10px] bg-white/95 border border-white/20 flex items-center justify-center p-1 shadow-inner">
                 <img 
                   src="/assets/logo_kto_new.png" 
                   alt="KhmerTutors Logo" 
@@ -242,7 +242,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             
             {/* Top Close Button & Tab Switcher */}
             <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-              <div className="flex items-center bg-slate-100 p-1 rounded-xl">
+              <div className="flex items-center bg-slate-100 p-1 rounded-[10px]">
                 <button
                   type="button"
                   onClick={() => {
@@ -253,7 +253,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     activeTab === 'login' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-500 hover:text-slate-900'
                   }`}
                 >
-                  Log In
+                  Log in
                 </button>
                 <button
                   type="button"
@@ -265,7 +265,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     activeTab === 'signup' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-500 hover:text-slate-900'
                   }`}
                 >
-                  Sign Up
+                  Sign up
                 </button>
               </div>
 
@@ -280,21 +280,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             </div>
 
             {contextMessage && (activeTab === 'signup' || activeTab === 'login') && (
-              <p className="mt-4 p-3 rounded-xl bg-[#2445C8]/5 border border-[#2445C8]/20 text-sm text-[#14213D]">
+              <p className="mt-4 p-3 rounded-[10px] bg-[#2445C8]/5 border border-[#2445C8]/20 text-sm text-[#172033]">
                 {contextMessage}
               </p>
             )}
 
             {/* Error or Success Feedback Alert */}
             {errorMessage && (
-              <div className="mt-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-800 flex items-start gap-2">
+              <div className="mt-4 p-3 rounded-[10px] bg-rose-50 border border-rose-200 text-xs text-rose-800 flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
                 <span>{errorMessage}</span>
               </div>
             )}
 
             {successMessage && (
-              <div className="mt-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 flex items-start gap-2">
+              <div className="mt-4 p-3 rounded-[10px] bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 flex items-start gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                 <span>{successMessage}</span>
               </div>
@@ -306,8 +306,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               {/* SIGN UP ROLE PICKER */}
               {activeTab === 'signup' && (
                 <div className="space-y-2">
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    I want to:
+                  <label className="block text-sm font-semibold text-[#172033]">
+                    I want to
                   </label>
                   <div className="grid grid-cols-2 gap-3">
                     <button
@@ -348,7 +348,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               {/* Full Name for Sign up */}
               {activeTab === 'signup' && (
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                  <label className="block text-sm font-semibold text-[#172033] mb-1">
                     Full Name
                   </label>
                   <div className="relative">
@@ -359,7 +359,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder={role === 'TUTOR' ? 'e.g. Sreynoch Keo' : 'e.g. Alex Morgan'}
-                      className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
+                      className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-[10px] text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
                     />
                   </div>
                 </div>
@@ -369,14 +369,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               {activeTab === 'signup' && (
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1">
-                      <Ticket className="w-3.5 h-3.5 text-amber-600" />
-                      <span>Pilot Invite Code</span>
-                      <span className="text-rose-500">*</span>
-                    </label>
-                    <span className="text-[10px] text-amber-700 font-semibold bg-amber-50 border border-amber-200 px-1.5 py-0.2 rounded">
-                      Invite Only
-                    </span>
+                    <label className="block text-sm font-semibold text-[#172033]">Invite code</label>
+                    <span className="text-[13px] text-[#545B70]">It's in your invitation link</span>
                   </div>
                   <div className="relative">
                     <input
@@ -385,7 +379,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       value={inviteCode}
                       onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
                       placeholder={role === 'TUTOR' ? 'RUPP-TUTOR-2026' : 'PILOT-STU-01'}
-                      className="w-full px-3 py-2.5 font-mono font-bold uppercase bg-amber-50/40 border border-amber-200 rounded-xl text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
+                      className="w-full px-3 py-2.5 font-semibold uppercase bg-white border border-slate-200 rounded-[10px] text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
                     />
                   </div>
                   {/* Quick-fill helper test pills (development only: real invite codes arrive by link) */}
@@ -435,7 +429,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               {/* Email or Phone Input */}
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                  <label className="block text-sm font-semibold text-[#172033]">
                     {authMethod === 'email' ? 'Email Address' : 'Phone Number (+855)'}
                   </label>
                   {/* Phone/SMS login is not implemented on the server yet, so the switch stays hidden. */}
@@ -460,7 +454,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     value={emailOrPhone}
                     onChange={(e) => setEmailOrPhone(e.target.value)}
                     placeholder={authMethod === 'email' ? 'you@domain.com' : '+855 12 345 678'}
-                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
+                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-[10px] text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
                   />
                 </div>
               </div>
@@ -469,7 +463,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               {activeTab !== 'forgot' && (
                 <div>
                   <div className="flex items-center justify-between mb-1">
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    <label className="block text-sm font-semibold text-[#172033]">
                       Password
                     </label>
                     {activeTab === 'login' && (
@@ -490,7 +484,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Minimum 8 characters"
-                      className="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
+                      className="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-[10px] text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
                     />
                     <button
                       type="button"
@@ -553,7 +547,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full min-h-[48px] py-3 bg-[#2445C8] hover:bg-[#1c37a4] disabled:opacity-60 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full min-h-[48px] py-3 bg-[#2445C8] hover:bg-[#1c37a4] disabled:opacity-60 text-white font-bold text-xs sm:text-sm rounded-[10px] shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 {loading ? (
                   <RefreshCw className="w-4 h-4 animate-spin" />
@@ -561,14 +555,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   <>
                     <span>
                       {activeTab === 'login'
-                        ? 'Log In to Account'
+                        ? 'Log in'
                         : activeTab === 'signup'
                         ? role === 'TUTOR'
                           ? 'Create tutor account'
                           : 'Create account'
                         : 'Send Reset Instructions'}
                     </span>
-                    <ArrowRight className="w-4 h-4" />
                   </>
                 )}
               </button>
@@ -584,7 +577,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   switchDemoUser('student');
                   onClose();
                 }}
-                className="w-full py-2.5 px-4 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs rounded-xl border border-slate-200 transition-colors flex items-center justify-center gap-2.5 shadow-2xs cursor-pointer"
+                className="w-full py-2.5 px-4 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs rounded-[10px] border border-slate-200 transition-colors flex items-center justify-center gap-2.5 shadow-2xs cursor-pointer"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24">
                   <path
@@ -615,7 +608,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {import.meta.env.DEV && (
           <div className="mt-5 p-3 rounded-2xl bg-slate-50 border border-slate-200">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600 flex items-center gap-1">
+              <span className="text-[11px] font-bold text-slate-600 flex items-center gap-1">
                 <KeyRound className="w-3 h-3 text-teal-600" />
                 <span>Instant 1-Click Demo Accounts</span>
               </span>

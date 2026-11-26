@@ -35,29 +35,24 @@ export const PreplyTutorCard: React.FC<PreplyTutorCardProps> = ({
 
   return (
     <article
-      className={`bg-white border rounded-2xl p-4 sm:p-6 transition-all duration-150 flex flex-col sm:flex-row gap-4 sm:gap-5 relative ${
-        isSelectedForPreview
-          ? 'border-[#2445C8] ring-2 ring-[#2445C8]/15 shadow-[0_6px_24px_rgba(36,69,200,0.08)]'
-          : 'border-slate-200/90 hover:border-[#2445C8]/40 shadow-[0_2px_8px_rgba(20,33,61,0.03)]'
+      className={`bg-white border rounded-[14px] p-5 sm:p-6 transition-colors flex flex-col sm:flex-row gap-4 sm:gap-6 relative ${
+        isSelectedForPreview ? 'border-[#2445C8]' : 'border-[#DCE3EE] hover:border-[#9AABD6]'
       }`}
     >
       {/* LEFT: Avatar & Verification Meta */}
       <div className="flex flex-row sm:flex-col items-center gap-3.5 sm:w-28 shrink-0">
         <div className="relative shrink-0">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#14213D] text-white font-display font-bold text-lg sm:text-xl flex items-center justify-center border-2 border-[#F7F6F2] shadow-sm">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#EEF2F7] text-[#172033] font-semibold text-lg sm:text-xl flex items-center justify-center" aria-hidden="true">
             {tutor.initials}
           </div>
         </div>
 
         <div className="flex flex-col items-start sm:items-center gap-1.5 text-left sm:text-center">
           {tutor.superTutor && (
-            <span className="inline-flex items-center gap-1 bg-[#F2A531]/15 text-[#14213D] border border-[#F2A531]/40 px-2 py-0.5 rounded-md text-[10px] font-bold">
-              <Sparkles className="w-3 h-3 text-[#F2A531] fill-[#F2A531]" />
-              <span>Super Tutor</span>
-            </span>
+            <span className="text-[13px] font-semibold text-[#8A5A00]">Super tutor</span>
           )}
-          <div className="text-xs text-slate-600 font-mono tabular-nums">
-            <strong className="text-[#14213D]">{tutor.lessonsTaught}</strong> lessons
+          <div className="text-[13px] text-[#545B70] tabular-nums">
+            <strong className="text-[#172033]">{tutor.lessonsTaught}</strong> lessons
           </div>
         </div>
       </div>
@@ -67,42 +62,33 @@ export const PreplyTutorCard: React.FC<PreplyTutorCardProps> = ({
         <div>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex flex-wrap items-center gap-2 min-w-0">
-              <h3 className="font-display text-lg font-extrabold text-[#14213D] truncate">
+              <h3 className="text-xl font-bold text-[#172033] truncate">
                 {tutor.name}
               </h3>
 
-              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#2445C8] bg-[#2445C8]/8 border border-[#2445C8]/20 px-2 py-0.5 rounded-md whitespace-nowrap">
-                <ShieldCheck className="w-3.5 h-3.5 stroke-[2]" />
-                <span>{t('card.nativeKhmer')}</span>
-              </span>
             </div>
 
             {/* Rating + Price summary on mobile */}
             <div className="flex items-center gap-3 sm:hidden">
-              <div className="flex items-center gap-1 text-xs font-mono font-bold text-[#14213D]">
-                <Star className="w-3.5 h-3.5 text-[#F2A531] fill-[#F2A531]" />
+              <div className="flex items-center gap-1 text-xs font-mono font-bold text-[#172033]">
+                <Star className="w-3.5 h-3.5 text-[#F2B23A] fill-[#F2B23A]" />
                 <span>{tutor.rating.toFixed(1)}</span>
               </div>
-              <div className="text-sm font-mono font-bold text-[#14213D]">
+              <div className="text-sm font-mono font-bold text-[#172033]">
                 ${tutor.hourlyRate}/hr
               </div>
             </div>
           </div>
 
-          <div className="flex items-start gap-1.5 text-xs text-slate-600 mt-1">
-            <GraduationCap className="w-4 h-4 text-[#F2A531] shrink-0 stroke-[2] mt-px" />
-            <span>
-              <span className="font-semibold text-[#14213D]">{tutor.university}</span>
-              <span className="text-slate-400"> · </span>
-              <span className="text-slate-600 whitespace-nowrap">{tutor.year}</span>
-            </span>
-          </div>
+          <p className="text-sm text-[#545B70] mt-0.5">
+            {tutor.university}, {tutor.year}
+          </p>
 
-          <p className="text-sm font-semibold text-[#14213D] mt-2 leading-snug">
+          <p className="text-base font-semibold text-[#172033] mt-3 leading-snug">
             {tutor.headline}
           </p>
 
-          <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+          <p className="text-[15px] text-[#545B70] mt-1.5 leading-relaxed max-w-[62ch]">
             {bioExpanded ? tutor.bio : `${tutor.bio.slice(0, 140)}...`}
             <button
               type="button"
@@ -113,11 +99,11 @@ export const PreplyTutorCard: React.FC<PreplyTutorCardProps> = ({
             </button>
           </p>
 
-          <div className="flex flex-wrap items-center gap-1.5 mt-2.5">
+          <div className="flex flex-wrap items-center gap-1.5 mt-3">
             {tutor.focusAreas.map((area) => (
               <span
                 key={area}
-                className="text-[11px] font-medium bg-[#F7F6F2] text-[#14213D] px-2.5 py-0.5 rounded-md border border-slate-200/80"
+                className="text-[13px] bg-[#EEF2F7] text-[#172033] px-2 py-0.5 rounded-[6px]"
               >
                 {area}
               </span>
@@ -127,27 +113,27 @@ export const PreplyTutorCard: React.FC<PreplyTutorCardProps> = ({
       </div>
 
       {/* RIGHT: Rate, Rating & Strictly 3 Actions (Book trial, Preview, Save) */}
-      <div className="sm:w-52 border-t sm:border-t-0 sm:border-l border-slate-100 pt-3 sm:pt-0 sm:pl-5 flex flex-col justify-between shrink-0 gap-3">
+      <div className="sm:w-52 border-t sm:border-t-0 sm:border-l border-[#E6EBF3] pt-4 sm:pt-0 sm:pl-6 flex flex-col justify-between shrink-0 gap-3">
         <div className="hidden sm:block space-y-1.5">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1 text-[#14213D]">
-              <Star className="w-4 h-4 text-[#F2A531] fill-[#F2A531]" />
-              <span className="font-mono font-bold text-sm tabular-nums">
+            <div className="flex items-center gap-1 text-[#172033]">
+              <Star className="w-4 h-4 text-[#F2B23A] fill-[#F2B23A]" />
+              <span className="font-semibold text-[15px] tabular-nums">
                 {tutor.rating.toFixed(1)}
               </span>
             </div>
-            <span className="text-xs text-slate-500">({tutor.reviewsCount} reviews)</span>
+            <span className="text-[13px] text-[#545B70]">{tutor.reviewsCount} reviews</span>
           </div>
 
           <div className="pt-1">
             <div className="flex items-baseline gap-1">
-              <span className="text-2xl font-black text-[#14213D] font-mono tabular-nums">
+              <span className="text-[28px] font-bold text-[#172033] tabular-nums leading-none">
                 ${tutor.hourlyRate}
               </span>
-              <span className="text-xs text-slate-500">{t('card.perHour')}</span>
+              <span className="text-sm text-[#545B70]">{t('card.perHour')}</span>
             </div>
-            <div className="text-[11px] font-semibold text-[#2445C8] mt-0.5">
-              ${tutor.trialPrice || 3} trial (30 min)
+            <div className="text-sm text-[#545B70] mt-1">
+              30-min trial ${tutor.trialPrice || 3}
             </div>
           </div>
         </div>
@@ -157,9 +143,8 @@ export const PreplyTutorCard: React.FC<PreplyTutorCardProps> = ({
           <button
             type="button"
             onClick={() => onBook(tutor)}
-            className="w-full min-h-[44px] py-2.5 px-4 bg-[#2445C8] hover:bg-[#1c37a4] text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+            className="w-full min-h-[44px] py-2.5 px-4 bg-[#2445C8] hover:bg-[#1c37a4] text-white font-semibold text-[15px] rounded-[10px] transition-colors flex items-center justify-center cursor-pointer"
           >
-            <Calendar className="w-4 h-4 stroke-[2]" />
             <span>
               {t('card.bookTrial')} ${tutor.trialPrice || 3}
             </span>
@@ -169,13 +154,12 @@ export const PreplyTutorCard: React.FC<PreplyTutorCardProps> = ({
             <button
               type="button"
               onClick={() => onPreview(tutor)}
-              className={`flex-1 min-h-[40px] py-2 px-3 rounded-xl border text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer ${
+              className={`flex-1 min-h-[44px] py-2 px-3 rounded-[10px] border text-sm font-medium transition-colors flex items-center justify-center cursor-pointer ${
                 isSelectedForPreview
-                  ? 'bg-[#14213D] text-white border-[#14213D]'
-                  : 'bg-[#F7F6F2] hover:bg-slate-200/70 text-[#14213D] border-slate-200'
+                  ? 'bg-[#EEF2F7] text-[#172033] border-[#2445C8]'
+                  : 'bg-white hover:bg-[#EEF2F7] text-[#172033] border-[#DCE3EE]'
               }`}
             >
-              <Eye className="w-3.5 h-3.5 stroke-[2]" />
               <span>{t('card.preview')}</span>
             </button>
 
@@ -188,20 +172,16 @@ export const PreplyTutorCard: React.FC<PreplyTutorCardProps> = ({
                   setLocalIsSaved(!localIsSaved);
                 }
               }}
-              className={`group/save min-h-[40px] px-3 rounded-xl border text-xs font-semibold transition-all duration-150 flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 ${
+              className={`min-h-[44px] px-3 rounded-[10px] border text-sm font-medium transition-colors flex items-center justify-center gap-1.5 cursor-pointer ${
                 isSaved
-                  ? 'bg-[#F2A531]/15 border-[#F2A531] text-[#14213D]'
-                  : 'bg-white hover:bg-[#F7F6F2] border-slate-200 text-slate-600 hover:text-[#14213D]'
+                  ? 'bg-[#EEF2F7] border-[#DCE3EE] text-[#172033]'
+                  : 'bg-white hover:bg-[#EEF2F7] border-[#DCE3EE] text-[#172033]'
               }`}
               aria-label={isSaved ? 'Remove from saved tutors' : 'Save tutor'}
               aria-pressed={isSaved}
             >
               <Heart
-                className={`w-4 h-4 stroke-[2] transition-transform duration-150 ${
-                  isSaved
-                    ? 'fill-[#F2A531] text-[#F2A531] scale-110'
-                    : 'group-hover/save:scale-110'
-                }`}
+                className={`w-4 h-4 stroke-[2] ${isSaved ? 'fill-[#D6336C] text-[#D6336C]' : ''}`}
               />
               <span>{isSaved ? t('card.saved') : t('card.save')}</span>
             </button>

@@ -366,17 +366,17 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
   ];
 
   return (
-    <div className="min-h-screen bg-[#F7F6F2] text-[#14213D] flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-[#F3F5F9] text-[#172033] flex flex-col lg:flex-row">
       {/* SINGLE SIDEBAR NAVIGATION */}
       <aside
-        className="w-full lg:w-64 bg-[#14213D] text-white p-4 lg:p-5 flex flex-col justify-between shrink-0 border-b lg:border-b-0 lg:border-r border-slate-800"
+        className="w-full lg:w-64 bg-[#172033] text-white p-4 lg:p-5 flex flex-col justify-between shrink-0 border-b lg:border-b-0 lg:border-r border-slate-800"
         aria-label="Tutor Workspace Navigation"
       >
         <div className="space-y-5">
           {/* Tutor Identity Block */}
           <div className="flex items-center justify-between lg:block pb-4 border-b border-white/10">
             <div>
-              <div className="text-[11px] font-mono uppercase tracking-wider text-[#F2A531] font-bold">
+              <div className="text-[11px] font-mono uppercase tracking-wider text-[#F2B23A] font-bold">
                 Tutor Workspace
               </div>
               <div className="font-display font-bold text-base text-white mt-0.5 truncate">
@@ -388,7 +388,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
             <span
               className={`px-2 py-0.5 rounded text-[10px] font-bold font-mono uppercase lg:mt-2 inline-block ${
                 isPending
-                  ? 'bg-[#F2A531] text-[#14213D]'
+                  ? 'bg-[#F2B23A] text-[#172033]'
                   : 'bg-[#2445C8] text-white'
               }`}
             >
@@ -418,7 +418,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                   {item.badge !== undefined && (
                     <span
                       className={`px-1.5 py-0.5 rounded-full text-[10px] font-mono font-bold ${
-                        isActive ? 'bg-[#F2A531] text-[#14213D]' : 'bg-white/15 text-white'
+                        isActive ? 'bg-[#F2B23A] text-[#172033]' : 'bg-white/15 text-white'
                       }`}
                     >
                       {item.badge}
@@ -434,7 +434,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
         <div className="hidden lg:block pt-5 mt-6 border-t border-white/10 space-y-2">
           <button
             onClick={() => setIsPayoutModalOpen(true)}
-            className="w-full py-2.5 px-3 rounded-xl bg-[#F2A531] hover:bg-[#e19724] text-[#14213D] font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+            className="w-full py-2.5 px-3 rounded-xl bg-[#F2B23A] hover:bg-[#e19724] text-[#172033] font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
           >
             <DollarSign className="w-4 h-4 stroke-[2.5]" />
             <span>Withdraw ${availableBalance.toFixed(2)}</span>
@@ -459,7 +459,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
           aria-labelledby="tracker-heading"
           className={`rounded-2xl border p-5 sm:p-6 ${
             isPending
-              ? 'bg-white border-[#F2A531] shadow-[0_4px_20px_rgba(242,165,49,0.12)]'
+              ? 'bg-white border-[#F2B23A] shadow-[0_4px_20px_rgba(242,165,49,0.12)]'
               : 'bg-white border-slate-200/90'
           }`}
         >
@@ -470,7 +470,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
               </span>
               <h2
                 id="tracker-heading"
-                className="font-display text-base sm:text-lg font-extrabold text-[#14213D] mt-0.5"
+                className="font-display text-base sm:text-lg font-extrabold text-[#172033] mt-0.5"
               >
                 {t('tutor.trackerTitle')}
               </h2>
@@ -478,7 +478,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
             <span
               className={`self-start sm:self-auto px-3 py-1 rounded-full text-xs font-bold font-mono ${
                 isPending
-                  ? 'bg-[#F2A531]/20 text-[#14213D] border border-[#F2A531]/50'
+                  ? 'bg-[#F2B23A]/20 text-[#172033] border border-[#F2B23A]/50'
                   : 'bg-[#2445C8]/10 text-[#2445C8] border border-[#2445C8]/20'
               }`}
             >
@@ -494,9 +494,9 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                   key={s.step}
                   className={`rounded-xl p-3.5 border transition-colors ${
                     s.status === 'current'
-                      ? 'bg-[#F2A531]/10 border-[#F2A531]'
+                      ? 'bg-[#F2B23A]/10 border-[#F2B23A]'
                       : s.status === 'done'
-                      ? 'bg-[#F7F6F2] border-slate-200'
+                      ? 'bg-[#F3F5F9] border-slate-200'
                       : 'bg-white border-dashed border-slate-200 opacity-75'
                   }`}
                 >
@@ -507,12 +507,12 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                     {s.status === 'done' ? (
                       <CheckCircle2 className="w-4 h-4 text-[#2445C8]" />
                     ) : s.status === 'current' ? (
-                      <Clock className="w-4 h-4 text-[#14213D]" />
+                      <Clock className="w-4 h-4 text-[#172033]" />
                     ) : (
                       <Icon className="w-4 h-4 text-slate-400" />
                     )}
                   </div>
-                  <div className="font-display font-bold text-sm text-[#14213D]">{s.title}</div>
+                  <div className="font-display font-bold text-sm text-[#172033]">{s.title}</div>
                   <p className="text-xs text-slate-600 mt-1 leading-relaxed">{s.detail}</p>
                 </div>
               );
@@ -530,12 +530,12 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                 <span className="font-medium text-slate-500">{university}</span>
               </div>
 
-              <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-[#14213D] tracking-tight">
+              <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-[#172033] tracking-tight">
                 {getGreeting()}, {firstName}
               </h1>
 
               <p className="text-xs sm:text-sm text-slate-600">
-                You have <strong className="text-[#14213D]">{todaysLessons.length} lessons</strong>{' '}
+                You have <strong className="text-[#172033]">{todaysLessons.length} lessons</strong>{' '}
                 scheduled today and <strong className="text-[#2445C8]">{pendingReqCount} requests</strong>{' '}
                 waiting.
               </p>
@@ -544,7 +544,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
             <div className="flex items-center gap-2.5 flex-wrap">
               <button
                 onClick={handleCopyProfileLink}
-                className="px-3.5 py-2 rounded-xl border border-slate-200 hover:bg-[#F7F6F2] text-[#14213D] text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
+                className="px-3.5 py-2 rounded-xl border border-slate-200 hover:bg-[#F3F5F9] text-[#172033] text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
               >
                 {isCopied ? (
                   <Check className="w-4 h-4 text-[#2445C8]" />
@@ -557,7 +557,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
               {onViewPublicProfile && (
                 <button
                   onClick={onViewPublicProfile}
-                  className="px-3.5 py-2 rounded-xl border border-slate-200 hover:bg-[#F7F6F2] text-[#14213D] text-xs font-semibold cursor-pointer"
+                  className="px-3.5 py-2 rounded-xl border border-slate-200 hover:bg-[#F3F5F9] text-[#172033] text-xs font-semibold cursor-pointer"
                 >
                   Marketplace View
                 </button>
@@ -590,7 +590,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                     <DollarSign className="w-4 h-4" />
                   </div>
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-[#14213D] font-mono tabular-nums tracking-tight">
+                <div className="text-2xl sm:text-3xl font-black text-[#172033] font-mono tabular-nums tracking-tight">
                   ${availableBalance.toFixed(2)}
                 </div>
                 <div className="text-[11px] text-[#2445C8] font-semibold flex items-center gap-1">
@@ -608,7 +608,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                     <BookOpen className="w-4 h-4" />
                   </div>
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-[#14213D] font-mono tabular-nums tracking-tight">
+                <div className="text-2xl sm:text-3xl font-black text-[#172033] font-mono tabular-nums tracking-tight">
                   28
                 </div>
                 <div className="text-[11px] text-slate-500 font-medium">
@@ -619,11 +619,11 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
               <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold text-slate-600">Rating</span>
-                  <div className="w-8 h-8 rounded-xl bg-[#F2A531]/15 text-[#F2A531] flex items-center justify-center shrink-0">
-                    <Star className="w-4 h-4 fill-[#F2A531]" />
+                  <div className="w-8 h-8 rounded-xl bg-[#F2B23A]/15 text-[#F2B23A] flex items-center justify-center shrink-0">
+                    <Star className="w-4 h-4 fill-[#F2B23A]" />
                   </div>
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-[#14213D] font-mono tabular-nums tracking-tight">
+                <div className="text-2xl sm:text-3xl font-black text-[#172033] font-mono tabular-nums tracking-tight">
                   4.9 <span className="text-sm font-normal text-slate-400">/ 5</span>
                 </div>
                 <div className="text-[11px] text-slate-500 font-medium">18 verified reviews</div>
@@ -632,11 +632,11 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
               <div className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold text-slate-600">Attendance rate</span>
-                  <div className="w-8 h-8 rounded-xl bg-[#14213D]/8 text-[#14213D] flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-xl bg-[#172033]/8 text-[#172033] flex items-center justify-center shrink-0">
                     <CheckCircle2 className="w-4 h-4" />
                   </div>
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-[#14213D] font-mono tabular-nums tracking-tight">
+                <div className="text-2xl sm:text-3xl font-black text-[#172033] font-mono tabular-nums tracking-tight">
                   100%
                 </div>
                 <div className="text-[11px] text-slate-600 font-semibold">0 missed slots</div>
@@ -647,7 +647,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
             <div className="bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-display text-base sm:text-lg font-bold text-[#14213D]">
+                  <h3 className="font-display text-base sm:text-lg font-bold text-[#172033]">
                     Today's Lessons ({todaysLessons.length})
                   </h3>
                   <p className="text-xs text-slate-500 mt-0.5">
@@ -669,8 +669,8 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                     key={les.id}
                     className={`rounded-xl p-4 border flex flex-col md:flex-row md:items-center justify-between gap-4 ${
                       idx === 0
-                        ? 'bg-[#14213D] text-white border-[#14213D]'
-                        : 'bg-[#F7F6F2] text-[#14213D] border-slate-200'
+                        ? 'bg-[#172033] text-white border-[#172033]'
+                        : 'bg-[#F3F5F9] text-[#172033] border-slate-200'
                     }`}
                   >
                     <div className="flex items-start gap-3.5">
@@ -678,7 +678,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                         className={`w-10 h-10 rounded-xl font-bold text-xs flex items-center justify-center shrink-0 ${
                           idx === 0
                             ? 'bg-[#2445C8] text-white'
-                            : 'bg-white text-[#14213D] border border-slate-200'
+                            : 'bg-white text-[#172033] border border-slate-200'
                         }`}
                       >
                         {les.initials}
@@ -689,7 +689,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                           <span
                             className={`text-[10px] font-mono px-1.5 py-0.5 rounded font-bold ${
                               idx === 0
-                                ? 'bg-[#F2A531] text-[#14213D]'
+                                ? 'bg-[#F2B23A] text-[#172033]'
                                 : 'bg-white text-[#2445C8] border border-slate-200'
                             }`}
                           >
@@ -724,7 +724,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                         }
                         className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-colors ${
                           idx === 0
-                            ? 'bg-[#F2A531] hover:bg-[#e19724] text-[#14213D]'
+                            ? 'bg-[#F2B23A] hover:bg-[#e19724] text-[#172033]'
                             : 'bg-[#2445C8] hover:bg-[#1c37a4] text-white'
                         }`}
                       >
@@ -737,7 +737,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                         className={`px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 cursor-pointer transition-colors ${
                           idx === 0
                             ? 'bg-white/10 hover:bg-white/20 text-white border border-white/15'
-                            : 'bg-white hover:bg-slate-50 text-[#14213D] border border-slate-200'
+                            : 'bg-white hover:bg-slate-50 text-[#172033] border border-slate-200'
                         }`}
                       >
                         <MessageSquare className="w-3.5 h-3.5" />
@@ -752,7 +752,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
             {/* BOOKING REQUESTS */}
             <div className="bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 space-y-4">
               <div>
-                <h3 className="font-display text-base sm:text-lg font-bold text-[#14213D]">
+                <h3 className="font-display text-base sm:text-lg font-bold text-[#172033]">
                   Booking Requests ({pendingReqCount})
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
@@ -767,12 +767,12 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                     className="py-4 first:pt-0 last:pb-0 flex flex-col md:flex-row md:items-center justify-between gap-4"
                   >
                     <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-[#F7F6F2] border border-slate-200 text-[#14213D] font-bold text-xs flex items-center justify-center shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-[#F3F5F9] border border-slate-200 text-[#172033] font-bold text-xs flex items-center justify-center shrink-0">
                         {req.studentAvatar}
                       </div>
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-[#14213D] text-sm">
+                          <span className="font-bold text-[#172033] text-sm">
                             {req.studentName}
                           </span>
                           <span className="text-[10px] font-mono bg-slate-100 px-1.5 py-0.5 rounded text-slate-600">
@@ -784,7 +784,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                         <div className="flex items-center gap-3 text-xs text-slate-500 font-mono">
                           <span>{req.time}</span>
                           <span>·</span>
-                          <span className="font-bold text-[#14213D]">
+                          <span className="font-bold text-[#172033]">
                             ${req.price.toFixed(2)} USD
                           </span>
                         </div>
@@ -802,7 +802,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                           </button>
                           <button
                             onClick={() => handleDeclineRequest(req.id, req.studentName)}
-                            className="px-3 py-2 rounded-xl border border-slate-200 hover:bg-[#F7F6F2] text-slate-600 font-semibold text-xs cursor-pointer"
+                            className="px-3 py-2 rounded-xl border border-slate-200 hover:bg-[#F3F5F9] text-slate-600 font-semibold text-xs cursor-pointer"
                           >
                             Decline
                           </button>
@@ -831,7 +831,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
           <div className="bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
               <div>
-                <h3 className="font-display text-base sm:text-lg font-bold text-[#14213D]">
+                <h3 className="font-display text-base sm:text-lg font-bold text-[#172033]">
                   Weekly Teaching Schedule
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
@@ -842,10 +842,10 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
               <div className="flex items-center gap-3 text-xs">
                 <span className="flex items-center gap-1.5">
                   <span className="w-3 h-3 rounded bg-[#2445C8]" />
-                  <span className="text-[#14213D] font-medium">Available</span>
+                  <span className="text-[#172033] font-medium">Available</span>
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="w-3 h-3 rounded bg-[#F7F6F2] border border-slate-200" />
+                  <span className="w-3 h-3 rounded bg-[#F3F5F9] border border-slate-200" />
                   <span className="text-slate-400 font-medium">Unavailable</span>
                 </span>
               </div>
@@ -870,7 +870,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                     className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 pb-3 border-b border-slate-100 last:border-b-0"
                   >
                     <div className="w-28 shrink-0">
-                      <span className="font-bold text-xs sm:text-sm text-[#14213D]">
+                      <span className="font-bold text-xs sm:text-sm text-[#172033]">
                         {dayFullNames[day]}
                       </span>
                       <div className="text-[11px] text-slate-400 font-mono">
@@ -888,7 +888,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                             className={`px-2.5 py-1.5 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer ${
                               isSelected
                                 ? 'bg-[#2445C8] text-white font-bold'
-                                : 'bg-[#F7F6F2] text-slate-600 hover:bg-slate-200/70'
+                                : 'bg-[#F3F5F9] text-slate-600 hover:bg-slate-200/70'
                             }`}
                           >
                             {slot}
@@ -909,7 +909,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
         {activeTab === 'lessons' && (
           <div className="bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 space-y-5">
             <div className="pb-4 border-b border-slate-100">
-              <h3 className="font-display text-base sm:text-lg font-bold text-[#14213D]">
+              <h3 className="font-display text-base sm:text-lg font-bold text-[#172033]">
                 All Scheduled Lessons
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
@@ -921,7 +921,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
               {todaysLessons.map((les) => (
                 <div
                   key={les.id}
-                  className="border border-slate-200 bg-[#F7F6F2] rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4"
+                  className="border border-slate-200 bg-[#F3F5F9] rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4"
                 >
                   <div className="flex items-start gap-3.5">
                     <div className="w-10 h-10 rounded-xl bg-[#2445C8] text-white font-bold text-xs flex items-center justify-center shrink-0">
@@ -929,7 +929,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                     </div>
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-[#14213D] text-sm">{les.studentName}</span>
+                        <span className="font-bold text-[#172033] text-sm">{les.studentName}</span>
                         <span className="px-2 py-0.5 rounded bg-white text-[#2445C8] border border-[#2445C8]/20 text-[10px] font-bold">
                           {les.type}
                         </span>
@@ -954,7 +954,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                     </button>
                     <button
                       onClick={() => onOpenMessages && onOpenMessages()}
-                      className="px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-[#14213D] text-xs font-semibold cursor-pointer"
+                      className="px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-[#172033] text-xs font-semibold cursor-pointer"
                     >
                       Message
                     </button>
@@ -971,7 +971,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
         {activeTab === 'students' && (
           <div className="bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 space-y-5">
             <div className="pb-4 border-b border-slate-100">
-              <h3 className="font-display text-base sm:text-lg font-bold text-[#14213D]">
+              <h3 className="font-display text-base sm:text-lg font-bold text-[#172033]">
                 Active Learners ({students.length})
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
@@ -983,11 +983,11 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
               {students.map((st) => (
                 <div
                   key={st.id}
-                  className="bg-[#F7F6F2] border border-slate-200 rounded-xl p-4 space-y-2.5"
+                  className="bg-[#F3F5F9] border border-slate-200 rounded-xl p-4 space-y-2.5"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="font-display font-bold text-sm text-[#14213D]">
+                      <div className="font-display font-bold text-sm text-[#172033]">
                         {st.name}{' '}
                         <span className="text-[10px] font-mono bg-white px-1.5 py-0.5 rounded border border-slate-200 ml-1">
                           {st.country}
@@ -1022,7 +1022,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                 <span className="text-xs font-bold uppercase tracking-wider text-[#2445C8]">
                   Tutor Payouts (ABA / Wing)
                 </span>
-                <div className="text-3xl font-black font-mono tabular-nums text-[#14213D] mt-1">
+                <div className="text-3xl font-black font-mono tabular-nums text-[#172033] mt-1">
                   ${availableBalance.toFixed(2)} USD
                 </div>
                 <div className="text-xs text-slate-500 font-mono mt-0.5">
@@ -1040,7 +1040,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
             </div>
 
             <div className="bg-white border border-slate-200/90 rounded-2xl p-5 sm:p-6 space-y-4">
-              <h3 className="font-display text-base font-bold text-[#14213D]">
+              <h3 className="font-display text-base font-bold text-[#172033]">
                 Recent Payout History
               </h3>
 
@@ -1059,11 +1059,11 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                     {payoutHistory.map((item) => (
                       <tr key={item.id}>
                         <td className="py-3 pr-4 text-slate-600">{item.date}</td>
-                        <td className="py-3 pr-4 font-sans font-bold text-[#14213D]">
+                        <td className="py-3 pr-4 font-sans font-bold text-[#172033]">
                           {item.method}
                         </td>
                         <td className="py-3 pr-4 text-slate-600">{item.account}</td>
-                        <td className="py-3 pr-4 font-bold text-[#14213D] tabular-nums">
+                        <td className="py-3 pr-4 font-bold text-[#172033] tabular-nums">
                           ${item.amount.toFixed(2)}
                         </td>
                         <td className="py-3 text-right">
@@ -1071,7 +1071,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                             className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                               item.status === 'Completed'
                                 ? 'bg-[#2445C8]/10 text-[#2445C8]'
-                                : 'bg-[#F2A531]/20 text-[#14213D]'
+                                : 'bg-[#F2B23A]/20 text-[#172033]'
                             }`}
                           >
                             {item.status}
@@ -1089,22 +1089,22 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
 
       {/* PAYOUT MODAL: Strictly ABA Bank & Wing Money */}
       {isPayoutModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#14213D]/60 backdrop-blur-xs">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#172033]/60 backdrop-blur-xs">
           <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <h3 className="font-display font-bold text-base text-[#14213D]">
+              <h3 className="font-display font-bold text-base text-[#172033]">
                 {t('tutor.payoutTitle')}
               </h3>
               <button
                 onClick={() => setIsPayoutModalOpen(false)}
-                className="text-slate-400 hover:text-[#14213D] cursor-pointer"
+                className="text-slate-400 hover:text-[#172033] cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleExecutePayout} className="space-y-4 text-xs">
-              <div className="p-3.5 rounded-xl bg-[#F7F6F2] border border-slate-200 flex items-center justify-between">
+              <div className="p-3.5 rounded-xl bg-[#F3F5F9] border border-slate-200 flex items-center justify-between">
                 <span className="text-slate-600 font-semibold">Available Balance:</span>
                 <span className="text-lg font-black font-mono text-[#2445C8] tabular-nums">
                   ${availableBalance.toFixed(2)} USD
@@ -1112,7 +1112,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
               </div>
 
               <div className="space-y-2">
-                <label className="block font-bold text-[#14213D]">Choose Payout Method</label>
+                <label className="block font-bold text-[#172033]">Choose Payout Method</label>
                 <div className="grid grid-cols-2 gap-2.5">
                   <button
                     type="button"
@@ -1127,7 +1127,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                     }`}
                   >
                     <Building2 className="w-4 h-4 text-[#2445C8] mb-1" />
-                    <div className="font-bold text-[#14213D]">ABA Bank</div>
+                    <div className="font-bold text-[#172033]">ABA Bank</div>
                     <div className="text-[10px] text-slate-500">Direct USD / KHR</div>
                   </button>
 
@@ -1143,15 +1143,15 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                         : 'border-slate-200 bg-white'
                     }`}
                   >
-                    <Smartphone className="w-4 h-4 text-[#F2A531] mb-1" />
-                    <div className="font-bold text-[#14213D]">Wing Money</div>
+                    <Smartphone className="w-4 h-4 text-[#F2B23A] mb-1" />
+                    <div className="font-bold text-[#172033]">Wing Money</div>
                     <div className="text-[10px] text-slate-500">Instant Wing wallet</div>
                   </button>
                 </div>
               </div>
 
               <div>
-                <label className="block font-bold text-[#14213D] mb-1">
+                <label className="block font-bold text-[#172033] mb-1">
                   {payoutMethod === 'ABA Bank' ? 'ABA Account Number' : 'Wing Phone / Account'}
                 </label>
                 <input
@@ -1159,7 +1159,7 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
                   required
                   value={payoutAccount}
                   onChange={(e) => setPayoutAccount(e.target.value)}
-                  className="w-full px-3 py-2.5 bg-[#F7F6F2] border border-slate-200 rounded-xl font-mono text-[#14213D] focus:outline-hidden focus:border-[#2445C8]"
+                  className="w-full px-3 py-2.5 bg-[#F3F5F9] border border-slate-200 rounded-xl font-mono text-[#172033] focus:outline-hidden focus:border-[#2445C8]"
                 />
               </div>
 
@@ -1186,21 +1186,21 @@ export const TutorDashboardView: React.FC<TutorDashboardViewProps> = ({
 
       {/* LESSON ROOM LAUNCH MODAL */}
       {activeLessonModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#14213D]/60 backdrop-blur-xs">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#172033]/60 backdrop-blur-xs">
           <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <h3 className="font-display font-bold text-base text-[#14213D]">
+              <h3 className="font-display font-bold text-base text-[#172033]">
                 Classroom: {activeLessonModal.studentName}
               </h3>
               <button
                 onClick={() => setActiveLessonModal(null)}
-                className="text-slate-400 hover:text-[#14213D] cursor-pointer"
+                className="text-slate-400 hover:text-[#172033] cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
             <p className="text-xs text-slate-600">{activeLessonModal.topic}</p>
-            <div className="p-3 bg-[#F7F6F2] rounded-xl font-mono text-xs text-[#2445C8] break-all">
+            <div className="p-3 bg-[#F3F5F9] rounded-xl font-mono text-xs text-[#2445C8] break-all">
               {activeLessonModal.meetLink}
             </div>
             <div className="flex justify-end gap-2">

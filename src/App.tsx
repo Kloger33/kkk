@@ -20,7 +20,6 @@ import { TeachLandingView } from './components/public/TeachLandingView';
 import { AuthModal } from './components/auth/AuthModal';
 import { ForbiddenView } from './components/auth/ForbiddenView';
 import { PdfViewerModal } from './components/PdfViewerModal';
-import { KhmerArtHeader } from './components/KhmerArtHeader';
 import { ApiConsoleModal } from './components/ApiConsoleModal';
 import { GoalSelectionModal, GoalPreference } from './components/GoalSelectionModal';
 import { FindTutorsHero } from './components/FindTutorsHero';
@@ -368,17 +367,12 @@ export default function App() {
   }, [filteredTutors, tutors, selectedPreviewTutorId]);
 
   return (
-    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#F7F6F2] text-[#14213D] flex flex-col selection:bg-[#2445C8]/20">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#F3F5F9] text-[#172033] flex flex-col selection:bg-[#2445C8]/20">
       {/* Pilot Mode Banner */}
       <PilotTopBanner onOpenFeedback={() => setIsFeedbackOpen(true)} />
 
       {/* Traditional Signature of Khmer Art Header Strip (Public Homepage Only) */}
-      {/* Decorative strip: desktop only, so phones see the content sooner. */}
-      {!isAuthenticated && activeView === 'browse' && (
-        <div className="hidden md:block">
-          <KhmerArtHeader />
-        </div>
-      )}
+
 
       {/* Role-Aware Top Navigation */}
       <PreplyNavbar
@@ -421,6 +415,7 @@ export default function App() {
               }}
               featuredTutor={tutors[0]}
               tutors={tutors}
+              onTeachClick={() => setActiveView('teach')}
             />
 
             <GoalQuizBanner
@@ -460,7 +455,7 @@ export default function App() {
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-4 text-xs text-slate-500 font-medium">
                 <span>
-                  Showing <strong className="text-[#14213D] font-mono">{filteredTutors.length}</strong> available Khmer tutors
+                  Showing <strong className="text-[#172033] font-mono">{filteredTutors.length}</strong> available Khmer tutors
                 </span>
                 <span className="hidden sm:inline">Pilot: payments are simulated, no real charges</span>
               </div>
@@ -495,10 +490,10 @@ export default function App() {
                 <div className="bg-white border border-slate-200 rounded-3xl p-12 text-center space-y-4">
                   {savedOnly ? (
                     <>
-                      <div className="w-12 h-12 rounded-full bg-[#F2A531]/20 text-[#14213D] mx-auto flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-[#F2B23A]/20 text-[#172033] mx-auto flex items-center justify-center">
                         <Heart className="w-6 h-6 stroke-[2]" />
                       </div>
-                      <h3 className="font-display text-base font-bold text-[#14213D]">
+                      <h3 className="font-display text-base font-bold text-[#172033]">
                         No saved tutors found
                       </h3>
                       <p className="text-slate-600 text-xs max-w-md mx-auto">
@@ -638,7 +633,7 @@ export default function App() {
                 alt="KhmerTutors Online Logo"
                 className="h-9 w-auto object-contain"
               />
-              <span className="font-display font-extrabold text-[#14213D] text-sm">
+              <span className="font-display font-extrabold text-[#172033] text-sm">
                 KhmerTutors Online
               </span>
               <span className="text-slate-300">·</span>
@@ -647,7 +642,7 @@ export default function App() {
             <div className="flex flex-wrap items-center gap-4">
               <a
                 href="mailto:support@khmertutors.com"
-                className="text-[#14213D] hover:text-[#2445C8] flex items-center gap-1 font-semibold"
+                className="text-[#172033] hover:text-[#2445C8] flex items-center gap-1 font-semibold"
               >
                 <Mail className="w-3.5 h-3.5 text-[#2445C8]" />
                 <span>support@khmertutors.com</span>
@@ -729,23 +724,23 @@ export default function App() {
           key={toastDetail.id}
           role="status"
           aria-live="polite"
-          className="fixed top-[72px] left-1/2 -translate-x-1/2 w-[calc(100%-32px)] max-w-sm sm:top-auto sm:bottom-6 sm:left-6 sm:translate-x-0 sm:w-auto sm:max-w-md z-50 bg-[#14213D]/95 backdrop-blur-md text-white px-3.5 py-2.5 rounded-2xl shadow-[0_10px_28px_rgba(20,33,61,0.18)] border border-white/12 text-xs font-medium flex items-center gap-2.5 animate-toast-in"
+          className="fixed top-[72px] left-1/2 -translate-x-1/2 w-[calc(100%-32px)] max-w-sm sm:top-auto sm:bottom-6 sm:left-6 sm:translate-x-0 sm:w-auto sm:max-w-md z-50 bg-[#172033]/95 backdrop-blur-md text-white px-3.5 py-2.5 rounded-2xl shadow-[0_10px_28px_rgba(20,33,61,0.18)] border border-white/12 text-xs font-medium flex items-center gap-2.5 animate-toast-in"
         >
           <span
             className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 ${
               toastDetail.variant === 'saved'
-                ? 'bg-[#F2A531]/18 text-[#F2A531]'
+                ? 'bg-[#F2B23A]/18 text-[#F2B23A]'
                 : toastDetail.variant === 'removed'
                 ? 'bg-white/10 text-slate-300'
-                : 'bg-[#F2A531]/15 text-[#F2A531]'
+                : 'bg-[#F2B23A]/15 text-[#F2B23A]'
             }`}
           >
             {toastDetail.variant === 'saved' ? (
-              <Heart className="w-3.5 h-3.5 fill-[#F2A531] text-[#F2A531]" />
+              <Heart className="w-3.5 h-3.5 fill-[#F2B23A] text-[#F2B23A]" />
             ) : toastDetail.variant === 'removed' ? (
               <Heart className="w-3.5 h-3.5 text-slate-300" />
             ) : (
-              <Sparkles className="w-3.5 h-3.5 text-[#F2A531] fill-[#F2A531]" />
+              <Sparkles className="w-3.5 h-3.5 text-[#F2B23A] fill-[#F2B23A]" />
             )}
           </span>
 
@@ -758,7 +753,7 @@ export default function App() {
                 toastDetail.onAction?.();
                 dismissToast();
               }}
-              className="text-[#F2A531] hover:text-amber-300 font-bold text-xs whitespace-nowrap px-1.5 py-0.5 rounded-lg hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+              className="text-[#F2B23A] hover:text-amber-300 font-bold text-xs whitespace-nowrap px-1.5 py-0.5 rounded-lg hover:bg-white/10 transition-colors cursor-pointer shrink-0"
             >
               {toastDetail.actionLabel}
             </button>

@@ -385,9 +385,9 @@ export const AdminPortalView: React.FC = () => {
   const reviewedNamespacesCount = namespaces.filter((n) => n.reviewStatus === 'Reviewed').length;
 
   return (
-    <div className="min-h-screen bg-[#F7F6F2] text-[#14213D] flex flex-col md:flex-row">
+    <div className="min-h-screen bg-[#F3F5F9] text-[#172033] flex flex-col md:flex-row">
       {/* ADMIN SIDEBAR */}
-      <aside className="w-full md:w-64 bg-[#14213D] text-white p-5 flex flex-col justify-between shrink-0 border-r border-slate-800">
+      <aside className="w-full md:w-64 bg-[#172033] text-white p-5 flex flex-col justify-between shrink-0 border-r border-slate-800">
         <div>
           <div className="flex items-center gap-3 pb-5 border-b border-white/10">
             <div className="w-10 h-10 rounded-xl bg-[#2445C8] text-white flex items-center justify-center shrink-0">
@@ -397,7 +397,7 @@ export const AdminPortalView: React.FC = () => {
               <div className="font-display font-extrabold text-sm tracking-tight text-white">
                 {t('nav.adminPortal')}
               </div>
-              <div className="text-[11px] text-[#F2A531] font-medium">Operations Console</div>
+              <div className="text-[11px] text-[#F2B23A] font-medium">Operations Console</div>
             </div>
           </div>
 
@@ -415,7 +415,7 @@ export const AdminPortalView: React.FC = () => {
                 <span className="whitespace-nowrap">Approvals Queue</span>
               </span>
               {pendingTutors.length > 0 && (
-                <span className="px-2 py-0.5 rounded-full bg-[#F2A531] text-[#14213D] font-mono font-bold text-[10px]">
+                <span className="px-2 py-0.5 rounded-full bg-[#F2B23A] text-[#172033] font-mono font-bold text-[10px]">
                   {pendingTutors.length}
                 </span>
               )}
@@ -446,7 +446,7 @@ export const AdminPortalView: React.FC = () => {
                 <span className="whitespace-nowrap">Payouts (ABA/Wing)</span>
               </span>
               {pendingPayoutTotal > 0 && (
-                <span className="text-[10px] bg-[#F2A531] text-[#14213D] px-1.5 py-0.5 rounded font-mono font-bold">
+                <span className="text-[10px] bg-[#F2B23A] text-[#172033] px-1.5 py-0.5 rounded font-mono font-bold">
                   ${pendingPayoutTotal}
                 </span>
               )}
@@ -521,7 +521,7 @@ export const AdminPortalView: React.FC = () => {
 
         <div className="hidden md:block pt-4 border-t border-white/10 text-[11px] text-slate-400">
           <div>KhmerTutors Online Admin</div>
-          <div className="text-[#F2A531] mt-0.5 font-mono">ABA Pay / KHQR / Wing</div>
+          <div className="text-[#F2B23A] mt-0.5 font-mono">ABA Pay / KHQR / Wing</div>
         </div>
       </aside>
 
@@ -534,14 +534,14 @@ export const AdminPortalView: React.FC = () => {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
-                <h1 className="font-display text-2xl font-extrabold text-[#14213D]">
+                <h1 className="font-display text-2xl font-extrabold text-[#172033]">
                   Tutor Application Approval Queue
                 </h1>
                 <p className="text-xs text-slate-600 mt-1">
                   Inspect each applicant's university student ID and listen to their spoken Khmer/English voice note before approving.
                 </p>
               </div>
-              <span className="self-start sm:self-auto text-xs bg-white border border-slate-200 px-3 py-1 rounded-full text-[#14213D] font-mono font-bold">
+              <span className="self-start sm:self-auto text-xs bg-white border border-slate-200 px-3 py-1 rounded-full text-[#172033] font-mono font-bold">
                 {pendingTutors.length} Pending
               </span>
             </div>
@@ -558,10 +558,10 @@ export const AdminPortalView: React.FC = () => {
                       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                         <div>
                           <div className="flex items-center gap-2.5 flex-wrap">
-                            <h3 className="font-display font-extrabold text-[#14213D] text-lg">
+                            <h3 className="font-display font-extrabold text-[#172033] text-lg">
                               {tutor.name}
                             </h3>
-                            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#F2A531]/20 text-[#14213D] border border-[#F2A531]/50 font-mono uppercase">
+                            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#F2B23A]/20 text-[#172033] border border-[#F2B23A]/50 font-mono uppercase">
                               Pending Review
                             </span>
                           </div>
@@ -575,23 +575,23 @@ export const AdminPortalView: React.FC = () => {
 
                         <div className="sm:text-right">
                           <div className="text-[11px] text-slate-500">Proposed Rates</div>
-                          <div className="text-sm font-black font-mono text-[#14213D] tabular-nums">
+                          <div className="text-sm font-black font-mono text-[#172033] tabular-nums">
                             ${tutor.trial_price.toFixed(2)} Trial · ${tutor.hourly_price.toFixed(2)}/hr
                           </div>
                         </div>
                       </div>
 
-                      <div className="p-3.5 rounded-xl bg-[#F7F6F2] border border-slate-200/70 text-xs text-slate-700">
-                        <strong className="text-[#14213D]">Bio: </strong>
+                      <div className="p-3.5 rounded-xl bg-[#F3F5F9] border border-slate-200/70 text-xs text-slate-700">
+                        <strong className="text-[#172033]">Bio: </strong>
                         {tutor.bio}
                       </div>
 
                       {/* Two Verification Artifacts: Student ID + Voice Note */}
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                         {/* Artifact A: University Student ID Card */}
-                        <div className="p-4 rounded-xl bg-[#F7F6F2] border border-slate-200 space-y-2.5">
+                        <div className="p-4 rounded-xl bg-[#F3F5F9] border border-slate-200 space-y-2.5">
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2 text-xs font-bold text-[#14213D]">
+                            <div className="flex items-center gap-2 text-xs font-bold text-[#172033]">
                               <BadgeCheck className="w-4 h-4 text-[#2445C8]" />
                               <span>University Student ID</span>
                             </div>
@@ -601,12 +601,12 @@ export const AdminPortalView: React.FC = () => {
                           </div>
 
                           <div className="bg-white border border-slate-200 rounded-lg p-3 flex items-center gap-3">
-                            <div className="w-11 h-14 rounded-md bg-[#14213D] text-white flex flex-col items-center justify-center text-[10px] font-mono shrink-0">
+                            <div className="w-11 h-14 rounded-md bg-[#172033] text-white flex flex-col items-center justify-center text-[10px] font-mono shrink-0">
                               <span>PHOTO</span>
-                              <span className="text-[#F2A531] font-bold">ID</span>
+                              <span className="text-[#F2B23A] font-bold">ID</span>
                             </div>
                             <div className="min-w-0 text-xs space-y-0.5">
-                              <div className="font-bold text-[#14213D] truncate">{tutor.name}</div>
+                              <div className="font-bold text-[#172033] truncate">{tutor.name}</div>
                               <div className="text-[11px] text-slate-600 truncate">
                                 {tutor.university}
                               </div>
@@ -618,9 +618,9 @@ export const AdminPortalView: React.FC = () => {
                         </div>
 
                         {/* Artifact B: Voice Note Player */}
-                        <div className="p-4 rounded-xl bg-[#F7F6F2] border border-slate-200 space-y-2.5">
+                        <div className="p-4 rounded-xl bg-[#F3F5F9] border border-slate-200 space-y-2.5">
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2 text-xs font-bold text-[#14213D]">
+                            <div className="flex items-center gap-2 text-xs font-bold text-[#172033]">
                               <Volume2 className="w-4 h-4 text-[#2445C8]" />
                               <span>Voice Note Sample</span>
                             </div>
@@ -686,7 +686,7 @@ export const AdminPortalView: React.FC = () => {
             ) : (
               <div className="bg-white border border-slate-200 rounded-2xl p-12 text-center text-slate-500">
                 <CheckCircle2 className="w-10 h-10 text-[#2445C8] mx-auto mb-2" />
-                <h3 className="font-display font-bold text-[#14213D] text-base">
+                <h3 className="font-display font-bold text-[#172033] text-base">
                   All tutor applications reviewed
                 </h3>
                 <p className="text-xs mt-1">
@@ -704,7 +704,7 @@ export const AdminPortalView: React.FC = () => {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h1 className="font-display text-2xl font-extrabold text-[#14213D]">
+                <h1 className="font-display text-2xl font-extrabold text-[#172033]">
                   Full Tutor Leaderboard
                 </h1>
                 <p className="text-xs text-slate-600 mt-1">
@@ -724,7 +724,7 @@ export const AdminPortalView: React.FC = () => {
                     className={`px-3 py-1.5 rounded-lg cursor-pointer transition-colors ${
                       leaderboardMetric === opt.id
                         ? 'bg-[#2445C8] text-white'
-                        : 'text-slate-600 hover:text-[#14213D]'
+                        : 'text-slate-600 hover:text-[#172033]'
                     }`}
                   >
                     {opt.label}
@@ -736,7 +736,7 @@ export const AdminPortalView: React.FC = () => {
             <div className="bg-white border border-slate-200/90 rounded-2xl overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-[#F7F6F2] text-slate-500 border-b border-slate-200 uppercase text-[10px] font-bold">
+                  <thead className="bg-[#F3F5F9] text-slate-500 border-b border-slate-200 uppercase text-[10px] font-bold">
                     <tr>
                       <th className="py-3 px-4">Rank</th>
                       <th className="py-3 px-4">Tutor</th>
@@ -749,21 +749,21 @@ export const AdminPortalView: React.FC = () => {
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {rankedTutors.map((tutor, idx) => (
-                      <tr key={tutor.id} className="hover:bg-[#F7F6F2]/60">
+                      <tr key={tutor.id} className="hover:bg-[#F3F5F9]/60">
                         <td className="py-3 px-4 font-mono font-bold">
                           <span
                             className={`inline-flex items-center justify-center w-6 h-6 rounded-md text-xs ${
                               idx < 3
-                                ? 'bg-[#F2A531] text-[#14213D]'
+                                ? 'bg-[#F2B23A] text-[#172033]'
                                 : 'bg-slate-100 text-slate-600'
                             }`}
                           >
                             {idx + 1}
                           </span>
                         </td>
-                        <td className="py-3 px-4 font-bold text-[#14213D]">{tutor.name}</td>
+                        <td className="py-3 px-4 font-bold text-[#172033]">{tutor.name}</td>
                         <td className="py-3 px-4 text-slate-600">{tutor.university}</td>
-                        <td className="py-3 px-4 font-mono font-bold text-[#14213D] tabular-nums">
+                        <td className="py-3 px-4 font-mono font-bold text-[#172033] tabular-nums">
                           {tutor.rating.toFixed(1)} ({tutor.reviewsCount})
                         </td>
                         <td className="py-3 px-4 font-mono tabular-nums text-[#2445C8] font-bold">
@@ -772,7 +772,7 @@ export const AdminPortalView: React.FC = () => {
                         <td className="py-3 px-4 font-mono tabular-nums text-slate-600">
                           {tutor.activeStudents}
                         </td>
-                        <td className="py-3 px-4 text-right font-mono font-bold text-[#14213D] tabular-nums">
+                        <td className="py-3 px-4 text-right font-mono font-bold text-[#172033] tabular-nums">
                           ${tutor.hourlyRate}/hr
                         </td>
                       </tr>
@@ -790,7 +790,7 @@ export const AdminPortalView: React.FC = () => {
         {activeTab === 'payouts' && (
           <div className="space-y-6">
             <div>
-              <h1 className="font-display text-2xl font-extrabold text-[#14213D]">
+              <h1 className="font-display text-2xl font-extrabold text-[#172033]">
                 Tutor Payout Requests (ABA / Wing)
               </h1>
               <p className="text-xs text-slate-600 mt-1">
@@ -809,12 +809,12 @@ export const AdminPortalView: React.FC = () => {
                       {p.method === 'ABA Bank' ? (
                         <Building2 className="w-5 h-5" />
                       ) : (
-                        <Smartphone className="w-5 h-5 text-[#F2A531]" />
+                        <Smartphone className="w-5 h-5 text-[#F2B23A]" />
                       )}
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-[#14213D] text-sm">{p.tutor_name}</span>
+                        <span className="font-bold text-[#172033] text-sm">{p.tutor_name}</span>
                         <span className="text-[#2445C8] font-mono font-black text-sm tabular-nums">
                           ${p.amount.toFixed(2)} USD
                         </span>
@@ -853,14 +853,14 @@ export const AdminPortalView: React.FC = () => {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h1 className="font-display text-2xl font-extrabold text-[#14213D]">
+                <h1 className="font-display text-2xl font-extrabold text-[#172033]">
                   Translation Coverage (EN / ខ្មែរ)
                 </h1>
                 <p className="text-xs text-slate-600 mt-1">
                   Track bilingual key coverage and coordinate native-speaker review of Khmer UI copy.
                 </p>
               </div>
-              <span className="self-start sm:self-auto px-3 py-1.5 rounded-xl bg-[#F2A531]/20 border border-[#F2A531] text-[#14213D] text-xs font-bold">
+              <span className="self-start sm:self-auto px-3 py-1.5 rounded-xl bg-[#F2B23A]/20 border border-[#F2B23A] text-[#172033] text-xs font-bold">
                 Khmer copy needs native-speaker review
               </span>
             </div>
@@ -868,7 +868,7 @@ export const AdminPortalView: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="bg-white border border-slate-200 rounded-2xl p-4">
                 <div className="text-xs text-slate-500 font-semibold">Total UI Keys</div>
-                <div className="text-2xl font-black font-mono text-[#14213D] mt-1 tabular-nums">
+                <div className="text-2xl font-black font-mono text-[#172033] mt-1 tabular-nums">
                   {totalKeysAll}
                 </div>
                 <div className="text-[11px] text-[#2445C8] font-semibold mt-0.5">
@@ -886,7 +886,7 @@ export const AdminPortalView: React.FC = () => {
 
               <div className="bg-white border border-slate-200 rounded-2xl p-4">
                 <div className="text-xs text-slate-500 font-semibold">Native-Speaker Sign-off</div>
-                <div className="text-2xl font-black font-mono text-[#14213D] mt-1 tabular-nums">
+                <div className="text-2xl font-black font-mono text-[#172033] mt-1 tabular-nums">
                   {reviewedNamespacesCount} / {namespaces.length}
                 </div>
                 <div className="text-[11px] text-amber-700 font-semibold mt-0.5">
@@ -898,7 +898,7 @@ export const AdminPortalView: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
               {/* Namespace List */}
               <div className="lg:col-span-5 bg-white border border-slate-200 rounded-2xl p-4 space-y-2">
-                <h3 className="font-display font-bold text-sm text-[#14213D] pb-2 border-b border-slate-100">
+                <h3 className="font-display font-bold text-sm text-[#172033] pb-2 border-b border-slate-100">
                   UI Namespaces
                 </h3>
                 {namespaces.map((ns) => (
@@ -908,16 +908,16 @@ export const AdminPortalView: React.FC = () => {
                     className={`w-full text-left p-3 rounded-xl border transition-all cursor-pointer ${
                       selectedNsId === ns.id
                         ? 'bg-[#2445C8]/8 border-[#2445C8]'
-                        : 'bg-[#F7F6F2] border-slate-200/70 hover:border-slate-300'
+                        : 'bg-[#F3F5F9] border-slate-200/70 hover:border-slate-300'
                     }`}
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-bold text-xs text-[#14213D]">{ns.name}</span>
+                      <span className="font-bold text-xs text-[#172033]">{ns.name}</span>
                       <span
                         className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                           ns.reviewStatus === 'Reviewed'
                             ? 'bg-[#2445C8]/15 text-[#2445C8]'
-                            : 'bg-[#F2A531]/25 text-[#14213D]'
+                            : 'bg-[#F2B23A]/25 text-[#172033]'
                         }`}
                       >
                         {ns.reviewStatus}
@@ -934,7 +934,7 @@ export const AdminPortalView: React.FC = () => {
               <div className="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-5 space-y-4">
                 <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                   <div>
-                    <h3 className="font-display font-bold text-base text-[#14213D]">
+                    <h3 className="font-display font-bold text-base text-[#172033]">
                       {selectedNamespace.name}
                     </h3>
                     <p className="text-xs text-slate-500">
@@ -947,7 +947,7 @@ export const AdminPortalView: React.FC = () => {
                   {selectedNamespace.samples.map((sample) => (
                     <div
                       key={sample.key}
-                      className="p-3.5 rounded-xl bg-[#F7F6F2] border border-slate-200/80 space-y-2"
+                      className="p-3.5 rounded-xl bg-[#F3F5F9] border border-slate-200/80 space-y-2"
                     >
                       <div className="flex items-center justify-between gap-2">
                         <code className="text-[11px] font-mono text-[#2445C8] font-bold">
@@ -961,7 +961,7 @@ export const AdminPortalView: React.FC = () => {
                           className={`px-2.5 py-1 rounded-lg text-[10px] font-bold cursor-pointer ${
                             sample.reviewed
                               ? 'bg-[#2445C8] text-white'
-                              : 'bg-[#F2A531]/30 text-[#14213D] border border-[#F2A531]'
+                              : 'bg-[#F2B23A]/30 text-[#172033] border border-[#F2B23A]'
                           }`}
                         >
                           {sample.reviewed ? 'Native Reviewed' : 'Needs Native Review'}
@@ -972,13 +972,13 @@ export const AdminPortalView: React.FC = () => {
                           <div className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">
                             EN
                           </div>
-                          <div className="text-[#14213D] font-medium">{sample.en}</div>
+                          <div className="text-[#172033] font-medium">{sample.en}</div>
                         </div>
                         <div className="bg-white p-2.5 rounded-lg border border-slate-200">
                           <div className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">
                             ខ្មែរ (Draft)
                           </div>
-                          <div className="text-[#14213D] font-medium">{sample.km}</div>
+                          <div className="text-[#172033] font-medium">{sample.km}</div>
                         </div>
                       </div>
                     </div>
@@ -1004,7 +1004,7 @@ export const AdminPortalView: React.FC = () => {
         {activeTab === 'overview' && (
           <div className="space-y-6">
             <div>
-              <h1 className="font-display text-2xl font-extrabold text-[#14213D]">
+              <h1 className="font-display text-2xl font-extrabold text-[#172033]">
                 Platform Health & Metrics
               </h1>
               <p className="text-xs text-slate-600 mt-1">
@@ -1018,7 +1018,7 @@ export const AdminPortalView: React.FC = () => {
                   <span>Total Users</span>
                   <Users className="w-4 h-4 text-[#2445C8]" />
                 </div>
-                <div className="text-2xl font-black font-mono text-[#14213D] mt-2 tabular-nums">
+                <div className="text-2xl font-black font-mono text-[#172033] mt-2 tabular-nums">
                   1,248
                 </div>
                 <div className="text-[11px] text-[#2445C8] mt-1 flex items-center gap-1 font-semibold">
@@ -1030,9 +1030,9 @@ export const AdminPortalView: React.FC = () => {
               <div className="bg-white border border-slate-200 rounded-2xl p-5">
                 <div className="flex items-center justify-between text-xs text-slate-500">
                   <span>Verified Tutors</span>
-                  <GraduationCap className="w-4 h-4 text-[#F2A531]" />
+                  <GraduationCap className="w-4 h-4 text-[#F2B23A]" />
                 </div>
-                <div className="text-2xl font-black font-mono text-[#14213D] mt-2 tabular-nums">
+                <div className="text-2xl font-black font-mono text-[#172033] mt-2 tabular-nums">
                   84
                 </div>
                 <div className="text-[11px] text-amber-700 font-semibold mt-1">
@@ -1045,7 +1045,7 @@ export const AdminPortalView: React.FC = () => {
                   <span>Monthly Lessons</span>
                   <Calendar className="w-4 h-4 text-[#2445C8]" />
                 </div>
-                <div className="text-2xl font-black font-mono text-[#14213D] mt-2 tabular-nums">
+                <div className="text-2xl font-black font-mono text-[#172033] mt-2 tabular-nums">
                   612
                 </div>
                 <div className="text-[11px] text-slate-600 mt-1">98.4% completion rate</div>
@@ -1056,7 +1056,7 @@ export const AdminPortalView: React.FC = () => {
                   <span>Platform GMV</span>
                   <DollarSign className="w-4 h-4 text-[#2445C8]" />
                 </div>
-                <div className="text-2xl font-black font-mono text-[#14213D] mt-2 tabular-nums">
+                <div className="text-2xl font-black font-mono text-[#172033] mt-2 tabular-nums">
                   $3,840.00
                 </div>
                 <div className="text-[11px] text-slate-500 mt-1">ABA Pay / KHQR / Card</div>
@@ -1064,11 +1064,11 @@ export const AdminPortalView: React.FC = () => {
             </div>
 
             {pendingTutors.length > 0 && (
-              <div className="p-4 rounded-2xl bg-[#F2A531]/15 border border-[#F2A531] flex items-center justify-between gap-4">
+              <div className="p-4 rounded-2xl bg-[#F2B23A]/15 border border-[#F2B23A] flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <AlertTriangle className="w-5 h-5 text-[#14213D] shrink-0" />
+                  <AlertTriangle className="w-5 h-5 text-[#172033] shrink-0" />
                   <div>
-                    <div className="text-xs font-bold text-[#14213D]">
+                    <div className="text-xs font-bold text-[#172033]">
                       {pendingTutors.length} Tutor Applications Waiting Verification
                     </div>
                     <div className="text-[11px] text-slate-700">
@@ -1078,7 +1078,7 @@ export const AdminPortalView: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setActiveTab('tutors')}
-                  className="px-4 py-2 rounded-xl bg-[#14213D] text-white font-bold text-xs cursor-pointer shrink-0"
+                  className="px-4 py-2 rounded-xl bg-[#172033] text-white font-bold text-xs cursor-pointer shrink-0"
                 >
                   Open Approvals Queue
                 </button>
@@ -1094,7 +1094,7 @@ export const AdminPortalView: React.FC = () => {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 className="font-display text-2xl font-extrabold text-[#14213D]">
+                <h1 className="font-display text-2xl font-extrabold text-[#172033]">
                   User Accounts & Roles
                 </h1>
                 <p className="text-xs text-slate-600 mt-1">
@@ -1110,14 +1110,14 @@ export const AdminPortalView: React.FC = () => {
                     placeholder="Search name or email..."
                     value={userSearch}
                     onChange={(e) => setUserSearch(e.target.value)}
-                    className="pl-9 pr-4 py-1.5 bg-white border border-slate-200 rounded-xl text-xs text-[#14213D] focus:outline-hidden focus:border-[#2445C8]"
+                    className="pl-9 pr-4 py-1.5 bg-white border border-slate-200 rounded-xl text-xs text-[#172033] focus:outline-hidden focus:border-[#2445C8]"
                   />
                 </div>
 
                 <select
                   value={roleFilter}
                   onChange={(e) => setRoleFilter(e.target.value)}
-                  className="px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs text-[#14213D] focus:outline-hidden"
+                  className="px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs text-[#172033] focus:outline-hidden"
                 >
                   <option value="ALL">All Roles</option>
                   <option value="STUDENT">Students</option>
@@ -1130,7 +1130,7 @@ export const AdminPortalView: React.FC = () => {
             <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-[#F7F6F2] text-slate-500 border-b border-slate-200">
+                  <thead className="bg-[#F3F5F9] text-slate-500 border-b border-slate-200">
                     <tr>
                       <th className="py-3 px-4 font-bold">User</th>
                       <th className="py-3 px-4 font-bold">Role(s)</th>
@@ -1141,9 +1141,9 @@ export const AdminPortalView: React.FC = () => {
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {filteredUsers.map((u) => (
-                      <tr key={u.id} className="hover:bg-[#F7F6F2]/50">
+                      <tr key={u.id} className="hover:bg-[#F3F5F9]/50">
                         <td className="py-3 px-4">
-                          <div className="font-bold text-[#14213D]">{u.name}</div>
+                          <div className="font-bold text-[#172033]">{u.name}</div>
                           <div className="text-[11px] text-slate-500">{u.email}</div>
                         </td>
                         <td className="py-3 px-4">
@@ -1167,7 +1167,7 @@ export const AdminPortalView: React.FC = () => {
                           {u.id !== 1 && (
                             <button
                               onClick={() => handleToggleUserStatus(u.id)}
-                              className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-[#F7F6F2] hover:bg-slate-200 text-[#14213D] cursor-pointer"
+                              className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-[#F3F5F9] hover:bg-slate-200 text-[#172033] cursor-pointer"
                             >
                               {u.status === 'active' ? 'Suspend' : 'Activate'}
                             </button>
@@ -1188,7 +1188,7 @@ export const AdminPortalView: React.FC = () => {
         {activeTab === 'audit' && (
           <div className="space-y-6">
             <div>
-              <h1 className="font-display text-2xl font-extrabold text-[#14213D]">
+              <h1 className="font-display text-2xl font-extrabold text-[#172033]">
                 Security & Audit Trail
               </h1>
               <p className="text-xs text-slate-600 mt-1">
@@ -1216,9 +1216,9 @@ export const AdminPortalView: React.FC = () => {
 
       {/* Reject Reason Modal */}
       {rejectingTutorId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#14213D]/60 backdrop-blur-xs">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#172033]/60 backdrop-blur-xs">
           <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
-            <h3 className="font-display font-bold text-[#14213D] text-base">
+            <h3 className="font-display font-bold text-[#172033] text-base">
               Reject Tutor Application
             </h3>
             <p className="text-xs text-slate-600">
@@ -1228,12 +1228,12 @@ export const AdminPortalView: React.FC = () => {
               rows={3}
               value={rejectReason}
               onChange={(e) => setRejectReason(e.target.value)}
-              className="w-full px-3 py-2 bg-[#F7F6F2] border border-slate-200 rounded-xl text-xs text-[#14213D] focus:outline-hidden focus:border-rose-500"
+              className="w-full px-3 py-2 bg-[#F3F5F9] border border-slate-200 rounded-xl text-xs text-[#172033] focus:outline-hidden focus:border-rose-500"
             />
             <div className="flex justify-end gap-2 pt-2">
               <button
                 onClick={() => setRejectingTutorId(null)}
-                className="px-4 py-2 text-xs font-semibold text-slate-500 hover:text-[#14213D] cursor-pointer"
+                className="px-4 py-2 text-xs font-semibold text-slate-500 hover:text-[#172033] cursor-pointer"
               >
                 Cancel
               </button>

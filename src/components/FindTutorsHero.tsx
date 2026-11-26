@@ -1,25 +1,14 @@
 import React from 'react';
-import {
-  Tag,
-  Search,
-  Star,
-  ShieldCheck,
-  GraduationCap,
-  Clock,
-  CheckCircle2,
-  Calendar,
-  Users,
-  ArrowDown,
-  MessageSquare,
-} from 'lucide-react';
 import { Tutor } from '../data/tutorsData';
 import { useLanguage } from '../context/LanguageContext';
 
 interface FindTutorsHeroProps {
   onFindTutorClick: () => void;
   onBookTrialClick: () => void;
+  /** Opens the "teach with us" page for Cambodian students. */
+  onTeachClick?: () => void;
   featuredTutor?: Tutor;
-  /** All listed tutors: the trust ribbon is computed from these, never hardcoded. */
+  /** All listed tutors: the facts line is computed from these, never hardcoded. */
   tutors?: Tutor[];
   onOpenVideoModal?: (tutor: Tutor) => void;
 }
@@ -30,251 +19,110 @@ function universityShortName(name: string): string {
   return m ? m[1] : name.replace(/ (Engineering School|Phnom Penh)$/, '');
 }
 
+/** Words a newcomer uses in their first week. Romanization is a guide; tutors teach the sounds. */
+const FIRST_WEEK_PHRASES: { km: string; roman: string; en: string; kmGloss: string }[] = [
+  { km: 'អរគុណ', roman: 'arkun', en: 'Thank you', kmGloss: 'អរគុណ' },
+  { km: 'ថ្លៃប៉ុន្មាន?', roman: 'thlai ponmaan?', en: 'How much is it?', kmGloss: 'សួរតម្លៃ' },
+  { km: 'ឈប់នៅទីនេះ', roman: 'chhup nov tii nih', en: 'Stop here, please', kmGloss: 'ប្រាប់អ្នកបើកឡានឲ្យឈប់' },
+  { km: 'ខ្ញុំមិនយល់ទេ', roman: 'knhom min yul te', en: "I don't understand", kmGloss: 'ពេលស្តាប់មិនយល់' },
+  { km: 'ឆ្ងាញ់ណាស់', roman: 'chhnganh nah', en: 'Delicious!', kmGloss: 'សរសើរម្ហូប' },
+];
+
 export const FindTutorsHero: React.FC<FindTutorsHeroProps> = ({
   onFindTutorClick,
-  onBookTrialClick,
-  featuredTutor,
+  onTeachClick,
   tutors = [],
 }) => {
-  const { t, language } = useLanguage();
-  const displayTutor = featuredTutor;
+  const { language } = useLanguage();
   const km = language === 'km';
 
-  // Facts shown in the ribbon come from the listed tutors, so they are always true.
+  // Facts come from the listed tutors, so they are always true.
   const tutorCount = tutors.length;
   const universities = Array.from(new Set(tutors.map((tu) => universityShortName(tu.university))));
-  const minTrial = tutors.length ? Math.min(...tutors.map((tu) => tu.trialPrice)) : displayTutor?.trialPrice ?? 3;
-  const firstName = displayTutor?.name.split(' ')[0];
+  const minTrial = tutors.length ? Math.min(...tutors.map((tu) => tu.trialPrice)) : 3;
+  const namedUnis = universities.filter((u) => /^[A-Z]{2,5}$/.test(u)).slice(0, 2);
 
   return (
-    <div className="bg-[#F7F6F2] border-b border-slate-200/90 pt-6 sm:pt-10 lg:pt-12 pb-8 sm:pb-12 overflow-hidden">
-      <div className="max-w-[1280px] w-full mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Column */}
-          <div className="lg:col-span-7 space-y-4 sm:space-y-6">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#2445C8] bg-[#2445C8]/8 border border-[#2445C8]/20 px-3 py-1 rounded-full">
-                <ShieldCheck className="w-4 h-4 stroke-[2]" />
-                <span>{t('hero.kicker')}</span>
-              </span>
-              <span className="text-xs text-slate-500 font-medium">· Phnom Penh</span>
-            </div>
+    <section className="bg-white">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-8 pt-10 sm:pt-16 pb-14 sm:pb-20 grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        {/* Left: the word, the promise, the action */}
+        <div className="lg:col-span-7">
+          <p lang="km" className="font-moul text-[#172033] text-[72px] sm:text-[104px] leading-[1.45] -ml-1">
+            សួស្តី
+          </p>
+          <p className="mt-1 text-[15px] text-[#545B70] max-w-[46ch]">
+            {km ? (
+              'ពាក្យដំបូងដែលគ្រូរបស់អ្នកនឹងបង្រៀន។'
+            ) : (
+              <>
+                <em className="not-italic font-semibold text-[#172033]">Suosdei</em> means hello. It is the first
+                thing your tutor will teach you.
+              </>
+            )}
+          </p>
 
-            <h1 className="font-display hero-headline font-extrabold text-[#14213D] tracking-tight">
-              {t('hero.title')}
-            </h1>
+          <h1 className="mt-8 text-[34px] sm:text-[48px] leading-[1.1] font-bold text-[#172033] max-w-[17ch] text-balance">
+            {km ? 'រៀនភាសាខ្មែរផ្ទាល់ខ្លួន ជាមួយនិស្សិតសាកលវិទ្យាល័យកម្ពុជា' : 'Learn Khmer one‑on‑one with Cambodian university students'}
+          </h1>
+          <p className="mt-5 text-lg leading-relaxed text-[#545B70] max-w-[52ch]">
+            {km
+              ? `ជ្រើសគ្រូ កក់មេរៀនសាកល្បង ៣០ នាទី ចាប់ពី $${minTrial} ហើយហាត់និយាយភាសាខ្មែរដែលអ្នកត្រូវការ។`
+              : `Choose a tutor, book a 30-minute trial from $${minTrial}, and practise the Khmer you need at the market, at work or around the family table.`}
+          </p>
 
-            <p className="body-fluid text-slate-600 font-normal leading-relaxed max-w-2xl">
-              {t('hero.subtitle')}
+          <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+            <button
+              onClick={onFindTutorClick}
+              className="h-12 px-6 rounded-[10px] bg-[#2445C8] hover:bg-[#1C37A3] text-white text-base font-semibold transition-colors cursor-pointer"
+            >
+              {km ? 'ស្វែងរកគ្រូ' : 'Find a tutor'}
+            </button>
+            {onTeachClick && (
+              <button
+                onClick={onTeachClick}
+                className="text-left text-[15px] font-medium text-[#172033] underline decoration-[#2445C8]/40 underline-offset-4 hover:decoration-[#2445C8] cursor-pointer"
+              >
+                {km ? 'ខ្ញុំជានិស្សិត ហើយចង់បង្រៀន' : "I'm a Cambodian student and want to teach"}
+              </button>
+            )}
+          </div>
+
+          {tutorCount > 0 && (
+            <p className="mt-8 text-[15px] text-[#545B70]">
+              {km
+                ? `គ្រូ ${tutorCount} នាក់ មកពីសាកលវិទ្យាល័យ ${universities.length}។ គ្មានការជាវប្រចាំ បង់តាមមេរៀន។`
+                : `${tutorCount} tutors from ${universities.length} universities${
+                    namedUnis.length ? `, including ${namedUnis.join(' and ')}` : ''
+                  }. No subscription: you pay per lesson.`}
             </p>
-
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1 sm:pt-2">
-              <button
-                onClick={onFindTutorClick}
-                className="w-full sm:w-auto min-h-[48px] px-6 py-3.5 rounded-xl bg-[#2445C8] hover:bg-[#1c37a4] text-white font-bold text-sm sm:text-base shadow-sm transition-all flex items-center justify-center gap-2 group cursor-pointer"
-              >
-                <Search className="w-5 h-5 stroke-[2]" />
-                <span>{t('hero.ctaPrimary')}</span>
-                <ArrowDown className="w-4 h-4 group-hover:translate-y-0.5 transition-transform stroke-[2]" />
-              </button>
-
-              <button
-                onClick={onBookTrialClick}
-                className="w-full sm:w-auto min-h-[48px] px-6 py-3.5 rounded-xl bg-[#14213D] hover:bg-[#1f3157] text-white font-bold text-sm sm:text-base shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <Calendar className="w-5 h-5 text-[#F2A531] stroke-[2]" />
-                <span>
-                  {displayTutor
-                    ? km
-                      ? `កក់មេរៀនសាកល្បងជាមួយ ${firstName} · $${displayTutor.trialPrice}`
-                      : `Book a $${displayTutor.trialPrice} trial with ${firstName}`
-                    : t('hero.ctaSecondary')}
-                </span>
-              </button>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs text-slate-600 pt-1">
-              <span className="flex items-center gap-1.5 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-[#2445C8] stroke-[2]" />
-                <span>{t('hero.guarantee1')}</span>
-              </span>
-              <span className="text-slate-300 hidden sm:inline">·</span>
-              <span className="flex items-center gap-1.5 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-[#2445C8] stroke-[2]" />
-                <span>{t('hero.guarantee2')}</span>
-              </span>
-            </div>
-          </div>
-
-          {/* Right Column: Featured Tutor Card */}
-          <div className="lg:col-span-5 w-full max-w-[480px] mx-auto lg:max-w-none">
-            <div className="relative">
-              <div className="relative z-10 bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-6 shadow-[0_12px_32px_rgba(20,33,61,0.06)] space-y-4">
-                <div className="relative rounded-2xl bg-[#14213D] p-3.5 sm:p-4 text-white overflow-hidden">
-                  <div className="flex items-center justify-between pb-2.5 border-b border-white/10">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#F2A531]" />
-                      <span className="text-[10px] sm:text-[11px] font-bold tracking-wider uppercase text-[#F2A531]">
-                        1-on-1 Class Preview
-                      </span>
-                    </div>
-                    <span className="text-[10px] bg-white/10 px-2 py-0.5 rounded-full font-mono">
-                      Phnom Penh · ICT
-                    </span>
-                  </div>
-
-                  <div className="py-3 flex items-center gap-3 sm:gap-3.5">
-                    <div className="relative shrink-0">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#2445C8] text-white font-display font-bold text-lg sm:text-xl flex items-center justify-center border border-white/20">
-                        {displayTutor?.initials || 'BS'}
-                      </div>
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="font-display font-bold text-sm sm:text-base text-white truncate">
-                          {displayTutor?.name || 'Bopha Seng'}
-                        </span>
-                        <span className="text-[10px] bg-[#F2A531] text-[#14213D] font-bold px-1.5 py-0.5 rounded font-mono">
-                          Super Tutor
-                        </span>
-                      </div>
-                      <div className="text-xs text-slate-300 flex items-center gap-1 mt-0.5 truncate">
-                        <GraduationCap className="w-3.5 h-3.5 text-[#F2A531] shrink-0 stroke-[2]" />
-                        <span className="truncate">
-                          {displayTutor?.university || 'Royal University of Phnom Penh (RUPP)'}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-1 p-2.5 rounded-xl bg-white/8 border border-white/10 text-xs text-slate-100 flex items-start gap-2">
-                    <MessageSquare className="w-4 h-4 text-[#F2A531] shrink-0 mt-0.5" />
-                    <span className="italic leading-snug text-[11px] sm:text-xs">
-                      “សួស្តី! Let us practice directing a tuk-tuk and ordering iced coffee.”
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between pt-1">
-                  <div>
-                    <div className="flex items-center gap-1 text-[#14213D]">
-                      <Star className="w-4 h-4 text-[#F2A531] fill-[#F2A531] stroke-[2]" />
-                      <span className="font-mono font-bold text-sm">
-                        {(displayTutor?.rating ?? 5.0).toFixed(1)}
-                      </span>
-                      <span className="text-xs text-slate-500 font-medium">
-                        ({displayTutor?.reviewsCount ?? 48} reviews)
-                      </span>
-                    </div>
-                    <div className="text-xs text-slate-500 mt-0.5 font-mono">
-                      <strong className="text-[#14213D] font-bold">
-                        ${(displayTutor?.trialPrice ?? 4).toFixed(2)}
-                      </strong>{' '}
-                      trial · ${displayTutor?.hourlyRate ?? 8}/hr
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={onBookTrialClick}
-                    className="min-h-[40px] px-4 py-2 bg-[#2445C8] hover:bg-[#1c37a4] text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
-                  >
-                    <span>Book Trial</span>
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
-                  <div className="bg-[#F7F6F2] border border-slate-200/80 rounded-xl px-2.5 py-1.5 flex items-center gap-2 text-xs">
-                    <ShieldCheck className="w-4 h-4 text-[#2445C8] shrink-0 stroke-[2]" />
-                    <div className="truncate">
-                      <div className="font-bold text-[#14213D] text-[10px] sm:text-[11px] truncate">
-                        {km ? 'ពិនិត្យកាតនិស្សិត' : 'Student ID checked'}
-                      </div>
-                      <div className="text-[11px] text-slate-600 truncate">{km ? 'មុនពេលបង្ហាញ' : 'Before listing'}</div>
-                    </div>
-                  </div>
-
-                  <div className="bg-[#F7F6F2] border border-slate-200/80 rounded-xl px-2.5 py-1.5 flex items-center gap-2 text-xs">
-                    <Clock className="w-4 h-4 text-[#F2A531] shrink-0 stroke-[2]" />
-                    <div className="truncate">
-                      <div className="font-bold text-[#14213D] text-[10px] sm:text-[11px] truncate">
-                        {km ? 'សាកល្បង ៣០ នាទី' : '30-min trial'}
-                      </div>
-                      <div className="text-[11px] text-slate-600 truncate">{km ? 'ងាយស្រួល គ្មានសម្ពាធ' : 'Low-pressure start'}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
 
-        {/* Trust Signals Ribbon */}
-        <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-slate-200/80">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
-            <div className="flex items-start gap-2.5 sm:gap-3 p-2 rounded-xl">
-              <div className="w-10 h-10 rounded-xl bg-[#2445C8]/10 border border-[#2445C8]/20 text-[#2445C8] flex items-center justify-center shrink-0">
-                <Users className="w-5 h-5 stroke-[2]" />
-              </div>
-              <div className="min-w-0">
-                <div className="text-lg sm:text-2xl font-black text-[#14213D] font-display tabular-nums">
-                  {tutorCount}
-                </div>
-                <div className="text-xs font-bold text-[#14213D] truncate">{t('hero.stat1')}</div>
-                <div className="text-xs text-slate-600 leading-tight hidden sm:block">
-                  {km ? 'និស្សិតសាកលវិទ្យាល័យ' : 'Native-speaker university students'}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-2.5 sm:gap-3 p-2 rounded-xl">
-              <div className="w-10 h-10 rounded-xl bg-[#F2A531]/15 border border-[#F2A531]/30 text-[#14213D] flex items-center justify-center shrink-0">
-                <Tag className="w-5 h-5 text-[#14213D] stroke-[2]" />
-              </div>
-              <div className="min-w-0">
-                <div className="text-lg sm:text-2xl font-black text-[#14213D] font-display tabular-nums">
-                  ${minTrial}
-                </div>
-                <div className="text-xs font-bold text-[#14213D] truncate">{t('hero.stat2')}</div>
-                <div className="text-xs text-slate-600 leading-tight hidden sm:block">
-                  {km ? 'មេរៀនសាកល្បង ៣០ នាទី' : '30-minute trial lesson'}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-2.5 sm:gap-3 p-2 rounded-xl">
-              <div className="w-10 h-10 rounded-xl bg-[#14213D]/8 border border-[#14213D]/15 text-[#14213D] flex items-center justify-center shrink-0">
-                <Calendar className="w-5 h-5 stroke-[2]" />
-              </div>
-              <div className="min-w-0">
-                <div className="text-lg sm:text-2xl font-black text-[#14213D] font-display tabular-nums">
-                  1-on-1
-                </div>
-                <div className="text-xs font-bold text-[#14213D] truncate">{t('hero.stat3')}</div>
-                <div className="text-xs text-slate-600 leading-tight hidden sm:block">
-                  {km ? 'ជ្រើសម៉ោងដែលអ្នកទំនេរ' : 'At times that suit you'}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-2.5 sm:gap-3 p-2 rounded-xl">
-              <div className="w-10 h-10 rounded-xl bg-[#2445C8]/10 border border-[#2445C8]/20 text-[#2445C8] flex items-center justify-center shrink-0">
-                <GraduationCap className="w-5 h-5 stroke-[2]" />
-              </div>
-              <div className="min-w-0">
-                <div className="text-lg sm:text-2xl font-black text-[#14213D] font-display tabular-nums">
-                  {universities.length}
-                </div>
-                <div className="text-xs font-bold text-[#14213D] truncate">{t('hero.stat4')}</div>
-                <div className="text-xs text-slate-600 leading-tight hidden sm:block truncate" title={universities.join(' · ')}>
-                  {universities.slice(0, 4).join(' · ')}
-                  {universities.length > 4 ? ' …' : ''}
-                </div>
-              </div>
-            </div>
+        {/* Right: a page from a learner's notebook */}
+        <aside className="lg:col-span-5 lg:mt-6" aria-labelledby="first-week-heading">
+          <div className="rounded-[14px] bg-[#EEF2F7] px-6 sm:px-7 pt-6 pb-5">
+            <h2 id="first-week-heading" className="text-lg font-semibold text-[#172033]">
+              {km ? 'ពាក្យសម្រាប់សប្ដាហ៍ដំបូង' : 'Your first week in Khmer'}
+            </h2>
+            <ul className="ruled mt-3">
+              {FIRST_WEEK_PHRASES.map((ph) => (
+                <li key={ph.km} className="py-3.5 grid grid-cols-[1fr_auto] gap-x-4 items-baseline">
+                  <span lang="km" className="text-[22px] font-semibold text-[#172033] leading-snug">
+                    {ph.km}
+                  </span>
+                  <span className="text-[15px] text-[#172033] text-right">{km ? ph.kmGloss : ph.en}</span>
+                  <span className="text-sm italic text-[#545B70]">{ph.roman}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-2 text-sm text-[#545B70]">
+              {km
+                ? 'អក្សរឡាតាំងគ្រាន់តែជាជំនួយ។ គ្រូនឹងជួយអ្នកពីការបញ្ចេញសំឡេង។'
+                : 'The spelling in Latin letters is only a guide. Your tutor will help you with the sounds.'}
+            </p>
           </div>
-        </div>
+        </aside>
       </div>
-    </div>
+    </section>
   );
 };

@@ -41,13 +41,13 @@ const DevRoleSwitcherInner: React.FC<{
   };
 
   return (
-    <div className="bg-[#14213D] border-t border-white/10 text-white py-2.5 px-4 sm:px-6">
+    <div className="bg-[#172033] border-t border-white/10 text-white py-2.5 px-4 sm:px-6">
       <div
         className="max-w-[1280px] w-full mx-auto flex flex-wrap items-center justify-between gap-3 relative"
         ref={menuRef}
       >
         <div className="flex items-center gap-2 text-xs">
-          <span className="px-2 py-0.5 rounded bg-[#F2A531] text-[#14213D] font-mono font-bold text-[10px] uppercase">
+          <span className="px-2 py-0.5 rounded bg-[#F2B23A] text-[#172033] font-mono font-bold text-[10px] uppercase">
             DEV ONLY
           </span>
           <span className="text-slate-300">
@@ -62,7 +62,7 @@ const DevRoleSwitcherInner: React.FC<{
           aria-expanded={isOpen}
         >
           <span className="text-slate-300 font-medium">Active Role:</span>
-          <span className="font-bold text-[#F2A531]">{getRoleLabel()}</span>
+          <span className="font-bold text-[#F2B23A]">{getRoleLabel()}</span>
           {isOpen ? (
             <ChevronDown className="w-3.5 h-3.5 text-slate-300" />
           ) : (
@@ -71,9 +71,9 @@ const DevRoleSwitcherInner: React.FC<{
         </button>
 
         {isOpen && (
-          <div className="absolute bottom-11 right-0 w-72 max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-2xl border border-slate-200 p-3 text-xs text-[#14213D] z-50">
+          <div className="absolute bottom-11 right-0 w-72 max-w-[calc(100vw-32px)] bg-white rounded-2xl shadow-2xl border border-slate-200 p-3 text-xs text-[#172033] z-50">
             <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-100">
-              <span className="font-bold text-[#14213D]">Switch Test Account</span>
+              <span className="font-bold text-[#172033]">Switch Test Account</span>
               <span className="text-[10px] text-slate-400 font-mono">DEV BUILD</span>
             </div>
 
@@ -87,7 +87,7 @@ const DevRoleSwitcherInner: React.FC<{
                 className={`w-full text-left p-2 rounded-xl flex items-center justify-between transition-colors cursor-pointer ${
                   isAuthenticated && activeRole === 'STUDENT' && !isDualRole
                     ? 'bg-[#2445C8]/10 text-[#2445C8] font-bold'
-                    : 'hover:bg-[#F7F6F2]'
+                    : 'hover:bg-[#F3F5F9]'
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -111,7 +111,7 @@ const DevRoleSwitcherInner: React.FC<{
                 className={`w-full text-left p-2 rounded-xl flex items-center justify-between transition-colors cursor-pointer ${
                   isAuthenticated && activeRole === 'TUTOR' && !isPendingTutor
                     ? 'bg-[#2445C8]/10 text-[#2445C8] font-bold'
-                    : 'hover:bg-[#F7F6F2]'
+                    : 'hover:bg-[#F3F5F9]'
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -134,18 +134,18 @@ const DevRoleSwitcherInner: React.FC<{
                 }}
                 className={`w-full text-left p-2 rounded-xl flex items-center justify-between transition-colors cursor-pointer ${
                   isAuthenticated && activeRole === 'TUTOR' && isPendingTutor
-                    ? 'bg-[#F2A531]/20 text-[#14213D] font-bold'
-                    : 'hover:bg-[#F7F6F2]'
+                    ? 'bg-[#F2B23A]/20 text-[#172033] font-bold'
+                    : 'hover:bg-[#F3F5F9]'
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <GraduationCap className="w-4 h-4 text-[#F2A531]" />
+                  <GraduationCap className="w-4 h-4 text-[#F2B23A]" />
                   <div>
                     <div className="font-bold">Tutor Pending (Visal Rath)</div>
                     <div className="text-[10px] text-slate-500">3-step review tracker</div>
                   </div>
                 </div>
-                <span className="text-[10px] bg-[#F2A531]/30 text-[#14213D] px-1.5 py-0.5 rounded font-bold">
+                <span className="text-[10px] bg-[#F2B23A]/30 text-[#172033] px-1.5 py-0.5 rounded font-bold">
                   PENDING
                 </span>
               </button>
@@ -158,18 +158,18 @@ const DevRoleSwitcherInner: React.FC<{
                 }}
                 className={`w-full text-left p-2 rounded-xl flex items-center justify-between transition-colors cursor-pointer ${
                   isAuthenticated && activeRole === 'ADMIN'
-                    ? 'bg-[#14213D] text-white font-bold'
-                    : 'hover:bg-[#F7F6F2]'
+                    ? 'bg-[#172033] text-white font-bold'
+                    : 'hover:bg-[#F3F5F9]'
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-[#F2A531]" />
+                  <Shield className="w-4 h-4 text-[#F2B23A]" />
                   <div>
                     <div className="font-bold">Admin (Dara Sovann)</div>
                     <div className="text-[10px] opacity-75">Approvals, leaderboard, payouts</div>
                   </div>
                 </div>
-                <span className="text-[10px] bg-[#F2A531] text-[#14213D] px-1.5 py-0.5 rounded font-bold">
+                <span className="text-[10px] bg-[#F2B23A] text-[#172033] px-1.5 py-0.5 rounded font-bold">
                   ADMIN
                 </span>
               </button>
