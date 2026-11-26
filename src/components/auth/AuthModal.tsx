@@ -181,58 +181,27 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         className="relative w-full max-w-4xl bg-white rounded-[14px] shadow-2xl border border-slate-200 overflow-hidden z-10 flex flex-col md:flex-row max-h-[94vh]"
       >
         
-        {/* LEFT PANE: Split Branding with Vector Skyline & Value Props */}
-        <div className="hidden md:flex md:w-5/12 bg-[#172033] text-white p-6 sm:p-8 flex-col justify-between relative overflow-hidden shrink-0">
-          {/* Subtle Angkor glow backdrop */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-
-          {/* Top Lockup */}
-          <div className="relative z-10">
+        {/* LEFT PANE: the same voice as the home page — a Khmer word, then plain facts */}
+        <div className="hidden md:flex md:w-5/12 bg-[#172033] text-white flex-col shrink-0">
+          <div className="krama-band" aria-hidden="true" />
+          <div className="flex-1 flex flex-col p-8">
             <div className="flex items-center gap-2.5">
-              <div className="h-10 w-11 rounded-[10px] bg-white/95 border border-white/20 flex items-center justify-center p-1 shadow-inner">
-                <img 
-                  src="/assets/logo_kto_new.png" 
-                  alt="KhmerTutors Logo" 
-                  className="w-full h-full object-contain" 
-                />
-              </div>
-              <div>
-                <span className="font-extrabold text-lg tracking-tight block">KhmerTutors Online</span>
-                <span className="text-[11px] text-blue-200 font-medium">1-on-1 Khmer lessons online</span>
-              </div>
+              <img src="/assets/logo_kto_new.png" alt="" className="h-9 w-10 object-contain brightness-0 invert" />
+              <span className="font-semibold text-lg">KhmerTutors Online</span>
             </div>
 
-            <div className="mt-8 space-y-4">
-              <h3 className="text-2xl font-black text-white leading-tight">
-                Learn Khmer 1-on-1 with Cambodian university students
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Pick a tutor, choose a time that suits you, and start with a short trial lesson.
-              </p>
-            </div>
-          </div>
+            <p lang="km" className="font-moul text-[56px] leading-[1.5] mt-10">
+              សួស្តី
+            </p>
+            <p className="text-[15px] text-[#C9D1E3]">
+              {activeTab === 'signup' ? 'Suosdei. Welcome.' : 'Suosdei. Welcome back.'}
+            </p>
 
-          {/* Value Props */}
-          <div className="relative z-10 space-y-3 my-6 pt-4 border-t border-white/10 text-xs">
-            <div className="flex items-center gap-2.5 text-slate-200">
-              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Every tutor's student ID is checked before listing</span>
+            <div className="mt-auto pt-10 space-y-3 text-[15px] leading-relaxed text-[#C9D1E3]">
+              <p>Every tutor is a Cambodian university student. We check their student ID before they appear here.</p>
+              <p>Trial lessons are 30 minutes and start at $3.</p>
+              <p className="text-white">This is a pilot: no real money is charged.</p>
             </div>
-            <div className="flex items-center gap-2.5 text-slate-200">
-              <Sparkles className="w-4 h-4 text-amber-300 shrink-0" />
-              <span>30-minute trial lessons from $3</span>
-            </div>
-            <div className="flex items-center gap-2.5 text-slate-200">
-              <CheckCircle2 className="w-4 h-4 text-blue-200 shrink-0" />
-              <span>Pilot version: no real money is charged</span>
-            </div>
-          </div>
-
-          {/* Bottom Skyline Silhouette Banner */}
-          <div className="relative z-10 pt-3 border-t border-white/10 text-[11px] text-slate-400 flex items-center justify-between">
-            <span>Phnom Penh, Cambodia</span>
-            <span className="font-bold text-amber-300">សួស្តីកម្ពុជា 🇰🇭</span>
           </div>
         </div>
 
@@ -349,7 +318,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               {activeTab === 'signup' && (
                 <div>
                   <label className="block text-sm font-semibold text-[#172033] mb-1">
-                    Full Name
+                    Full name
                   </label>
                   <div className="relative">
                     <User className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -430,7 +399,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <div>
                 <div className="flex items-center justify-between mb-1">
                   <label className="block text-sm font-semibold text-[#172033]">
-                    {authMethod === 'email' ? 'Email Address' : 'Phone Number (+855)'}
+                    {authMethod === 'email' ? 'Email address' : 'Phone Number (+855)'}
                   </label>
                   {/* Phone/SMS login is not implemented on the server yet, so the switch stays hidden. */}
                   <button

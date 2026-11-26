@@ -55,9 +55,8 @@ export const PilotMicroSurveyModal: React.FC<PilotMicroSurveyModalProps> = ({
       <div className="fixed inset-0" onClick={onClose} />
 
       <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden z-10 animate-in zoom-in-95 duration-150">
-        <div className="bg-gradient-to-r from-teal-700 to-amber-700 text-white p-4 flex items-center justify-between">
+        <div className="bg-[#172033] text-white p-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-amber-300" />
             <span className="font-bold text-sm">Quick 1-Minute Pilot Survey</span>
           </div>
           <button

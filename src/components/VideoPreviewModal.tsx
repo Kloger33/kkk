@@ -259,7 +259,6 @@ export const VideoPreviewModal: React.FC<VideoPreviewModalProps> = ({
             {/* Header & Badges */}
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-amber-400 fill-amber-400" />
                 <h4 className="font-extrabold text-base text-white">
                   {tutor.name}'s Teaching Style & Classroom Methodology
                 </h4>

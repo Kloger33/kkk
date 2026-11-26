@@ -41,7 +41,7 @@ import {
   Booking,
   MessageThread,
 } from './data/tutorsData';
-import { Sparkles, Mail, X, Heart } from 'lucide-react';
+import { Check, Sparkles, Mail, X, Heart } from 'lucide-react';
 
 export default function App() {
   const { user, isAuthenticated, activeRole, setActiveRole, toastDetail, showToast, dismissToast } =
@@ -740,7 +740,7 @@ export default function App() {
             ) : toastDetail.variant === 'removed' ? (
               <Heart className="w-3.5 h-3.5 text-slate-300" />
             ) : (
-              <Sparkles className="w-3.5 h-3.5 text-[#F2B23A] fill-[#F2B23A]" />
+              <Check className="w-3.5 h-3.5 text-white" />
             )}
           </span>
 

@@ -122,7 +122,6 @@ export const ReferralModal: React.FC<ReferralModalProps> = ({
             </div>
             <div>
               <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/20 text-teal-100 text-[11px] font-bold tracking-wide uppercase">
-                <Sparkles className="w-3 h-3 text-amber-300" />
                 <span>Refer & Earn Program</span>
               </div>
               <h3 className="text-xl font-bold mt-1 text-white">

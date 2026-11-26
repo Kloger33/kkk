@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Star,
   Search,
   X,
   SlidersHorizontal,
@@ -196,7 +197,7 @@ export const PreplyFilters: React.FC<PreplyFiltersProps> = ({
                   : 'bg-white border-slate-200 text-slate-600 hover:text-[#172033]'
               }`}
             >
-              <Sparkles
+              <Star
                 className={`w-3.5 h-3.5 stroke-[2] ${
                   superTutorOnly ? 'text-[#F2B23A] fill-[#F2B23A]' : 'text-[#6B7287]'
                 }`}
@@ -336,7 +337,7 @@ export const PreplyFilters: React.FC<PreplyFiltersProps> = ({
                 }`}
               >
                 <span className="font-medium flex items-center gap-2">
-                  <Sparkles className={`w-4 h-4 ${superTutorOnly ? 'text-[#F2B23A] fill-[#F2B23A]' : 'text-[#6B7287]'}`} />
+                  <Star className={`w-4 h-4 ${superTutorOnly ? 'text-[#F2B23A] fill-[#F2B23A]' : 'text-[#6B7287]'}`} />
                   {t('filters.superTutors')}
                 </span>
                 <span className="tabular-nums text-[13px]">{superTutorOnly ? 'ON' : 'OFF'}</span>
