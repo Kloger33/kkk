@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Tag,
   Search,
   Star,
   ShieldCheck,
@@ -18,16 +19,32 @@ interface FindTutorsHeroProps {
   onFindTutorClick: () => void;
   onBookTrialClick: () => void;
   featuredTutor?: Tutor;
+  /** All listed tutors: the trust ribbon is computed from these, never hardcoded. */
+  tutors?: Tutor[];
   onOpenVideoModal?: (tutor: Tutor) => void;
+}
+
+/** "Royal University of Phnom Penh (RUPP)" -> "RUPP"; names without an acronym stay as written. */
+function universityShortName(name: string): string {
+  const m = name.match(/\(([^)]+)\)/);
+  return m ? m[1] : name.replace(/ (Engineering School|Phnom Penh)$/, '');
 }
 
 export const FindTutorsHero: React.FC<FindTutorsHeroProps> = ({
   onFindTutorClick,
   onBookTrialClick,
   featuredTutor,
+  tutors = [],
 }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const displayTutor = featuredTutor;
+  const km = language === 'km';
+
+  // Facts shown in the ribbon come from the listed tutors, so they are always true.
+  const tutorCount = tutors.length;
+  const universities = Array.from(new Set(tutors.map((tu) => universityShortName(tu.university))));
+  const minTrial = tutors.length ? Math.min(...tutors.map((tu) => tu.trialPrice)) : displayTutor?.trialPrice ?? 3;
+  const firstName = displayTutor?.name.split(' ')[0];
 
   return (
     <div className="bg-[#F7F6F2] border-b border-slate-200/90 pt-6 sm:pt-10 lg:pt-12 pb-8 sm:pb-12 overflow-hidden">
@@ -67,7 +84,11 @@ export const FindTutorsHero: React.FC<FindTutorsHeroProps> = ({
               >
                 <Calendar className="w-5 h-5 text-[#F2A531] stroke-[2]" />
                 <span>
-                  {displayTutor ? `Book $${displayTutor.trialPrice} Trial` : t('hero.ctaSecondary')}
+                  {displayTutor
+                    ? km
+                      ? `កក់មេរៀនសាកល្បងជាមួយ ${firstName} · $${displayTutor.trialPrice}`
+                      : `Book a $${displayTutor.trialPrice} trial with ${firstName}`
+                    : t('hero.ctaSecondary')}
                 </span>
               </button>
             </div>
@@ -107,7 +128,6 @@ export const FindTutorsHero: React.FC<FindTutorsHeroProps> = ({
                       <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#2445C8] text-white font-display font-bold text-lg sm:text-xl flex items-center justify-center border border-white/20">
                         {displayTutor?.initials || 'BS'}
                       </div>
-                      <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-[#14213D] rounded-full" />
                     </div>
 
                     <div className="flex-1 min-w-0">
@@ -168,9 +188,9 @@ export const FindTutorsHero: React.FC<FindTutorsHeroProps> = ({
                     <ShieldCheck className="w-4 h-4 text-[#2445C8] shrink-0 stroke-[2]" />
                     <div className="truncate">
                       <div className="font-bold text-[#14213D] text-[10px] sm:text-[11px] truncate">
-                        100% Verified
+                        {km ? 'ពិនិត្យកាតនិស្សិត' : 'Student ID checked'}
                       </div>
-                      <div className="text-[9px] text-slate-500 truncate">RUPP / ITC ID</div>
+                      <div className="text-[11px] text-slate-600 truncate">{km ? 'មុនពេលបង្ហាញ' : 'Before listing'}</div>
                     </div>
                   </div>
 
@@ -178,9 +198,9 @@ export const FindTutorsHero: React.FC<FindTutorsHeroProps> = ({
                     <Clock className="w-4 h-4 text-[#F2A531] shrink-0 stroke-[2]" />
                     <div className="truncate">
                       <div className="font-bold text-[#14213D] text-[10px] sm:text-[11px] truncate">
-                        Fast Responder
+                        {km ? 'សាកល្បង ៣០ នាទី' : '30-min trial'}
                       </div>
-                      <div className="text-[9px] text-slate-500 truncate">&lt; 15 min avg</div>
+                      <div className="text-[11px] text-slate-600 truncate">{km ? 'ងាយស្រួល គ្មានសម្ពាធ' : 'Low-pressure start'}</div>
                     </div>
                   </div>
                 </div>
@@ -198,26 +218,26 @@ export const FindTutorsHero: React.FC<FindTutorsHeroProps> = ({
               </div>
               <div className="min-w-0">
                 <div className="text-lg sm:text-2xl font-black text-[#14213D] font-display tabular-nums">
-                  48+
+                  {tutorCount}
                 </div>
                 <div className="text-xs font-bold text-[#14213D] truncate">{t('hero.stat1')}</div>
-                <div className="text-[11px] text-slate-500 leading-tight hidden sm:block">
-                  Top university students
+                <div className="text-xs text-slate-600 leading-tight hidden sm:block">
+                  {km ? 'និស្សិតសាកលវិទ្យាល័យ' : 'Native-speaker university students'}
                 </div>
               </div>
             </div>
 
             <div className="flex items-start gap-2.5 sm:gap-3 p-2 rounded-xl">
               <div className="w-10 h-10 rounded-xl bg-[#F2A531]/15 border border-[#F2A531]/30 text-[#14213D] flex items-center justify-center shrink-0">
-                <Star className="w-5 h-5 fill-[#F2A531] text-[#F2A531] stroke-[2]" />
+                <Tag className="w-5 h-5 text-[#14213D] stroke-[2]" />
               </div>
               <div className="min-w-0">
                 <div className="text-lg sm:text-2xl font-black text-[#14213D] font-display tabular-nums">
-                  4.9 / 5
+                  ${minTrial}
                 </div>
                 <div className="text-xs font-bold text-[#14213D] truncate">{t('hero.stat2')}</div>
-                <div className="text-[11px] text-slate-500 leading-tight hidden sm:block">
-                  From verified learners
+                <div className="text-xs text-slate-600 leading-tight hidden sm:block">
+                  {km ? 'មេរៀនសាកល្បង ៣០ នាទី' : '30-minute trial lesson'}
                 </div>
               </div>
             </div>
@@ -228,11 +248,11 @@ export const FindTutorsHero: React.FC<FindTutorsHeroProps> = ({
               </div>
               <div className="min-w-0">
                 <div className="text-lg sm:text-2xl font-black text-[#14213D] font-display tabular-nums">
-                  1,850+
+                  1-on-1
                 </div>
                 <div className="text-xs font-bold text-[#14213D] truncate">{t('hero.stat3')}</div>
-                <div className="text-[11px] text-slate-500 leading-tight hidden sm:block">
-                  Safe escrow delivery
+                <div className="text-xs text-slate-600 leading-tight hidden sm:block">
+                  {km ? 'ជ្រើសម៉ោងដែលអ្នកទំនេរ' : 'At times that suit you'}
                 </div>
               </div>
             </div>
@@ -243,11 +263,12 @@ export const FindTutorsHero: React.FC<FindTutorsHeroProps> = ({
               </div>
               <div className="min-w-0">
                 <div className="text-lg sm:text-2xl font-black text-[#14213D] font-display tabular-nums">
-                  6 Unis
+                  {universities.length}
                 </div>
                 <div className="text-xs font-bold text-[#14213D] truncate">{t('hero.stat4')}</div>
-                <div className="text-[11px] text-slate-500 leading-tight hidden sm:block">
-                  RUPP · ITC · NUM · PUC
+                <div className="text-xs text-slate-600 leading-tight hidden sm:block truncate" title={universities.join(' · ')}>
+                  {universities.slice(0, 4).join(' · ')}
+                  {universities.length > 4 ? ' …' : ''}
                 </div>
               </div>
             </div>

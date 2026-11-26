@@ -146,7 +146,7 @@ export const MyLessonsView: React.FC<MyLessonsViewProps> = ({
         <div className="flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 text-teal-700 shrink-0" />
           <span>
-            <strong>Escrow Protection Active:</strong> Tutor payouts are released only after session completion via Cambodian ABA PayWay & Bakong settlement rails.
+            <strong>Pilot payments:</strong> checkout is simulated and no real money is charged. Tutors are credited only after a lesson is marked complete.
           </span>
         </div>
       </div>

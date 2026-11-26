@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Tutor, Booking } from '../data/tutorsData';
 import {
   X,
@@ -17,6 +17,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { analytics } from '../services/analytics';
+import { nextDateForWeekday, formatShortDate, formatDayAndDate } from '../utils/dates';
 
 interface BookingModalProps {
   tutor: Tutor | null;
@@ -52,15 +53,25 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const [step, setStep] = useState<'select' | 'payment' | 'confirmed'>('select');
   const [isProcessing, setIsProcessing] = useState(false);
 
+  // The tutor's weekly slots, mapped to real upcoming dates and sorted soonest first.
+  const days = useMemo(
+    () =>
+      (tutor?.availability ?? [])
+        .map((a) => ({ ...a, date: nextDateForWeekday(a.day) }))
+        .sort((x, y) => x.date.getTime() - y.date.getTime()),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [tutor, isOpen]
+  );
+
   useEffect(() => {
     if (!tutor || !isOpen) return;
     let dayIdx = 0;
     if (preselectedDay) {
-      const foundIdx = tutor.availability.findIndex((a) => a.day === preselectedDay);
+      const foundIdx = days.findIndex((a) => a.day === preselectedDay);
       if (foundIdx >= 0) dayIdx = foundIdx;
     }
     setSelectedDayIndex(dayIdx);
-    const availSlots = tutor.availability[dayIdx]?.slots || [];
+    const availSlots = days[dayIdx]?.slots || [];
     if (preselectedSlot && availSlots.includes(preselectedSlot)) {
       setSelectedSlot(preselectedSlot);
     } else {
@@ -72,7 +83,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   if (!isOpen || !tutor) return null;
 
   const price = lessonType === 'Trial Lesson (30 min)' ? tutor.trialPrice : tutor.hourlyRate;
-  const currentDay = tutor.availability[selectedDayIndex] || tutor.availability[0];
+  const currentDay = days[selectedDayIndex] || days[0];
   const studentBalance = user?.studentProfile?.wallet_balance ?? 10.0;
 
   const handleProceedToPayment = () => {
@@ -100,7 +111,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         tutorName: tutor.name,
         tutorUniversity: tutor.university,
         lessonType,
-        date: `${currentDay.day}, Oct ${21 + selectedDayIndex}`,
+        date: formatDayAndDate(currentDay.date),
         timeSlot: `${selectedSlot} (${selectedTimezone.split(' ')[0]})`,
         price,
         paymentMethod,
@@ -212,7 +223,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   <span className="text-xs text-slate-500">Phnom Penh time</span>
                 </div>
                 <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-                  {tutor.availability.map((avail, idx) => (
+                  {days.map((avail, idx) => (
                     <button
                       key={avail.day}
                       onClick={() => {
@@ -227,7 +238,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     >
                       <div>{avail.day}</div>
                       <div className="text-[10px] opacity-75 font-normal font-mono">
-                        Oct {21 + idx}
+                        {formatShortDate(avail.date)}
                       </div>
                     </button>
                   ))}

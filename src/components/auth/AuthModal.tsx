@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   X, 
   Mail, 
@@ -26,12 +26,15 @@ interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialTab?: 'login' | 'signup';
+  /** Why the dialog opened, e.g. "Create a free account to book your $4 trial with Bopha." */
+  contextMessage?: string | null;
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({
   isOpen,
   onClose,
   initialTab = 'login',
+  contextMessage = null,
 }) => {
   const { login, register, switchDemoUser } = useAuth();
 
@@ -44,16 +47,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
-  const [agreeTerms, setAgreeTerms] = useState(true);
+  const [agreeTerms, setAgreeTerms] = useState(false);
   const [authMethod, setAuthMethod] = useState<'email' | 'phone'>('email');
   const [otpCode, setOtpCode] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [inviteCode, setInviteCode] = useState(() => {
     try {
       const codeParam = new URLSearchParams(window.location.search).get('code');
-      return codeParam || 'PILOT-STU-01';
+      // Invite links carry ?code=...; the sample code is only pre-filled in development.
+      return codeParam || (import.meta.env.DEV ? 'PILOT-STU-01' : '');
     } catch {
-      return 'PILOT-STU-01';
+      return '';
     }
   });
 
@@ -61,6 +65,23 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setActiveTab(initialTab);
+      setErrorMessage(null);
+      setSuccessMessage(null);
+    }
+  }, [isOpen, initialTab]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -137,8 +158,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           setErrorMessage(res.error || 'Failed to create account.');
         }
       } else if (activeTab === 'forgot') {
-        setSuccessMessage(`Password reset link dispatched to ${emailOrPhone}!`);
-        setTimeout(() => setActiveTab('login'), 2500);
+        // Email delivery is not built yet: say so instead of pretending a link was sent.
+        setSuccessMessage(
+          'Password reset by email is not available yet during the pilot. Please email support@khmertutors.com from the address you signed up with, and we will reset it for you.'
+        );
       }
     } catch (err: any) {
       setErrorMessage(err.message || 'Authentication error.');
@@ -151,12 +174,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/70 backdrop-blur-md animate-in fade-in duration-200">
       <div className="fixed inset-0" onClick={onClose} />
 
-      <div className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden z-10 flex flex-col md:flex-row max-h-[94vh]">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={activeTab === 'signup' ? 'Create your account' : 'Log in'}
+        className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden z-10 flex flex-col md:flex-row max-h-[94vh]"
+      >
         
         {/* LEFT PANE: Split Branding with Vector Skyline & Value Props */}
-        <div className="md:w-5/12 bg-gradient-to-br from-slate-900 via-slate-800 to-teal-950 text-white p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden shrink-0">
+        <div className="hidden md:flex md:w-5/12 bg-gradient-to-br from-[#14213D] via-[#1b2b52] to-[#2445C8] text-white p-6 sm:p-8 flex-col justify-between relative overflow-hidden shrink-0">
           {/* Subtle Angkor glow backdrop */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
           {/* Top Lockup */}
@@ -171,16 +199,16 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               </div>
               <div>
                 <span className="font-extrabold text-lg tracking-tight block">KhmerTutors Online</span>
-                <span className="text-[11px] text-teal-300 font-medium">1-on-1 Micro-Tutoring Marketplace</span>
+                <span className="text-[11px] text-blue-200 font-medium">1-on-1 Khmer lessons online</span>
               </div>
             </div>
 
             <div className="mt-8 space-y-4">
               <h3 className="text-2xl font-black text-white leading-tight">
-                Master Everyday Khmer with Verified Undergraduates
+                Learn Khmer 1-on-1 with Cambodian university students
               </h3>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Connect directly with friendly Cambodian university tutors from RUPP, ITC & NUM for flexible $3–$4 trial classes.
+                Pick a tutor, choose a time that suits you, and start with a short trial lesson.
               </p>
             </div>
           </div>
@@ -189,15 +217,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <div className="relative z-10 space-y-3 my-6 pt-4 border-t border-white/10 text-xs">
             <div className="flex items-center gap-2.5 text-slate-200">
               <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>100% Student ID & University Verification</span>
+              <span>Every tutor's student ID is checked before listing</span>
             </div>
             <div className="flex items-center gap-2.5 text-slate-200">
               <Sparkles className="w-4 h-4 text-amber-300 shrink-0" />
-              <span>ABA PayWay & Bakong KHQR Escrow Protection</span>
+              <span>30-minute trial lessons from $3</span>
             </div>
             <div className="flex items-center gap-2.5 text-slate-200">
-              <CheckCircle2 className="w-4 h-4 text-teal-300 shrink-0" />
-              <span>Role-Based Access for Students, Tutors & Admins</span>
+              <CheckCircle2 className="w-4 h-4 text-blue-200 shrink-0" />
+              <span>Pilot version: no real money is charged</span>
             </div>
           </div>
 
@@ -245,10 +273,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 onClick={onClose}
                 className="p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
                 title="Close dialog"
+                aria-label="Close dialog"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
+
+            {contextMessage && (activeTab === 'signup' || activeTab === 'login') && (
+              <p className="mt-4 p-3 rounded-xl bg-[#2445C8]/5 border border-[#2445C8]/20 text-sm text-[#14213D]">
+                {contextMessage}
+              </p>
+            )}
 
             {/* Error or Success Feedback Alert */}
             {errorMessage && (
@@ -280,11 +315,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       onClick={() => setRole('STUDENT')}
                       className={`p-3 rounded-2xl border text-left transition-all flex flex-col justify-between ${
                         role === 'STUDENT'
-                          ? 'border-teal-600 bg-teal-50/60 ring-2 ring-teal-500/20'
+                          ? 'border-[#2445C8] bg-[#2445C8]/5 ring-2 ring-[#2445C8]/20'
                           : 'border-slate-200 hover:bg-slate-50'
                       }`}
                     >
-                      <BookOpen className={`w-5 h-5 mb-1 ${role === 'STUDENT' ? 'text-teal-700' : 'text-slate-400'}`} />
+                      <BookOpen className={`w-5 h-5 mb-1 ${role === 'STUDENT' ? 'text-[#2445C8]' : 'text-slate-400'}`} />
                       <div>
                         <div className="text-xs font-extrabold text-slate-900">Learn Khmer</div>
                         <div className="text-[11px] text-slate-500">I am a foreigner / expat student</div>
@@ -307,9 +342,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       </div>
                     </button>
                   </div>
-                  <p className="text-[10px] text-slate-400">
-                    * Admin roles are strictly managed by system administrators and cannot be self-registered.
-                  </p>
                 </div>
               )}
 
@@ -327,7 +359,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder={role === 'TUTOR' ? 'e.g. Sreynoch Keo' : 'e.g. Alex Morgan'}
-                      className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-teal-500"
+                      className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
                     />
                   </div>
                 </div>
@@ -353,10 +385,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       value={inviteCode}
                       onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
                       placeholder={role === 'TUTOR' ? 'RUPP-TUTOR-2026' : 'PILOT-STU-01'}
-                      className="w-full px-3 py-2 font-mono font-bold uppercase bg-amber-50/40 border border-amber-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-3 py-2.5 font-mono font-bold uppercase bg-amber-50/40 border border-amber-200 rounded-xl text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
                     />
                   </div>
-                  {/* Quick-fill helper test pills */}
+                  {/* Quick-fill helper test pills (development only: real invite codes arrive by link) */}
+                  {import.meta.env.DEV && (
                   <div className="flex items-center gap-1.5 mt-1.5 flex-wrap text-[10px] text-slate-500">
                     <span>Sample codes:</span>
                     {role === 'TUTOR' ? (
@@ -395,6 +428,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       </>
                     )}
                   </div>
+                  )}
                 </div>
               )}
 
@@ -404,10 +438,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
                     {authMethod === 'email' ? 'Email Address' : 'Phone Number (+855)'}
                   </label>
+                  {/* Phone/SMS login is not implemented on the server yet, so the switch stays hidden. */}
                   <button
                     type="button"
+                    hidden
                     onClick={() => setAuthMethod(authMethod === 'email' ? 'phone' : 'email')}
-                    className="text-[11px] text-teal-700 hover:underline font-semibold"
+                    className="text-[11px] text-[#2445C8] hover:underline font-semibold"
                   >
                     Use {authMethod === 'email' ? 'Phone (SMS OTP)' : 'Email'} instead
                   </button>
@@ -424,7 +460,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     value={emailOrPhone}
                     onChange={(e) => setEmailOrPhone(e.target.value)}
                     placeholder={authMethod === 'email' ? 'you@domain.com' : '+855 12 345 678'}
-                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-teal-500"
+                    className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
                   />
                 </div>
               </div>
@@ -440,7 +476,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       <button
                         type="button"
                         onClick={() => setActiveTab('forgot')}
-                        className="text-[11px] text-teal-700 hover:underline font-medium"
+                        className="text-[11px] text-[#2445C8] hover:underline font-medium"
                       >
                         Forgot password?
                       </button>
@@ -454,7 +490,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Minimum 8 characters"
-                      className="w-full pl-9 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-teal-500"
+                      className="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-base sm:text-sm text-slate-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-[#2445C8]/40"
                     />
                     <button
                       type="button"
@@ -492,7 +528,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       type="checkbox"
                       checked={rememberMe}
                       onChange={(e) => setRememberMe(e.target.checked)}
-                      className="w-4 h-4 accent-teal-600 rounded"
+                      className="w-4 h-4 accent-[#2445C8] rounded"
                     />
                     <span>Remember me on this browser</span>
                   </label>
@@ -505,10 +541,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     type="checkbox"
                     checked={agreeTerms}
                     onChange={(e) => setAgreeTerms(e.target.checked)}
-                    className="w-4 h-4 accent-teal-600 rounded mt-0.5"
+                    className="w-4 h-4 accent-[#2445C8] rounded mt-0.5"
                   />
                   <span>
-                    I agree to the KhmerTutors Terms of Service, Honor Code, and Bakong Settlement Escrow rules.
+                    I agree to the KhmerTutors Online Terms of Service and the pilot privacy notice.
                   </span>
                 </label>
               )}
@@ -517,7 +553,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 bg-teal-600 hover:bg-teal-700 disabled:opacity-60 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full min-h-[48px] py-3 bg-[#2445C8] hover:bg-[#1c37a4] disabled:opacity-60 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 {loading ? (
                   <RefreshCw className="w-4 h-4 animate-spin" />
@@ -528,8 +564,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         ? 'Log In to Account'
                         : activeTab === 'signup'
                         ? role === 'TUTOR'
-                          ? 'Register as Tutor →'
-                          : 'Register as Student →'
+                          ? 'Create tutor account'
+                          : 'Create account'
                         : 'Send Reset Instructions'}
                     </span>
                     <ArrowRight className="w-4 h-4" />

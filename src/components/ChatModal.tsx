@@ -27,12 +27,13 @@ export const ChatModal: React.FC<ChatModalProps> = ({
   onSendMessage,
   onBook,
 }) => {
-  if (!isOpen) return null;
-
+  // Hooks must run on every render, so the early return comes after them.
   const [selectedThreadId, setSelectedThreadId] = useState<string>(
     threads[0]?.id || 'thread-1'
   );
   const [inputText, setInputText] = useState('');
+
+  if (!isOpen) return null;
 
   const currentThread = threads.find((t) => t.id === selectedThreadId) || threads[0];
 
@@ -66,9 +67,8 @@ export const ChatModal: React.FC<ChatModalProps> = ({
               <h3 className="text-base font-bold text-slate-900 leading-tight">
                 {currentThread?.tutorName || 'Tutor Chat'}
               </h3>
-              <div className="flex items-center gap-1.5 text-xs text-emerald-600 font-medium">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span>Active now · Usually replies in 15m</span>
+              <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                <span>{currentThread?.tutorName ? 'Tutor' : 'Messages'}</span>
               </div>
             </div>
           </div>
@@ -144,6 +144,18 @@ export const ChatModal: React.FC<ChatModalProps> = ({
         </div>
 
         {/* Message Input Box */}
+        {!import.meta.env.DEV && (
+          <p className="px-4 py-2 text-xs text-amber-900 bg-amber-50 border-t border-amber-200 shrink-0">
+            Messaging is a preview during the pilot: messages are not delivered to tutors yet. For questions,
+            email support@khmertutors.com.
+          </p>
+        )}
+        {threads.length === 0 && (
+          <p className="px-6 py-10 text-sm text-slate-500 text-center">
+            No conversations yet. Open a tutor's profile and choose Message to start one.
+          </p>
+        )}
+
         <form onSubmit={handleSend} className="p-3 bg-white border-t border-slate-200 flex items-center gap-2 shrink-0">
           <input
             type="text"

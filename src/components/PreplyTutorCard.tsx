@@ -47,10 +47,6 @@ export const PreplyTutorCard: React.FC<PreplyTutorCardProps> = ({
           <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#14213D] text-white font-display font-bold text-lg sm:text-xl flex items-center justify-center border-2 border-[#F7F6F2] shadow-sm">
             {tutor.initials}
           </div>
-          <span
-            className="absolute bottom-0.5 right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"
-            title="Online"
-          />
         </div>
 
         <div className="flex flex-col items-start sm:items-center gap-1.5 text-left sm:text-center">
@@ -60,7 +56,7 @@ export const PreplyTutorCard: React.FC<PreplyTutorCardProps> = ({
               <span>Super Tutor</span>
             </span>
           )}
-          <div className="text-[11px] text-slate-500 font-mono tabular-nums">
+          <div className="text-xs text-slate-600 font-mono tabular-nums">
             <strong className="text-[#14213D]">{tutor.lessonsTaught}</strong> lessons
           </div>
         </div>
@@ -93,11 +89,13 @@ export const PreplyTutorCard: React.FC<PreplyTutorCardProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 text-xs text-slate-600 mt-1 truncate">
-            <GraduationCap className="w-4 h-4 text-[#F2A531] shrink-0 stroke-[2]" />
-            <span className="font-semibold text-[#14213D] truncate">{tutor.university}</span>
-            <span className="text-slate-400">·</span>
-            <span className="text-slate-500 whitespace-nowrap">{tutor.year}</span>
+          <div className="flex items-start gap-1.5 text-xs text-slate-600 mt-1">
+            <GraduationCap className="w-4 h-4 text-[#F2A531] shrink-0 stroke-[2] mt-px" />
+            <span>
+              <span className="font-semibold text-[#14213D]">{tutor.university}</span>
+              <span className="text-slate-400"> · </span>
+              <span className="text-slate-600 whitespace-nowrap">{tutor.year}</span>
+            </span>
           </div>
 
           <p className="text-sm font-semibold text-[#14213D] mt-2 leading-snug">

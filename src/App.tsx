@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { PreplyNavbar } from './components/PreplyNavbar';
 import { PreplyFilters } from './components/PreplyFilters';
 import { PreplyTutorCard } from './components/PreplyTutorCard';
@@ -63,14 +63,14 @@ export default function App() {
   const [timeFilter, setTimeFilter] = useState<string>('all');
   const [superTutorOnly, setSuperTutorOnly] = useState<boolean>(false);
   const [savedOnly, setSavedOnly] = useState<boolean>(false);
-  const [savedTutorIds, setSavedTutorIds] = useState<string[]>(['tutor-1', 'tutor-3']);
+  const [savedTutorIds, setSavedTutorIds] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<string>('rating');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   // Interactive Data States
   const [tutors] = useState<Tutor[]>(MOCK_TUTORS);
-  const [bookings, setBookings] = useState<Booking[]>(INITIAL_USER_BOOKINGS);
-  const [threads, setThreads] = useState<MessageThread[]>(INITIAL_MESSAGES);
+  const [bookings, setBookings] = useState<Booking[]>(import.meta.env.DEV ? INITIAL_USER_BOOKINGS : []);
+  const [threads, setThreads] = useState<MessageThread[]>(import.meta.env.DEV ? INITIAL_MESSAGES : []);
 
   // Pilot Feedback & Survey States
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
@@ -103,6 +103,9 @@ export default function App() {
   // Auth & Onboarding Modals
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState<'login' | 'signup'>('login');
+  const [authContextMessage, setAuthContextMessage] = useState<string | null>(null);
+  // A booking the visitor started before logging in; resumed once they are signed in.
+  const [pendingBooking, setPendingBooking] = useState<{ tutor: Tutor; day?: string; slot?: string } | null>(null);
   const [isTutorOnboardingOpen, setIsTutorOnboardingOpen] = useState(false);
 
   // Filter Logic
@@ -157,6 +160,11 @@ export default function App() {
   // Handlers
   const handleOpenBooking = (tutor: Tutor, day?: string, slot?: string) => {
     if (!isAuthenticated) {
+      const firstName = tutor.name.split(' ')[0];
+      setPendingBooking({ tutor, day, slot });
+      setAuthContextMessage(
+        `Create a free account to book your $${tutor.trialPrice} trial with ${firstName}. Already have one? Switch to Log In.`
+      );
       setAuthModalTab('signup');
       setIsAuthModalOpen(true);
       return;
@@ -167,6 +175,32 @@ export default function App() {
     setIsMobilePreviewOpen(false);
     setIsBookingOpen(true);
   };
+
+  // Resume the booking the visitor started once they have signed up or logged in.
+  useEffect(() => {
+    if (isAuthenticated && pendingBooking) {
+      const { tutor, day, slot } = pendingBooking;
+      setPendingBooking(null);
+      setAuthContextMessage(null);
+      setPreselectedDay(day || null);
+      setPreselectedSlot(slot || null);
+      setBookingTutor(tutor);
+      setIsMobilePreviewOpen(false);
+      setIsBookingOpen(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, pendingBooking]);
+
+  // Dialog closed without signing in: forget the half-started booking.
+  // (Runs after the resume effect above, so a successful login still resumes it.)
+  useEffect(() => {
+    if (!isAuthModalOpen && !isAuthenticated && pendingBooking) setPendingBooking(null);
+  }, [isAuthModalOpen, isAuthenticated, pendingBooking]);
+
+  const closeAuthModal = useCallback(() => {
+    setIsAuthModalOpen(false);
+    setAuthContextMessage(null);
+  }, []);
 
   const handlePreviewTutor = (tutor: Tutor) => {
     setSelectedPreviewTutorId(tutor.id);
@@ -238,6 +272,9 @@ export default function App() {
           : thread
       )
     );
+
+    // Messages are not delivered to tutors yet, so never invent a reply in their name outside local development.
+    if (!import.meta.env.DEV) return;
 
     setTimeout(() => {
       const replies = [
@@ -336,7 +373,12 @@ export default function App() {
       <PilotTopBanner onOpenFeedback={() => setIsFeedbackOpen(true)} />
 
       {/* Traditional Signature of Khmer Art Header Strip (Public Homepage Only) */}
-      {!isAuthenticated && activeView === 'browse' && <KhmerArtHeader />}
+      {/* Decorative strip: desktop only, so phones see the content sooner. */}
+      {!isAuthenticated && activeView === 'browse' && (
+        <div className="hidden md:block">
+          <KhmerArtHeader />
+        </div>
+      )}
 
       {/* Role-Aware Top Navigation */}
       <PreplyNavbar
@@ -378,6 +420,7 @@ export default function App() {
                 if (tutors.length > 0) handleOpenBooking(tutors[0]);
               }}
               featuredTutor={tutors[0]}
+              tutors={tutors}
             />
 
             <GoalQuizBanner
@@ -386,15 +429,6 @@ export default function App() {
               onClearGoal={handleClearGoal}
               onSelectQuickGoal={(_title, focus) => {
                 setSelectedFocus(focus);
-                const el = document.getElementById('tutors-grid');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-            />
-
-            <TutorLeaderboard
-              tutors={tutors}
-              onSelectTutor={(tutor) => {
-                setSelectedPreviewTutorId(tutor.id);
                 const el = document.getElementById('tutors-grid');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
@@ -428,7 +462,7 @@ export default function App() {
                 <span>
                   Showing <strong className="text-[#14213D] font-mono">{filteredTutors.length}</strong> available Khmer tutors
                 </span>
-                <span className="hidden sm:inline">Protected by ABA Pay & KHQR (Bakong)</span>
+                <span className="hidden sm:inline">Pilot: payments are simulated, no real charges</span>
               </div>
 
               {filteredTutors.length > 0 ? (
@@ -493,6 +527,16 @@ export default function App() {
                 </div>
               )}
             </div>
+
+            {/* Rankings sit after the list: visitors come to browse tutors first. */}
+            <TutorLeaderboard
+              tutors={tutors}
+              onSelectTutor={(tutor) => {
+                setSelectedPreviewTutorId(tutor.id);
+                const el = document.getElementById('tutors-grid');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+            />
           </div>
         )}
 
@@ -621,8 +665,9 @@ export default function App() {
 
       <AuthModal
         isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
+        onClose={closeAuthModal}
         initialTab={authModalTab}
+        contextMessage={authContextMessage}
       />
 
       <TutorOnboardingModal

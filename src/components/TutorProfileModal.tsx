@@ -141,7 +141,7 @@ export const TutorProfileModal: React.FC<TutorProfileModalProps> = ({
               <div className={`w-28 h-28 rounded-full bg-gradient-to-tr ${tutor.avatarBg} text-white font-bold text-3xl flex items-center justify-center shadow-lg`}>
                 {tutor.initials}
               </div>
-              <span className="absolute bottom-1 right-2 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full" />
+
             </div>
 
             <div className="flex-1 text-center sm:text-left space-y-2">
