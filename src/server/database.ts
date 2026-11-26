@@ -297,9 +297,17 @@ function seedDatabase() {
 /**
  * Create the real platform admin from ADMIN_EMAIL / ADMIN_PASSWORD (if set and not yet present).
  */
+/** Read an environment variable whatever its letter case (e.g. ADMIN_EMAIL or Admin_email). */
+function envAnyCase(name: string): string | undefined {
+  if (process.env[name] !== undefined) return process.env[name];
+  const key = Object.keys(process.env).find((k) => k.toUpperCase() === name);
+  return key ? process.env[key] : undefined;
+}
+
 function seedAdminFromEnv() {
-  const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
-  const password = process.env.ADMIN_PASSWORD;
+  const email = envAnyCase('ADMIN_EMAIL')?.trim().toLowerCase();
+  const password = envAnyCase('ADMIN_PASSWORD');
+  const adminName = envAnyCase('ADMIN_NAME');
   if (!email || !password) {
     if (process.env.NODE_ENV === 'production') {
       console.warn('[Database] ADMIN_EMAIL / ADMIN_PASSWORD not set: no admin account in production.');
@@ -316,7 +324,7 @@ function seedAdminFromEnv() {
   db.prepare(`
     INSERT INTO users (name, email, phone, password_hash, roles, status, email_verified, timezone, language)
     VALUES (?, ?, NULL, ?, ?, 'active', 1, 'Asia/Phnom_Penh (GMT+7)', 'en')
-  `).run(process.env.ADMIN_NAME || 'Platform Admin', email, bcrypt.hashSync(password, 10), JSON.stringify(['ADMIN']));
+  `).run(adminName || 'Platform Admin', email, bcrypt.hashSync(password, 10), JSON.stringify(['ADMIN']));
   console.log(`[Database] Admin account ensured for ${email}`);
 }
 
