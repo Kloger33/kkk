@@ -18,6 +18,7 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { analytics } from '../services/analytics';
 import { nextDateForWeekday, formatShortDate, formatDayAndDate } from '../utils/dates';
+import { TutorAvatarContent } from './ui/TutorAvatar';
 
 interface BookingModalProps {
   tutor: Tutor | null;
@@ -153,7 +154,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-[#F3F5F9]">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-[#172033] text-white font-bold text-sm flex items-center justify-center shadow-sm">
-              {tutor.initials}
+              <TutorAvatarContent tutor={tutor} />
             </div>
             <div>
               <h3 className="font-display text-base font-bold text-[#172033] leading-tight">

@@ -21,6 +21,7 @@ import {
 import { useAuth, UserRole } from '../../context/AuthContext';
 import { pilotStore } from '../../services/pilotStore';
 import { analytics } from '../../services/analytics';
+import { welcomePhoto } from '../../data/sitePhotos';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -184,6 +185,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         {/* LEFT PANE: the same voice as the home page — a Khmer word, then plain facts */}
         <div className="hidden md:flex md:w-5/12 bg-[#172033] text-white flex-col shrink-0">
           <div className="krama-band" aria-hidden="true" />
+          {welcomePhoto && (
+            <img src={welcomePhoto} alt="" className="w-full h-44 object-cover" />
+          )}
           <div className="flex-1 flex flex-col p-8">
             <div className="flex items-center gap-2.5">
               <img src="/assets/logo_kto_new.png" alt="" className="h-9 w-10 object-contain brightness-0 invert" />

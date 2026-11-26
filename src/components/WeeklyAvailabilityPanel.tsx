@@ -2,6 +2,7 @@ import React from 'react';
 import { Calendar, Clock, GraduationCap, Play, Star, X } from 'lucide-react';
 import { Tutor } from '../data/tutorsData';
 import { useLanguage } from '../context/LanguageContext';
+import { TutorAvatarContent } from './ui/TutorAvatar';
 
 interface WeeklyAvailabilityPanelProps {
   tutor: Tutor | null;
@@ -35,7 +36,7 @@ export const WeeklyAvailabilityPanel: React.FC<WeeklyAvailabilityPanelProps> = (
       <div className="flex items-start justify-between gap-3 pb-3.5 border-b border-slate-100">
         <div className="flex items-center gap-3 min-w-0">
           <div className="w-11 h-11 rounded-[8px] bg-[#172033] text-white font-medium text-sm flex items-center justify-center shrink-0">
-            {tutor.initials}
+            <TutorAvatarContent tutor={tutor} />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5">

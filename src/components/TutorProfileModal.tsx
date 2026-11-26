@@ -17,6 +17,7 @@ import {
   Award,
   Zap
 } from 'lucide-react';
+import { TutorAvatarContent } from './ui/TutorAvatar';
 
 interface TutorProfileModalProps {
   tutor: Tutor | null;
@@ -139,7 +140,7 @@ export const TutorProfileModal: React.FC<TutorProfileModalProps> = ({
           <div className="flex flex-col sm:flex-row items-start gap-6 pb-6 border-b border-slate-100">
             <div className="relative shrink-0 mx-auto sm:mx-0">
               <div className={`w-28 h-28 rounded-full bg-gradient-to-tr ${tutor.avatarBg} text-white font-bold text-3xl flex items-center justify-center shadow-lg`}>
-                {tutor.initials}
+                <TutorAvatarContent tutor={tutor} />
               </div>
 
             </div>

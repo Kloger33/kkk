@@ -25,6 +25,7 @@ import { GoalSelectionModal, GoalPreference } from './components/GoalSelectionMo
 import { FindTutorsHero } from './components/FindTutorsHero';
 import { GoalQuizBanner } from './components/GoalQuizBanner';
 import { TutorLeaderboard } from './components/TutorLeaderboard';
+import { PlacesSection } from './components/PlacesSection';
 import { WeeklyAvailabilityPanel } from './components/WeeklyAvailabilityPanel';
 import { DevRoleSwitcher } from './components/DevRoleSwitcher';
 import { PilotTopBanner } from './components/pilot/PilotTopBanner';
@@ -418,6 +419,8 @@ export default function App() {
               tutors={tutors}
               onTeachClick={() => setActiveView('teach')}
             />
+
+            <PlacesSection />
 
             <GoalQuizBanner
               userGoal={userGoal}

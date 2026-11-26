@@ -10,6 +10,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { TutorAvatarContent } from './ui/TutorAvatar';
 
 interface PreplyTutorCardProps {
   tutor: Tutor;
@@ -43,7 +44,7 @@ export const PreplyTutorCard: React.FC<PreplyTutorCardProps> = ({
       <div className="flex flex-row sm:flex-col items-center gap-3.5 sm:w-28 shrink-0">
         <div className="relative shrink-0">
           <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#EEF2F7] text-[#172033] font-semibold text-lg sm:text-xl flex items-center justify-center" aria-hidden="true">
-            {tutor.initials}
+            <TutorAvatarContent tutor={tutor} />
           </div>
         </div>
 
